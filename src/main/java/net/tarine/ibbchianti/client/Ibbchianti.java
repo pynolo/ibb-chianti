@@ -11,7 +11,7 @@ import net.tarine.ibbchianti.shared.PropertyBean;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class Appennino implements EntryPoint {
+public class Ibbchianti implements EntryPoint {
 
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	

@@ -30,7 +30,7 @@ import net.tarine.ibbchianti.shared.StringValidator;
 import net.tarine.ibbchianti.shared.ValidationException;
 import net.tarine.ibbchianti.shared.entity.Participant;
 
-public class JoinBaseFrame extends FramePanel implements IWizardPanel {
+public class JoinStart2Frame extends FramePanel implements IWizardPanel {
 	
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
@@ -44,7 +44,7 @@ public class JoinBaseFrame extends FramePanel implements IWizardPanel {
 	private ExtendedTextBox emailText;
 	private InlineHTML discountLabel;
 	
-	public JoinBaseFrame(UriBuilder params) {
+	public JoinStart2Frame(UriBuilder params) {
 		super();
 		if (params != null) {
 			this.params = params;

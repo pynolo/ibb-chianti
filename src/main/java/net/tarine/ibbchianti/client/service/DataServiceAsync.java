@@ -22,7 +22,7 @@ public interface DataServiceAsync
     void findParticipants( boolean confirmed, AsyncCallback<java.util.List<net.tarine.ibbchianti.shared.entity.Participant>> callback );
     void createTransientParticipant( AsyncCallback<net.tarine.ibbchianti.shared.entity.Participant> callback );
     void saveOrUpdateParticipant( net.tarine.ibbchianti.shared.entity.Participant prt, AsyncCallback<Participant> callback );
-	//void countConfirmed(int accommodationType, AsyncCallback<Integer> callback);
+	void countConfirmed(AsyncCallback<Integer> callback);
 	//void countPaymentTotal(AsyncCallback<Double> callback);
 	
 	//void findDiscounts(AsyncCallback<List<Discount>> callback);

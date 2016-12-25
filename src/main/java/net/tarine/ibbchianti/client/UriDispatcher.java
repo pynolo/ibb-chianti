@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 import net.tarine.ibbchianti.client.frame.ErrorClosedFrame;
 import net.tarine.ibbchianti.client.frame.ErrorPaymentFrame;
-import net.tarine.ibbchianti.client.frame.JoinBaseFrame;
+import net.tarine.ibbchianti.client.frame.JoinStart1Frame;
 import net.tarine.ibbchianti.client.frame.JoinCheckoutFrame;
 import net.tarine.ibbchianti.client.frame.JoinLegalFrame;
 import net.tarine.ibbchianti.client.frame.JoinThankYouFrame;
@@ -20,16 +20,13 @@ public class UriDispatcher {
 	public static final String SEPARATOR_VALUES = "=";
 	
 	public static final String INDEX = "index";
-	public static final String STEP_JOIN_BASE = "base";
-	public static final String STEP_JOIN_LEGAL = "legal";
+	public static final String STEP_JOIN_START1 = "index";
+	public static final String STEP_JOIN_START2 = "legal";
 	public static final String STEP_JOIN_CHECKOUT = "checkout";
-	public static final String ERROR_WAIT = "errWait";
 	public static final String ERROR_CLOSED = "errClosed";
 	public static final String ERROR_PAYMENT = "errPayment";
 	public static final String STEP_THANK_YOU = "thankyou";
 	public static final String PARTICIPANTS = "participants";
-	public static final String STEP_REPLACE_BASE = "replace";
-	public static final String STEP_REPLACE_SAVE = "replaceSave";
 	
 	//Reloads the current page from the server reload(true) and not from cache reload(false)
 	public static native void hardReload() /*-{
@@ -44,10 +41,10 @@ public class UriDispatcher {
 			contentPanel.clear();
 			if (INDEX.equals(token)) {
 				WizardSingleton.get().setWizardType(AppConstants.WIZARD_REGISTER);
-				contentPanel.add(new JoinBaseFrame(params));
+				contentPanel.add(new JoinStart1Frame(params));
 			}
 			if (STEP_JOIN_BASE.equals(token)) {
-				contentPanel.add(new JoinBaseFrame(params));
+				contentPanel.add(new JoinStart1Frame(params));
 			}
 			if (STEP_JOIN_LEGAL.equals(token)) {
 				contentPanel.add(new JoinLegalFrame(params));

@@ -30,16 +30,6 @@ public class FramePanel extends FlowPanel {
 		headerPanel.add(new HTML("<h1>"+title+"</h1>"));
 	}
 	
-	//private void setBrowserWindowTitle(String windowTitle) {
-	//	String title = ClientConstants.DEFAULT_FRAME_TITLE;
-	//	if (windowTitle != null) {
-	//		title = windowTitle;
-	//	}
-	//    if (Document.get() != null) {
-	//        Document.get().setTitle(title);
-	//    }
-	//}
-	
 	public void forwardIfJoinNotPossible() {
 		PropertyBean p = WizardSingleton.get().getPropertyBean();
 		Boolean isRegisterWizard = WizardSingleton.get().getWizardType()

@@ -8,9 +8,12 @@ import net.tarine.ibbchianti.shared.AppConstants;
 
 public class ClientConstants {
 	
-	//CLIENT DAFAULTS
+	//WebSession
+	public static final int WEBSESSION_RELOAD_TIME = 1000*60*1; //1 minute
+	public static final String WEBSESSION_COOKIE_NAME = "ibbchianti";
+	
+	//CLIENT DEFAULTS
 	public static final String DEFAULT_FRAME_TITLE = "";
-	public static final long LOGIN_EXPIRATION_TIME = (1000*60*60) * 96; //96 hours = 4 days;
 	public static final int COOKIE_EXPIRATION_DAYS = 15;
 	public static final String EOL = "\r\n";
 	
