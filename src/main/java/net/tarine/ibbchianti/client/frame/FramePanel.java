@@ -6,11 +6,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 import net.tarine.ibbchianti.client.ClientConstants;
 import net.tarine.ibbchianti.client.UiSingleton;
-import net.tarine.ibbchianti.client.UriBuilder;
-import net.tarine.ibbchianti.client.UriDispatcher;
-import net.tarine.ibbchianti.client.WizardSingleton;
-import net.tarine.ibbchianti.shared.AppConstants;
-import net.tarine.ibbchianti.shared.PropertyBean;
 
 public class FramePanel extends FlowPanel {
 
@@ -30,23 +25,23 @@ public class FramePanel extends FlowPanel {
 		headerPanel.add(new HTML("<h1>"+title+"</h1>"));
 	}
 	
-	public void forwardIfJoinNotPossible() {
-		PropertyBean p = WizardSingleton.get().getPropertyBean();
-		Boolean isRegisterWizard = WizardSingleton.get().getWizardType()
-				.equals(AppConstants.WIZARD_REGISTER);
-		//Check if joining wizard can be active
-		if (isRegisterWizard) {
-			if ( p.getClosed() ) {
-				UriBuilder param = new UriBuilder();
-				param.triggerUri(UriDispatcher.ERROR_CLOSED);
-			}
-			if (	(p.getHutCount()+p.getTentCount() >= p.getTotalMax())
-					||
-					((p.getHutCount() >= p.getHutMax()) && (p.getTentCount() >= p.getTentMax())) ) {
-				UriBuilder param = new UriBuilder();
-				param.triggerUri(UriDispatcher.ERROR_FULL);
-			}
-		}
-	}
+	//public void forwardIfJoinNotPossible() {
+	//	PropertyBean p = WizardSingleton.get().getPropertyBean();
+	//	Boolean isRegisterWizard = WizardSingleton.get().getWizardType()
+	//			.equals(AppConstants.WIZARD_REGISTER);
+	//	//Check if joining wizard can be active
+	//	if (isRegisterWizard) {
+	//		if ( p.getClosed() ) {
+	//			UriBuilder param = new UriBuilder();
+	//			param.triggerUri(UriDispatcher.ERROR_CLOSED);
+	//		}
+	//		if (	(p.getHutCount()+p.getTentCount() >= p.getTotalMax())
+	//				||
+	//				((p.getHutCount() >= p.getHutMax()) && (p.getTentCount() >= p.getTentMax())) ) {
+	//			UriBuilder param = new UriBuilder();
+	//			param.triggerUri(UriDispatcher.ERROR_FULL);
+	//		}
+	//	}
+	//}
 	
 }

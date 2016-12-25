@@ -84,32 +84,23 @@ public class EmailUtil {
 		} finally {
 			ses.close();
 		}
-		boolean discount = participant.getDiscount();
 		if (participant != null) {
 			String subject = "Italian Burning Boots confirmation";
 			String body ="[ ENGLISH ]"+EOL+
 				"Congratulations, you're in!"+EOL+
 				"You registration has been confirmed with a donation of EUR "+mcGross+EOL+
 				EOL+
-				"Accommodation: "+(participant.getAccommodationType()==1 ? "mountain hut" : "tent")+EOL+
 				"Email: "+participant.getEmail()+EOL+
-				"Volunteering for: "+
-						(participant.getVolunteering().equals("") ? 
-						"Nothing :( please help" : participant.getVolunteering())+EOL+
-				"Food restrictions: "+
-						(participant.getFoodRestrictions().equals("") ?
-						"--" : participant.getFoodRestrictions())+EOL+
 				"First and last name: "+participant.getFirstName()+" "+participant.getLastName()+EOL+
 				"Birth: "+ServerConstants.FORMAT_DAY.format(participant.getBirthDt())+
-						" in "+participant.getBirthCity()+EOL;
-			if (!discount) body += EOL+
-					"You can change any of these values (including first & last name) with the REPLACEMENT wizard. "+
-					"See the 'Registration' section on https://burningboots.it"+EOL+
-					EOL+
-					"This is your REPLACEMENT Code: "+itemNumber+EOL+
-					"You can give it someone else if you can't join IBB anymore and you want to be replaced."+EOL+
-					"Resales for more than the donation amount are strictly forbidden."+EOL;
-			body += EOL+
+						" in "+participant.getBirthCity()+EOL+
+				"You can change any of these values (including first & last name) with the REPLACEMENT wizard. "+
+				"See the 'Registration' section on https://burningboots.it"+EOL+
+				EOL+
+				"This is your REPLACEMENT Code: "+itemNumber+EOL+
+				"You can give it someone else if you can't join IBB anymore and you want to be replaced."+EOL+
+				"Resales for more than the donation amount are strictly forbidden."+EOL+
+				EOL+
 				"Don't forget to check the 'What to bring' section on https://burningboots.it !"+EOL+
 				"The event location will be revealed a few days before the event, keep your eyes on your emailbox."+EOL+
 				EOL+
@@ -118,25 +109,18 @@ public class EmailUtil {
 				"Congratulazioni, sei dei nostri!"+EOL+
 				"La tua registrazione e' stata confermata con la donazione di EUR "+mcGross+EOL+
 				EOL+
-				"Pernottamento: "+(participant.getAccommodationType()==1 ? "rifugio" : "tenda")+EOL+
 				"Email: "+participant.getEmail()+EOL+
-				"Volontariato: "+
-						(participant.getVolunteering().equals("") ? 
-						"Niente :( aiutaci per favore" : participant.getVolunteering())+EOL+
-				"Restrizioni sul cibo: "+
-						(participant.getFoodRestrictions().equals("") ?
-						"--" : participant.getFoodRestrictions())+EOL+
 				"Nome e cognome: "+participant.getFirstName()+" "+participant.getLastName()+EOL+
 				"Nascita: "+ServerConstants.FORMAT_DAY.format(participant.getBirthDt())+
-						" a "+participant.getBirthCity()+EOL;
-			if (!discount) body += EOL+
-					"Puoi modificare questi dati (incluso nome e cognome) con la procedura di SOSTITUZIONE. "+
-					"La trovi nella sezione 'Iscrizione' su https://burningboots.it"+EOL+
-					EOL+
-					"Questo e' il tuo Codice di SOSTITUZIONE: "+itemNumber+EOL+
-					"Puoi darlo a qualcun altro se non puoi piu' partecipare e vuoi essere sostituito/a."+EOL+
-					"E' vietato cedere la partecipazione a IBB per un importo superiore a quello che hai donato."+EOL;
-			body += EOL+
+						" a "+participant.getBirthCity()+EOL+
+				EOL+
+				"Puoi modificare questi dati (incluso nome e cognome) con la procedura di SOSTITUZIONE. "+
+				"La trovi nella sezione 'Iscrizione' su https://burningboots.it"+EOL+
+				EOL+
+				"Questo e' il tuo Codice di SOSTITUZIONE: "+itemNumber+EOL+
+				"Puoi darlo a qualcun altro se non puoi piu' partecipare e vuoi essere sostituito/a."+EOL+
+				"E' vietato cedere la partecipazione a IBB per un importo superiore a quello che hai donato."+EOL+
+				EOL+
 				"Non scordare di leggere la pagina 'Cosa portare' su https://burningboots.it !"+EOL+
 				"Il luogo esatto dell'evento sara' comunicato pochi giorni prima, tieni d'occhio la casella email."+EOL+
 				EOL+

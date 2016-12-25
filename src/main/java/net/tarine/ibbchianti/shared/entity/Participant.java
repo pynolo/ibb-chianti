@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import net.tarine.ibbchianti.shared.AppConstants;
-
 @Entity
 @Table(name = "participant")
 public class Participant implements Serializable {
@@ -49,28 +47,28 @@ public class Participant implements Serializable {
     @Temporal(TemporalType.DATE)
 	@Column(name = "birth_dt", nullable = false)
 	private Date birthDt = null;
-	@Column(name = "food_restrictions", length = 2024)
-	private String foodRestrictions = "";
-	@Column(name = "volunteering", length = 64)
-	private String volunteering = "";
-	@Basic(optional = false)
-	@Column(name = "already_burner", nullable = false)
-	private boolean alreadyBurner;
-	@Basic(optional = false)
-	@Column(name = "already_ibb", nullable = false)
-	private boolean alreadyIbb;
-	@Column(name = "language", length = 4)
-	private String language = "";
-	@Column(name = "accommodation_type")
-	private Integer accommodationType = AppConstants.ACCOMMODATION_HUT;
+	//@Column(name = "food_restrictions", length = 2024)
+	//private String foodRestrictions = "";
+	//@Column(name = "volunteering", length = 64)
+	//private String volunteering = "";
+	//@Basic(optional = false)
+	//@Column(name = "already_burner", nullable = false)
+	//private boolean alreadyBurner;
+	//@Basic(optional = false)
+	//@Column(name = "already_ibb", nullable = false)
+	//private boolean alreadyIbb;
+	//@Column(name = "language", length = 4)
+	//private String language = "";
+	//@Column(name = "accommodation_type")
+	//private Integer accommodationType = AppConstants.ACCOMMODATION_HUT;
 	@Column(name = "payment_amount")
 	private Double paymentAmount = null;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "payment_dt")
 	private Date paymentDt = null;
-	@Basic(optional = false)
-	@Column(name = "discount", nullable = false)
-	private boolean discount;
+	//@Basic(optional = false)
+	//@Column(name = "discount", nullable = false)
+	//private boolean discount;
 	
     //@OneToMany(fetch = FetchType.EAGER, mappedBy="participant")
     //private Set<IpnResponse> ipnResponses;
@@ -159,22 +157,6 @@ public class Participant implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public String getFoodRestrictions() {
-		return foodRestrictions;
-	}
-
-	public void setFoodRestrictions(String foodRestrictions) {
-		this.foodRestrictions = foodRestrictions;
-	}
-
-	public String getVolunteering() {
-		return volunteering;
-	}
-
-	public void setVolunteering(String volunteering) {
-		this.volunteering = volunteering;
-	}
-
 	public Date getPaymentDt() {
 		return paymentDt;
 	}
@@ -183,60 +165,12 @@ public class Participant implements Serializable {
 		this.paymentDt = paymentDt;
 	}
 
-	//public Set<IpnResponse> getIpnResponses() {
-	//	return ipnResponses;
-	//}
-	//
-	//public void setIpnResponses(Set<IpnResponse> ipnResponses) {
-	//	this.ipnResponses = ipnResponses;
-	//}
-
-	public boolean getAlreadyBurner() {
-		return alreadyBurner;
-	}
-
-	public void setAlreadyBurner(boolean alreadyBurner) {
-		this.alreadyBurner = alreadyBurner;
-	}
-
-	public boolean getAlreadyIbb() {
-		return alreadyIbb;
-	}
-
-	public void setAlreadyIbb(boolean alreadyIbb) {
-		this.alreadyIbb = alreadyIbb;
-	}
-
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
-	public Integer getAccommodationType() {
-		return accommodationType;
-	}
-
-	public void setAccommodationType(Integer accommodationType) {
-		this.accommodationType = accommodationType;
-	}
-
 	public Double getPaymentAmount() {
 		return paymentAmount;
 	}
 
 	public void setPaymentAmount(Double paymentAmount) {
 		this.paymentAmount = paymentAmount;
-	}
-
-	public boolean getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(boolean discount) {
-		this.discount = discount;
 	}
 
 	@Override

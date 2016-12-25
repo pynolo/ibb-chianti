@@ -22,7 +22,7 @@ public class ErrorPaymentFrame extends FramePanel {
 	}
 	
 	private void draw() {
-		forwardIfJoinNotPossible();
+		//forwardIfJoinNotPossible();
 		
 		//TITLE
 		setTitle(constants.errorPaymentTitle());

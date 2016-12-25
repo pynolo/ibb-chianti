@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.InlineHTML;
 import net.tarine.ibbchianti.client.ClientConstants;
 import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.client.service.DataServiceAsync;
-import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.entity.Participant;
 
 public class ParticipantTable extends PagingTable<Participant> {
@@ -56,28 +55,6 @@ public class ParticipantTable extends PagingTable<Participant> {
 	protected void addTableRow(int rowNum, Participant rowObj) {
 		if (rowObj.getPaymentAmount() != null) paymentTotal += rowObj.getPaymentAmount();
 		final Participant rowFinal = rowObj;
-		
-		//ACCOMMODATION TYPE
-		String acType = "";
-		if (rowFinal.getAccommodationType().equals(AppConstants.ACCOMMODATION_HUT)) {
-			acType = ClientConstants.ICON_HUT_GREY;
-			if (rowFinal.getPaymentAmount() != null && rowFinal.getPaymentDt() != null) {
-				bedCount++;
-				acType = ClientConstants.ICON_HUT;
-			}
-		}
-		if (rowFinal.getAccommodationType().equals(AppConstants.ACCOMMODATION_TENT)) {
-			acType = ClientConstants.ICON_TENT_GREY;
-			if (rowFinal.getPaymentAmount() != null && rowFinal.getPaymentDt() != null) {
-				tentCount++;
-				acType = ClientConstants.ICON_TENT;
-			}
-		}
-		if (rowObj.getDiscount()) {
-			acType +="<i class='fa fa-scissors'></i>";
-			disCount++;
-		}
-		getInnerTable().setHTML(rowNum, 0, acType);
 		//EMAIL
 		getInnerTable().setHTML(rowNum, 1, "<b>"+rowFinal.getEmail()+"</b> ");
 		//COGNOME
@@ -93,19 +70,6 @@ public class ParticipantTable extends PagingTable<Participant> {
 		nascita += ClientConstants.FORMAT_DAY.format(rowFinal.getBirthDt())+" ";
 		if (rowFinal.getBirthCity() != null) nascita += rowFinal.getBirthCity()+" ";
 		getInnerTable().setHTML(rowNum, 5, nascita);
-		//FOOD RESTRICTIONS
-		String food = "";
-		if (rowFinal.getFoodRestrictions() != null) food = rowFinal.getFoodRestrictions();
-		getInnerTable().setHTML(rowNum, 6, food);
-		//VOLONTARIATO
-		String vol = "";
-		if (rowFinal.getVolunteering() != null) vol = rowFinal.getVolunteering();
-		getInnerTable().setHTML(rowNum, 7, vol);
-		//ESPERIENZA
-		String exp = "";
-		if (rowFinal.getAlreadyIbb()) exp += "ibb ";
-		if (rowFinal.getAlreadyBurner()) exp += "other ";
-		getInnerTable().setHTML(rowNum, 8, exp);
 		//PAGAMENTO
 		String pag = "";
 		if (rowFinal.getPaymentAmount() != null)
@@ -128,14 +92,10 @@ public class ParticipantTable extends PagingTable<Participant> {
 	@Override
 	protected void addHeader() {
 		// Set the data in the current row
-		getInnerTable().setHTML(0, 0, "Type");
 		getInnerTable().setHTML(0, 1, "Email");
 		getInnerTable().setHTML(0, 2, "Last name");
 		getInnerTable().setHTML(0, 3, "First name");
 		getInnerTable().setHTML(0, 5, "Birth");
-		getInnerTable().setHTML(0, 6, "Food restr.");
-		getInnerTable().setHTML(0, 7, "Volunteer");
-		getInnerTable().setHTML(0, 8, "Experience");
 		getInnerTable().setHTML(0, 9, "Payment");
 		getInnerTable().setHTML(0, 10, "Transfer");
 	}

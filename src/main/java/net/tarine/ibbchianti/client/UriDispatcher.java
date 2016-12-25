@@ -4,14 +4,11 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 import net.tarine.ibbchianti.client.frame.ErrorClosedFrame;
 import net.tarine.ibbchianti.client.frame.ErrorPaymentFrame;
-import net.tarine.ibbchianti.client.frame.JoinStart1Frame;
 import net.tarine.ibbchianti.client.frame.JoinCheckoutFrame;
-import net.tarine.ibbchianti.client.frame.JoinLegalFrame;
+import net.tarine.ibbchianti.client.frame.JoinStart1Frame;
+import net.tarine.ibbchianti.client.frame.JoinStart2Frame;
 import net.tarine.ibbchianti.client.frame.JoinThankYouFrame;
 import net.tarine.ibbchianti.client.frame.ParticipantFrame;
-import net.tarine.ibbchianti.client.frame.ReplaceBaseFrame;
-import net.tarine.ibbchianti.client.frame.ReplaceSaveFrame;
-import net.tarine.ibbchianti.shared.AppConstants;
 
 public class UriDispatcher {
 	
@@ -19,7 +16,6 @@ public class UriDispatcher {
 	public static final String SEPARATOR_PARAMS = "/"; // /
 	public static final String SEPARATOR_VALUES = "=";
 	
-	public static final String INDEX = "index";
 	public static final String STEP_JOIN_START1 = "index";
 	public static final String STEP_JOIN_START2 = "legal";
 	public static final String STEP_JOIN_CHECKOUT = "checkout";
@@ -39,15 +35,11 @@ public class UriDispatcher {
 			UriBuilder params = paramsFromUri(fullToken);
 			SimplePanel contentPanel = UiSingleton.get().getContentPanel();
 			contentPanel.clear();
-			if (INDEX.equals(token)) {
-				WizardSingleton.get().setWizardType(AppConstants.WIZARD_REGISTER);
+			if (STEP_JOIN_START1.equals(token)) {
 				contentPanel.add(new JoinStart1Frame(params));
 			}
-			if (STEP_JOIN_BASE.equals(token)) {
-				contentPanel.add(new JoinStart1Frame(params));
-			}
-			if (STEP_JOIN_LEGAL.equals(token)) {
-				contentPanel.add(new JoinLegalFrame(params));
+			if (STEP_JOIN_START2.equals(token)) {
+				contentPanel.add(new JoinStart2Frame(params));
 			}
 			if (STEP_JOIN_CHECKOUT.equals(token)) {
 				contentPanel.add(new JoinCheckoutFrame(params));
@@ -63,13 +55,6 @@ public class UriDispatcher {
 			}
 			if (PARTICIPANTS.equals(token)) {
 				contentPanel.add(new ParticipantFrame(params));
-			}
-			if (STEP_REPLACE_BASE.equals(token)) {
-				WizardSingleton.get().setWizardType(AppConstants.WIZARD_TRANSFER);
-				contentPanel.add(new ReplaceBaseFrame(params));
-			}
-			if (STEP_REPLACE_SAVE.equals(token)) {
-				contentPanel.add(new ReplaceSaveFrame(params));
 			}
 		}
 	}

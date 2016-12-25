@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.type.IntegerType;
 
 import net.tarine.ibbchianti.shared.OrmException;
 import net.tarine.ibbchianti.shared.entity.Participant;
@@ -68,16 +67,14 @@ public class ParticipantDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static Integer countConfirmed(Session ses, int accommodationType)
+	public static Integer countConfirmed(Session ses)
 			throws OrmException {
 		Long result = null;
 		try {
 			String qs = "select count(p.id) from Participant p "+
 				"where p.paymentDt is not null and "+
-				"p.paymentAmount is not null and "+
-				"p.accommodationType = :i1";
+				"p.paymentAmount is not null ";
 			Query q = ses.createQuery(qs);
-			q.setParameter("i1", accommodationType, IntegerType.INSTANCE);
 			List<Object> list = q.list();
 			if (list != null) {
 				if (list.size() > 0) {

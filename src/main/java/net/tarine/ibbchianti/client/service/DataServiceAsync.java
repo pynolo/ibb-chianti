@@ -13,7 +13,7 @@ public interface DataServiceAsync
      * GWT-RPC service  asynchronous (client-side) interface
      * @see net.tarine.ibbchianti.client.service.DataService
      */
-    void getPropertyBean( AsyncCallback<net.tarine.ibbchianti.shared.PropertyBean> callback );
+    //void getPropertyBean( AsyncCallback<net.tarine.ibbchianti.shared.PropertyBean> callback );
 	//void findConfigByKey( java.lang.String key, AsyncCallback<net.tarine.ibbchianti.shared.entity.Config> callback );
     //void saveOrUpdateConfig(Config config, AsyncCallback<Void> callback);
 

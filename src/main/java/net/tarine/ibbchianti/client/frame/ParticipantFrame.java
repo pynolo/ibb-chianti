@@ -14,9 +14,7 @@ import net.tarine.ibbchianti.client.CookieSingleton;
 import net.tarine.ibbchianti.client.IAuthenticatedWidget;
 import net.tarine.ibbchianti.client.UriBuilder;
 import net.tarine.ibbchianti.client.widgets.DataModel;
-import net.tarine.ibbchianti.client.widgets.DiscountTable;
 import net.tarine.ibbchianti.client.widgets.ParticipantTable;
-import net.tarine.ibbchianti.shared.entity.Discount;
 import net.tarine.ibbchianti.shared.entity.Participant;
 
 public class ParticipantFrame extends FramePanel implements IAuthenticatedWidget {
@@ -78,9 +76,9 @@ public class ParticipantFrame extends FramePanel implements IAuthenticatedWidget
 		refreshTable();
 		//Tabella low income
 		panel.add(new HTML("<p>&nbsp;<br /><b>Low income address list</b></p>"));
-		DataModel<Discount> discModel = new DiscountTable.DiscountModel();
-		DiscountTable discTable = new DiscountTable(discModel);
-		panel.add(discTable);
+		//DataModel<Discount> discModel = new DiscountTable.DiscountModel();
+		//DiscountTable discTable = new DiscountTable(discModel);
+		//panel.add(discTable);
 	}
 	
 	private void refreshTable() {

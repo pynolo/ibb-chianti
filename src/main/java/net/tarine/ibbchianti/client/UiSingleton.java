@@ -61,7 +61,7 @@ public class UiSingleton implements ValueChangeHandler<String> {
 		// check to see if there are any tokens passed at startup via the browser's URI
 		String token = History.getToken();
 		if (token.length() == 0) {
-			UriDispatcher.loadContent(UriDispatcher.INDEX);
+			UriDispatcher.loadContent(UriDispatcher.STEP_JOIN_START1);
 		}
 		else {
 			UriDispatcher.loadContent(token);
