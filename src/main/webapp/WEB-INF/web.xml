@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+
+	<!-- Filters -->
+	<!-- <filter>
+		<filter-name>gwtCacheControlFilter</filter-name>
+		<filter-class>net.tarine.ibbchianti.server.servlet.GWTCacheControlFilter</filter-class>
+	</filter>-->
+	
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>ipnServlet</servlet-name>
+		<servlet-class>net.tarine.ibbchianti.server.servlet.IpnServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>dataServiceImpl</servlet-name>
+		<servlet-class>net.tarine.ibbchianti.server.servlet.DataServiceImpl</servlet-class>
+	</servlet>
+	
+	<!-- Servlet mappings -->
+	<servlet-mapping>
+		<servlet-name>ipnServlet</servlet-name>
+		<url-pattern>/ipn</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dataServiceImpl</servlet-name>
+		<url-pattern>/appennino/dataService</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>Appennino.html</welcome-file>
+	</welcome-file-list>
+
+</web-app>
