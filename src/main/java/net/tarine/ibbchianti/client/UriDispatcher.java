@@ -3,14 +3,11 @@ package net.tarine.ibbchianti.client;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 import net.tarine.ibbchianti.client.frame.ErrorClosedFrame;
-import net.tarine.ibbchianti.client.frame.ErrorFullFrame;
 import net.tarine.ibbchianti.client.frame.ErrorPaymentFrame;
 import net.tarine.ibbchianti.client.frame.JoinBaseFrame;
 import net.tarine.ibbchianti.client.frame.JoinCheckoutFrame;
-import net.tarine.ibbchianti.client.frame.JoinFoodFrame;
 import net.tarine.ibbchianti.client.frame.JoinLegalFrame;
 import net.tarine.ibbchianti.client.frame.JoinThankYouFrame;
-import net.tarine.ibbchianti.client.frame.JoinVolunteerFrame;
 import net.tarine.ibbchianti.client.frame.ParticipantFrame;
 import net.tarine.ibbchianti.client.frame.ReplaceBaseFrame;
 import net.tarine.ibbchianti.client.frame.ReplaceSaveFrame;
@@ -25,10 +22,8 @@ public class UriDispatcher {
 	public static final String INDEX = "index";
 	public static final String STEP_JOIN_BASE = "base";
 	public static final String STEP_JOIN_LEGAL = "legal";
-	public static final String STEP_JOIN_VOLUNTEER = "volunteer";
-	public static final String STEP_JOIN_FOOD = "food";
 	public static final String STEP_JOIN_CHECKOUT = "checkout";
-	public static final String ERROR_FULL = "errFull";
+	public static final String ERROR_WAIT = "errWait";
 	public static final String ERROR_CLOSED = "errClosed";
 	public static final String ERROR_PAYMENT = "errPayment";
 	public static final String STEP_THANK_YOU = "thankyou";
@@ -57,17 +52,8 @@ public class UriDispatcher {
 			if (STEP_JOIN_LEGAL.equals(token)) {
 				contentPanel.add(new JoinLegalFrame(params));
 			}
-			if (STEP_JOIN_FOOD.equals(token)) {
-				contentPanel.add(new JoinFoodFrame(params));
-			}
-			if (STEP_JOIN_VOLUNTEER.equals(token)) {
-				contentPanel.add(new JoinVolunteerFrame(params));
-			}
 			if (STEP_JOIN_CHECKOUT.equals(token)) {
 				contentPanel.add(new JoinCheckoutFrame(params));
-			}
-			if (ERROR_FULL.equals(token)) {
-				contentPanel.add(new ErrorFullFrame(params));
 			}
 			if (ERROR_CLOSED.equals(token)) {
 				contentPanel.add(new ErrorClosedFrame(params));

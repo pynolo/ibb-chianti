@@ -7,6 +7,9 @@ import java.util.Map;
 
 public class AppConstants {
 
+	//WebSession
+	public static long WEBSESSION_TTL = 1000*60*30; //30 minutes
+
 	// IPN
 	// GUIDE https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNSetup/
 	public static final String BASE_URL = "https://burningboots.it/appennino";

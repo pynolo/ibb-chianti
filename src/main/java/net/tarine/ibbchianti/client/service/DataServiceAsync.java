@@ -1,12 +1,10 @@
 package net.tarine.ibbchianti.client.service;
 
-import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import net.tarine.ibbchianti.shared.entity.Discount;
 import net.tarine.ibbchianti.shared.entity.Participant;
+import net.tarine.ibbchianti.shared.entity.WebSession;
 
 public interface DataServiceAsync
 {
@@ -27,27 +25,27 @@ public interface DataServiceAsync
 	//void countConfirmed(int accommodationType, AsyncCallback<Integer> callback);
 	//void countPaymentTotal(AsyncCallback<Double> callback);
 	
-	void findDiscounts(AsyncCallback<List<Discount>> callback);
-    void canHaveDiscount(String email, AsyncCallback<Boolean> callback);
+	//void findDiscounts(AsyncCallback<List<Discount>> callback);
+    //void canHaveDiscount(String email, AsyncCallback<Boolean> callback);
     
+    //WebSession
+	void createWebSession(String seed, AsyncCallback<WebSession> callback);
+	void verifyWebSession(String idWebSession, AsyncCallback<Boolean> callback);
+	void getQueuePosition(String idWebSession, AsyncCallback<Integer> callback);
     /**
      * Utility class to get the RPC Async interface from client-side code
      */
-    public static final class Util 
-    { 
+    public static final class Util { 
         private static DataServiceAsync instance;
 
-        public static final DataServiceAsync getInstance()
-        {
-            if ( instance == null )
-            {
+        public static final DataServiceAsync getInstance() {
+            if ( instance == null ) {
                 instance = (DataServiceAsync) GWT.create( DataService.class );
             }
             return instance;
         }
 
-        private Util()
-        {
+        private Util() {
             // Utility class should not be instantiated
         }
     }

@@ -7,8 +7,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import net.tarine.ibbchianti.shared.PropertyBean;
 import net.tarine.ibbchianti.shared.SystemException;
-import net.tarine.ibbchianti.shared.entity.Discount;
 import net.tarine.ibbchianti.shared.entity.Participant;
+import net.tarine.ibbchianti.shared.entity.WebSession;
 
 /**
  * The client-side stub for the RPC service.
@@ -33,7 +33,11 @@ public interface DataService extends RemoteService {
 	//public Double countPaymentTotal() throws SystemException;
 	
 	//Discount
-	public List<Discount> findDiscounts() throws SystemException;
-	public Boolean canHaveDiscount(String email) throws SystemException;
+	//public List<Discount> findDiscounts() throws SystemException;
+	//public Boolean canHaveDiscount(String email) throws SystemException;
 	
+	//WebSession
+	public WebSession createWebSession(String seed) throws SystemException;
+	public Boolean verifyWebSession(String idWebSession) throws SystemException;
+	public Integer getQueuePosition(String idWebSession) throws SystemException;
 }

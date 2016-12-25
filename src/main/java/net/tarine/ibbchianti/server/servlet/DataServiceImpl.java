@@ -16,16 +16,16 @@ import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.server.DataBusiness;
 import net.tarine.ibbchianti.server.EnvSingleton;
 import net.tarine.ibbchianti.server.PropertyConfigReader;
-import net.tarine.ibbchianti.server.persistence.DiscountDao;
 import net.tarine.ibbchianti.server.persistence.GenericDao;
 import net.tarine.ibbchianti.server.persistence.ParticipantDao;
 import net.tarine.ibbchianti.server.persistence.SessionFactory;
+import net.tarine.ibbchianti.server.persistence.WebSessionDao;
 import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.OrmException;
 import net.tarine.ibbchianti.shared.PropertyBean;
 import net.tarine.ibbchianti.shared.SystemException;
-import net.tarine.ibbchianti.shared.entity.Discount;
 import net.tarine.ibbchianti.shared.entity.Participant;
+import net.tarine.ibbchianti.shared.entity.WebSession;
 
 /**
  * The server-side implementation of the RPC service.
@@ -34,7 +34,7 @@ import net.tarine.ibbchianti.shared.entity.Participant;
 public class DataServiceImpl extends RemoteServiceServlet implements
 		DataService {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(IpnServlet.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DataServiceImpl.class);
 	
 	@Override
 	public PropertyBean getPropertyBean() throws SystemException {
@@ -184,7 +184,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			Date now = new Date();
 			prt.setUpdateDt(now);
 			if (prt.getPaymentDt() == null) {//Per chi non ha pagato imposta se è discount
-				boolean discount = canHaveDiscount(ses, prt.getEmail());
+				boolean discount = false;// canHaveDiscount(ses, prt.getEmail());
 				prt.setDiscount(discount);
 			}
 			Participant oldPrt = null;
@@ -259,31 +259,93 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 	//	return (result == null ? 0 : result);
 	//}
 	
-	@Override
-	public List<Discount> findDiscounts() throws SystemException {
-		List<Discount> pList = new ArrayList<Discount>();
-		Session ses = SessionFactory.getSession();
-		Transaction trn = ses.beginTransaction();
-		try {
-			pList = GenericDao.findByClass(ses, Discount.class, "email");
-			trn.commit();
-		} catch (OrmException e) {
-			trn.rollback();
-			LOG.error(e.getMessage(), e);
-			throw new SystemException(e.getMessage(), e);
-		} finally {
-			ses.close();
-		}
-		return pList;
-	}
+	//@Override
+	//public List<Discount> findDiscounts() throws SystemException {
+	//	List<Discount> pList = new ArrayList<Discount>();
+	//	Session ses = SessionFactory.getSession();
+	//	Transaction trn = ses.beginTransaction();
+	//	try {
+	//		pList = GenericDao.findByClass(ses, Discount.class, "email");
+	//		trn.commit();
+	//	} catch (OrmException e) {
+	//		trn.rollback();
+	//		LOG.error(e.getMessage(), e);
+	//		throw new SystemException(e.getMessage(), e);
+	//	} finally {
+	//		ses.close();
+	//	}
+	//	return pList;
+	//}
+	//
+	//@Override
+	//public Boolean canHaveDiscount(String email) throws SystemException {
+	//	Boolean result = false;
+	//	Session ses = SessionFactory.getSession();
+	//	Transaction trn = ses.beginTransaction();
+	//	try {
+	//		result = canHaveDiscount(ses, email);
+	//		trn.commit();
+	//	} catch (OrmException e) {
+	//		trn.rollback();
+	//		LOG.error(e.getMessage(), e);
+	//		throw new SystemException(e.getMessage(), e);
+	//	} finally {
+	//		ses.close();
+	//	}
+	//	return result;
+	//}
+	//private boolean canHaveDiscount(Session ses, String email) throws OrmException {
+	//	boolean result = false;
+	//	Discount discount = DiscountDao.findDiscount(ses, email);
+	//	if (discount != null) {
+	//		List<Participant> confirmedList = ParticipantDao.findByEmail(ses, email, true);
+	//		int confirmed = confirmedList.size();
+	//		if (discount.getTickets() > confirmed) {
+	//			result = true;
+	//		}
+	//	}
+	//	return result;
+	//}
 	
+
 	@Override
-	public Boolean canHaveDiscount(String email) throws SystemException {
-		Boolean result = false;
+	public WebSession createWebSession(String seed) throws SystemException {
+		WebSession ws = new WebSession();
+		ws.setId(DataBusiness.createCode(new Date().getTime()+seed, 32));
+		return null;
+	}
+
+	@Override
+	public Boolean verifyWebSession(String idWebSession) throws SystemException {
+		boolean result = false;
+		Session ses = SessionFactory.getSession();
+		Transaction trn = ses.beginTransaction();
+		WebSession ws = null;
+		try {
+			ws = GenericDao.findById(ses, WebSession.class, idWebSession);
+			trn.commit();
+		} catch (OrmException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} finally {
+			ses.close();
+		}
+		Date now = new Date();
+		if (now.getTime()-ws.getTime().getTime() < AppConstants.WEBSESSION_TTL) {
+			//not expired yet
+			result = true;
+		}
+		return result;
+	}
+
+	@Override
+	public Integer getQueuePosition(String idWebSession) throws SystemException {
+		Integer result = null;
 		Session ses = SessionFactory.getSession();
 		Transaction trn = ses.beginTransaction();
 		try {
-			result = canHaveDiscount(ses, email);
+			result = WebSessionDao.getQueuePosition(ses, idWebSession);
 			trn.commit();
 		} catch (OrmException e) {
 			trn.rollback();
@@ -294,16 +356,5 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		}
 		return result;
 	}
-	private boolean canHaveDiscount(Session ses, String email) throws OrmException {
-		boolean result = false;
-		Discount discount = DiscountDao.findDiscount(ses, email);
-		if (discount != null) {
-			List<Participant> confirmedList = ParticipantDao.findByEmail(ses, email, true);
-			int confirmed = confirmedList.size();
-			if (discount.getTickets() > confirmed) {
-				result = true;
-			}
-		}
-		return result;
-	}
+
 }
