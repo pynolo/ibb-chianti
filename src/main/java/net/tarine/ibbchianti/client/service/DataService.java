@@ -5,7 +5,9 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import net.tarine.ibbchianti.shared.ConfigBean;
 import net.tarine.ibbchianti.shared.SystemException;
+import net.tarine.ibbchianti.shared.entity.Config;
 import net.tarine.ibbchianti.shared.entity.Participant;
 import net.tarine.ibbchianti.shared.entity.WebSession;
 
@@ -15,11 +17,9 @@ import net.tarine.ibbchianti.shared.entity.WebSession;
 @RemoteServiceRelativePath("dataService")
 public interface DataService extends RemoteService {
 	
-	//Properties
-	//public PropertyBean getPropertyBean() throws SystemException;
-	
 	//Config
-	//public Config findConfigByKey(String key) throws SystemException;
+	public ConfigBean getConfigBean() throws SystemException;
+	public Config findConfigByKey(String key) throws SystemException;
 	//public void saveOrUpdateConfig(Config config) throws SystemException;
 
 	//Participants

@@ -3,6 +3,8 @@ package net.tarine.ibbchianti.client.service;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import net.tarine.ibbchianti.shared.ConfigBean;
+import net.tarine.ibbchianti.shared.entity.Config;
 import net.tarine.ibbchianti.shared.entity.Participant;
 import net.tarine.ibbchianti.shared.entity.WebSession;
 
@@ -13,15 +15,16 @@ public interface DataServiceAsync
      * GWT-RPC service  asynchronous (client-side) interface
      * @see net.tarine.ibbchianti.client.service.DataService
      */
-    //void getPropertyBean( AsyncCallback<net.tarine.ibbchianti.shared.PropertyBean> callback );
-	//void findConfigByKey( java.lang.String key, AsyncCallback<net.tarine.ibbchianti.shared.entity.Config> callback );
+    
+	void getConfigBean(AsyncCallback<ConfigBean> callback );
+	void findConfigByKey(String key, AsyncCallback<Config> callback );
     //void saveOrUpdateConfig(Config config, AsyncCallback<Void> callback);
 
-    void findParticipantById( java.lang.Integer id, AsyncCallback<net.tarine.ibbchianti.shared.entity.Participant> callback );
-    void findParticipantByItemNumber( java.lang.String itemNumber, int delayMillis, AsyncCallback<net.tarine.ibbchianti.shared.entity.Participant> callback );
-    void findParticipants( boolean confirmed, AsyncCallback<java.util.List<net.tarine.ibbchianti.shared.entity.Participant>> callback );
-    void createTransientParticipant( AsyncCallback<net.tarine.ibbchianti.shared.entity.Participant> callback );
-    void saveOrUpdateParticipant( net.tarine.ibbchianti.shared.entity.Participant prt, AsyncCallback<Participant> callback );
+    void findParticipantById( java.lang.Integer id, AsyncCallback<Participant> callback );
+    void findParticipantByItemNumber( java.lang.String itemNumber, int delayMillis, AsyncCallback<Participant> callback );
+    void findParticipants( boolean confirmed, AsyncCallback<java.util.List<Participant>> callback );
+    void createTransientParticipant( AsyncCallback<Participant> callback );
+    void saveOrUpdateParticipant(Participant prt, AsyncCallback<Participant> callback );
 	void countConfirmed(AsyncCallback<Integer> callback);
 	//void countPaymentTotal(AsyncCallback<Double> callback);
 	

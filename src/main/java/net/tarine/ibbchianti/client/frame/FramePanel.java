@@ -26,7 +26,7 @@ public class FramePanel extends FlowPanel {
 	}
 	
 	//public void forwardIfJoinNotPossible() {
-	//	PropertyBean p = WizardSingleton.get().getPropertyBean();
+	//	ConfigBean p = WizardSingleton.get().getPropertyBean();
 	//	Boolean isRegisterWizard = WizardSingleton.get().getWizardType()
 	//			.equals(AppConstants.WIZARD_REGISTER);
 	//	//Check if joining wizard can be active

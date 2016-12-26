@@ -1,11 +1,13 @@
 package net.tarine.ibbchianti.client;
 
+import net.tarine.ibbchianti.shared.ConfigBean;
 import net.tarine.ibbchianti.shared.entity.Participant;
 
 public class WizardSingleton {
 
 	private static WizardSingleton instance = null;
 	private Participant participantBean = null;
+	private ConfigBean configBean = null;
 	private String webSessionId = null;
 	
 	private WizardSingleton() {}
@@ -32,6 +34,14 @@ public class WizardSingleton {
 
 	public void setWebSessionId(String webSessionId) {
 		this.webSessionId = webSessionId;
+	}
+
+	public ConfigBean getConfigBean() {
+		return configBean;
+	}
+
+	public void setConfigBean(ConfigBean configBean) {
+		this.configBean = configBean;
 	}
 
 }

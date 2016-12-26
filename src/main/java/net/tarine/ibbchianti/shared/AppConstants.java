@@ -22,40 +22,19 @@ public class AppConstants {
 //	//public static final String PAYPAL_ACCOUNT = "wave-facilitator@tarine.net";//SANDBOX pw low level
 //	//BUYER TEST ACCOUNT paolo-buyer@tarine.net pw low level
 	
-//	public static final String CONFIG_MAX_TICKET_COUNT = "maxTicketCount";
-//	public static final String CONFIG_MAX_FOREIGNER_TICKET_COUNT = "maxForeignTicketCount";
-//	public static final String CONFIG_PRICE_TICKET = "priceFull";
-//	public static final String CONFIG_PRICE_FOREIGNER_TICKET = "priceForeign";
-//	public static final String CONFIG_PRICE_REDUCED_TICKET = "priceReduced";
-//	public static final String CONFIG_SERVICE_OPEN = "serviceOpen";
-//	public static final String CONFIG_ACCESS_KEY = "accessKey";
+	// CONFIG TABLE
+	public static final String CONFIG_TICKET_MAX = "ticketMax";
+	public static final String CONFIG_TICKET_PRICE = "ticketPrice";
+	public static final String CONFIG_ACCESS_KEY = "accessKey";
+	public static final String CONFIG_STRIPE_KEY = "stripeKey";
 	
 	// CONFIG FILES
 	public static final String HIBERNATE_CONFIG_FILE="/hibernate.cfg.xml";
-	public static final String APP_PROPERTY_FILE = "/app.properties";
+	public static final String APP_PROPERTY_FILE = "/app.version";
 	public static final String CUSTOM_PROPERTY_FILE = "/custom.properties";
 	
 	// PARAMS
 	public static final String PARAM_ID = "id";
-//	public static final String PARAMS_ITEM_NUMBER = "itemNumber";
-	
-	// VALUES
-//	//WIZARD
-//	public static final Integer WIZARD_REGISTER = 1;
-//	public static final Integer WIZARD_TRANSFER = 2;
-	//ACCOMMODATION
-//	public static final Integer ACCOMMODATION_HUT = 1;
-//	public static final Integer ACCOMMODATION_TENT = 2;
-//	public static final Map<Integer, String> ACCOMMODATION_DESC = new HashMap<Integer, String>();
-//	static {
-//		ACCOMMODATION_DESC.put(ACCOMMODATION_HUT, "Hut / Rifugio");
-//		ACCOMMODATION_DESC.put(ACCOMMODATION_TENT, "Tent / Tenda");};
-	//VOLUNTEER
-//	public static final String VOLUNTEER_KITCHEN = "Kitchen";
-//	public static final String VOLUNTEER_GREETER = "Greeter";
-//	public static final String VOLUNTEER_WOOD = "Wood";
-//	public static final String VOLUNTEER_LNT = "LNTrace";
-//	public static final String VOLUNTEER_DECO = "Deco";
 	
 	// FORMATS
 	public static final String PATTERN_TIMESTAMP = "dd/MM/yyyy HH:mm";//"dd/MM/yyyy HH:mm";
@@ -66,9 +45,5 @@ public class AppConstants {
 	public static final long DAY = HOUR*24;
 	public static final long MONTH = DAY*30; //millisecondi in 30 giorni 1000 * 60 * 60 * 24 * 30;
 	public static final long YEAR = DAY*365; 
-
-	// LOOKUP: RESALE TYPE
-//	public static final String RESALE_TYPE_SELLING = "SELL";
-//	public static final String RESALE_TYPE_BUYING = "BUY";
 
 }

@@ -22,7 +22,7 @@ import net.tarine.ibbchianti.client.service.DataServiceAsync;
 import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.entity.WebSession;
 
-public class JoinStart1Frame extends FramePanel {
+public class JoinIndexFrame extends FramePanel {
 	
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
@@ -32,7 +32,7 @@ public class JoinStart1Frame extends FramePanel {
 	
 	private InlineHTML countLabel = new InlineHTML();
 	
-	public JoinStart1Frame(UriBuilder params) {
+	public JoinIndexFrame(UriBuilder params) {
 		super();
 		saveSessionCookie();
 		draw();

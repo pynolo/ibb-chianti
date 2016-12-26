@@ -1,5 +1,6 @@
 package net.tarine.ibbchianti.server.servlet;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,13 +14,16 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.server.DataBusiness;
+import net.tarine.ibbchianti.server.PropertyConfigReader;
 import net.tarine.ibbchianti.server.persistence.GenericDao;
 import net.tarine.ibbchianti.server.persistence.ParticipantDao;
 import net.tarine.ibbchianti.server.persistence.SessionFactory;
 import net.tarine.ibbchianti.server.persistence.WebSessionDao;
 import net.tarine.ibbchianti.shared.AppConstants;
+import net.tarine.ibbchianti.shared.ConfigBean;
 import net.tarine.ibbchianti.shared.OrmException;
 import net.tarine.ibbchianti.shared.SystemException;
+import net.tarine.ibbchianti.shared.entity.Config;
 import net.tarine.ibbchianti.shared.entity.Participant;
 import net.tarine.ibbchianti.shared.entity.WebSession;
 
@@ -32,58 +36,59 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 	
 	private static final Logger LOG = LoggerFactory.getLogger(DataServiceImpl.class);
 	
-	//@Override
-	//public PropertyBean getPropertyBean() throws SystemException {
-	//	PropertyBean bean = new PropertyBean();
-	//	Session ses = SessionFactory.getSession();
-	//	Transaction trn = ses.beginTransaction();
-	//	try {
-	//		//From app file
-	//		bean.setVersion(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_VERSION));
-	//		String closedString = PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_CLOSED);
-	//		if (closedString.equals("false")) bean.setClosed(false);
-	//		if (closedString.equals("true")) bean.setClosed(true);
-	//		bean.setTotalMax(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_TOTAL_MAX));
-	//		bean.setHutMax(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_HUT_MAX));
-	//		bean.setHutPrice(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_HUT_PRICE));
-	//		bean.setHutPriceLow(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_HUT_PRICE_LOW));
-	//		bean.setTentMax(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_TENT_MAX));
-	//		bean.setTentPrice(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_TENT_PRICE));
-	//		bean.setTentPriceLow(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_TENT_PRICE_LOW));
-	//		//From config file
-	//		bean.setAccessKey(EnvSingleton.get().getAccessKey());
-	//		trn.commit();
-	//	} catch (IOException e) { // catch exception in case properties file does not exist
-	//		LOG.error(e.getMessage(), e);
-	//		throw new SystemException(e.getMessage(), e);
-	//	} catch (OrmException e) {
-	//		trn.rollback();
-	//		LOG.error(e.getMessage(), e);
-	//		throw new SystemException(e.getMessage(), e);
-	//	} finally {
-	//		ses.close();
-	//	}
-	//	return bean;
-	//}
+	@Override
+	public ConfigBean getConfigBean() throws SystemException {
+		ConfigBean bean = new ConfigBean();
+		Session ses = SessionFactory.getSession();
+		Transaction trn = ses.beginTransaction();
+		try {
+			//From app file
+			bean.setVersion(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_VERSION));
+			//String closedString = PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_CLOSED);
+			//if (closedString.equals("false")) bean.setClosed(false);
+			//if (closedString.equals("true")) bean.setClosed(true);
+			Config ticketMaxConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_TICKET_MAX);
+			int ticketMax = Integer.parseInt(ticketMaxConfig.getVal());
+			bean.setTicketMax(ticketMax);
+			Config ticketPriceConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_TICKET_PRICE);
+			double ticketPrice = Double.parseDouble(ticketPriceConfig.getVal());
+			bean.setTicketPrice(ticketPrice);
+			Config accessKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_ACCESS_KEY);
+			bean.setAccessKey(accessKeyConfig.getVal());
+			Config stripeKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_KEY);
+			bean.setStripeKey(stripeKeyConfig.getVal());
+			trn.commit();
+		} catch (IOException|NumberFormatException e) { // catch exception in case properties file does not exist
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} catch (OrmException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} finally {
+			ses.close();
+		}
+		return bean;
+	}
 	
-	//@Override
-	//public Config findConfigByKey(String name) throws SystemException {
-	//	Config config = null;
-	//	Session ses = SessionFactory.getSession();
-	//	Transaction trn = ses.beginTransaction();
-	//	try {
-	//		config = GenericDao.findById(ses, Config.class, name);
-	//		trn.commit();
-	//	} catch (OrmException e) {
-	//		trn.rollback();
-	//		LOG.error(e.getMessage(), e);
-	//		throw new SystemException(e.getMessage(), e);
-	//	} finally {
-	//		ses.close();
-	//	}
-	//	return config;
-	//}
-	//
+	@Override
+	public Config findConfigByKey(String name) throws SystemException {
+		Config config = null;
+		Session ses = SessionFactory.getSession();
+		Transaction trn = ses.beginTransaction();
+		try {
+			config = GenericDao.findById(ses, Config.class, name);
+			trn.commit();
+		} catch (OrmException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} finally {
+			ses.close();
+		}
+		return config;
+	}
+	
 	//@Override
 	//public void saveOrUpdateConfig(Config config) throws SystemException {
 	//	Integer id = null;
