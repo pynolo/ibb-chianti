@@ -22,7 +22,7 @@ import net.tarine.ibbchianti.client.service.DataServiceAsync;
 import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.entity.WebSession;
 
-public class StepQueueFrame extends FramePanel {
+public class StepStartFrame extends FramePanel {
 	
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
@@ -32,7 +32,7 @@ public class StepQueueFrame extends FramePanel {
 	
 	private InlineHTML countLabel = new InlineHTML();
 	
-	public StepQueueFrame(UriBuilder params) {
+	public StepStartFrame(UriBuilder params) {
 		super();
 		saveSessionCookie();
 		draw();
@@ -70,7 +70,7 @@ public class StepQueueFrame extends FramePanel {
 				param.triggerUri(UriDispatcher.ERROR_CLOSED);
 			} else {
 				UriBuilder param = new UriBuilder();
-				param.triggerUri(UriDispatcher.STEP_JOIN_PERSONAL);
+				param.triggerUri(UriDispatcher.STEP_PERSONAL);
 			}
 		} else {
 			countLabel.setHTML("<b>"+this.queuePosition+"</b>");

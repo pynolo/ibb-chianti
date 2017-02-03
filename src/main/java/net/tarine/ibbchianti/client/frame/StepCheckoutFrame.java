@@ -2,7 +2,11 @@ package net.tarine.ibbchianti.client.frame;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import net.tarine.ibbchianti.client.ClientConstants;
@@ -14,10 +18,12 @@ import net.tarine.ibbchianti.client.WaitSingleton;
 import net.tarine.ibbchianti.client.WizardSingleton;
 import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.client.service.DataServiceAsync;
+import net.tarine.ibbchianti.client.widgets.ExtendedTextBox;
+import net.tarine.ibbchianti.client.widgets.ForwardButton;
 import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.entity.Participant;
 
-public class JoinCheckoutFrame extends FramePanel {
+public class StepCheckoutFrame extends FramePanel {
 	
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
@@ -27,7 +33,7 @@ public class JoinCheckoutFrame extends FramePanel {
 	
 	private VerticalPanel checkoutPanel = null;
 	
-	public JoinCheckoutFrame(UriBuilder params) {
+	public StepCheckoutFrame(UriBuilder params) {
 		super();
 		if (params != null) {
 			this.params = params;
@@ -42,6 +48,80 @@ public class JoinCheckoutFrame extends FramePanel {
 	}
 	
 	private void draw() {
+		//TITLE
+		setTitle(constants.personalTitle());
+		
+		cp.add(new HTML("<p>"+constants.personalIntro()+"</p>"));
+
+		//EMAIL
+		cp.add(new HTML("<p>"+constants.personalEmail()+"</p>"));
+		HorizontalPanel emailPanel = new HorizontalPanel();
+		emailText = new ExtendedTextBox();
+		emailText.setValue(participant.getEmail());
+		emailPanel.add(emailText);
+		emailPanel.add(new InlineHTML("&nbsp;&nbsp;"));
+		cp.add(emailPanel);
+		cp.add(new HTML("<p><i>"+constants.personalEmailWarning()+"</i></p>"));
+		
+		HorizontalPanel namePanel = new HorizontalPanel();
+		cp.add(namePanel);
+
+		FlowPanel firstNamePanel = new FlowPanel();
+		firstNamePanel.add(new HTML(constants.personalFirstName()));
+		firstNameText = new TextBox();
+		firstNameText.setMaxLength(64);
+		firstNameText.setValue(participant.getFirstName());
+		firstNamePanel.add(firstNameText);
+		namePanel.add(firstNamePanel);
+		
+		namePanel.add(new InlineHTML("&nbsp;"));
+		
+		FlowPanel lastNamePanel = new FlowPanel();
+		lastNamePanel.add(new HTML(constants.personalLastName()));
+		lastNameText = new TextBox();
+		lastNameText.setMaxLength(64);
+		lastNameText.setValue(participant.getLastName());
+		lastNamePanel.add(lastNameText);
+		namePanel.add(lastNamePanel);
+		
+		cp.add(new HTML("<p>&nbsp;</p>"));
+		
+		HorizontalPanel birthPanel = new HorizontalPanel();
+		cp.add(birthPanel);
+		
+		FlowPanel birthCityPanel = new FlowPanel();
+		birthCityPanel.add(new HTML("<p>"+constants.joinLegalBirthCity()+"</p>"));
+		birthCityText = new TextBox();
+		birthCityText.setMaxLength(128);
+		birthCityText.setValue(participant.getBirthCity());
+		birthCityPanel.add(birthCityText);
+		birthPanel.add(birthCityPanel);
+		
+		birthPanel.add(new InlineHTML("&nbsp;"));
+		
+		FlowPanel birthDatePanel = new FlowPanel();
+		birthDatePanel.add(new HTML("<p>"+constants.joinLegalBirthDate()+"</p>"));
+		birthDate = new DateBox();
+		DateBox.Format BOX_FORMAT_TIMESTAMP = new DateBox.DefaultFormat(DTF);
+		birthDate.setFormat(BOX_FORMAT_TIMESTAMP);
+		birthDate.setValue(participant.getBirthDt());
+		birthDatePanel.add(birthDate);
+		birthPanel.add(birthDatePanel);
+		
+		cp.add(new HTML("<p>&nbsp;</p>"));
+		
+		//Wizard panel
+		ForwardButton wb = new ForwardButton(this);
+		cp.add(wb);
+		
+		
+		
+		//
+		
+		
+		
+		
+		
 		if (WizardSingleton.get().getWizardType().equals(AppConstants.WIZARD_REGISTER)) 
 				forwardIfJoinNotPossible();
 		Participant participant = WizardSingleton.get().getParticipantBean();

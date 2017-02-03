@@ -26,17 +26,16 @@ public interface DataService extends RemoteService {
 	public Participant findParticipantById(Integer id) throws SystemException;
 	public Participant findParticipantByItemNumber(String itemNumber, int delayMillis) throws SystemException;
 	public List<Participant> findParticipants(boolean confirmed) throws SystemException;
-	public Participant createTransientParticipant() throws SystemException;
+	//public Participant createTransientParticipant() throws SystemException;
 	public Participant saveOrUpdateParticipant(Participant prt) throws SystemException;
 	public Integer countConfirmed() throws SystemException;
-	//public Double countPaymentTotal() throws SystemException;
-	
-	//Discount
-	//public List<Discount> findDiscounts() throws SystemException;
-	//public Boolean canHaveDiscount(String email) throws SystemException;
-	
+
 	//WebSession
 	public WebSession createWebSession(String seed) throws SystemException;
 	public Boolean verifyWebSession(String idWebSession) throws SystemException;
 	public Integer getQueuePosition(String idWebSession) throws SystemException;
+	
+	//Payment
+	public String payWithStripe(String amount, String number, String expMonth, String expYear)
+		throws SystemException;
 }

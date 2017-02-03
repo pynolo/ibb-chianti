@@ -23,7 +23,7 @@ public interface DataServiceAsync
     void findParticipantById( java.lang.Integer id, AsyncCallback<Participant> callback );
     void findParticipantByItemNumber( java.lang.String itemNumber, int delayMillis, AsyncCallback<Participant> callback );
     void findParticipants( boolean confirmed, AsyncCallback<java.util.List<Participant>> callback );
-    void createTransientParticipant( AsyncCallback<Participant> callback );
+    //void createTransientParticipant( AsyncCallback<Participant> callback );
     void saveOrUpdateParticipant(Participant prt, AsyncCallback<Participant> callback );
 	void countConfirmed(AsyncCallback<Integer> callback);
 	//void countPaymentTotal(AsyncCallback<Double> callback);
@@ -35,6 +35,10 @@ public interface DataServiceAsync
 	void createWebSession(String seed, AsyncCallback<WebSession> callback);
 	void verifyWebSession(String idWebSession, AsyncCallback<Boolean> callback);
 	void getQueuePosition(String idWebSession, AsyncCallback<Integer> callback);
+	
+	//Payment
+	void payWithStripe(String amount, String number, String expMonth, String expYear, AsyncCallback<String> callback);
+	
     /**
      * Utility class to get the RPC Async interface from client-side code
      */

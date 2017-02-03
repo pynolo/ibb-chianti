@@ -4,8 +4,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 import net.tarine.ibbchianti.client.frame.ErrorClosedFrame;
 import net.tarine.ibbchianti.client.frame.ErrorPaymentFrame;
-import net.tarine.ibbchianti.client.frame.JoinCheckoutFrame;
-import net.tarine.ibbchianti.client.frame.StepQueueFrame;
+import net.tarine.ibbchianti.client.frame.StepCheckoutFrame;
+import net.tarine.ibbchianti.client.frame.StepStartFrame;
 import net.tarine.ibbchianti.client.frame.StepPersonalFrame;
 import net.tarine.ibbchianti.client.frame.JoinThankYouFrame;
 import net.tarine.ibbchianti.client.frame.WarningFrame;
@@ -17,10 +17,10 @@ public class UriDispatcher {
 	public static final String SEPARATOR_PARAMS = "/"; // /
 	public static final String SEPARATOR_VALUES = "=";
 	
-	public static final String STEP_JOIN_INDEX = "index";
-	public static final String STEP_JOIN_WARNING = "warning";
-	public static final String STEP_JOIN_PERSONAL = "legal";
-	public static final String STEP_JOIN_CHECKOUT = "checkout";
+	public static final String STEP_START = "index";
+	public static final String STEP_WARNING = "warning";
+	public static final String STEP_PERSONAL = "legal";
+	public static final String STEP_CHECKOUT = "checkout";
 	public static final String ERROR_CLOSED = "errClosed";
 	public static final String ERROR_PAYMENT = "errPayment";
 	public static final String STEP_THANK_YOU = "thankyou";
@@ -37,17 +37,17 @@ public class UriDispatcher {
 			UriBuilder params = paramsFromUri(fullToken);
 			SimplePanel contentPanel = UiSingleton.get().getContentPanel();
 			contentPanel.clear();
-			if (STEP_JOIN_INDEX.equals(token)) {
-				contentPanel.add(new StepQueueFrame(params));
+			if (STEP_START.equals(token)) {
+				contentPanel.add(new StepStartFrame(params));
 			}
-			if (STEP_JOIN_WARNING.equals(token)) {
+			if (STEP_WARNING.equals(token)) {
 				contentPanel.add(new WarningFrame(params));
 			}
-			if (STEP_JOIN_PERSONAL.equals(token)) {
+			if (STEP_PERSONAL.equals(token)) {
 				contentPanel.add(new StepPersonalFrame(params));
 			}
-			if (STEP_JOIN_CHECKOUT.equals(token)) {
-				contentPanel.add(new JoinCheckoutFrame(params));
+			if (STEP_CHECKOUT.equals(token)) {
+				contentPanel.add(new StepCheckoutFrame(params));
 			}
 			if (ERROR_CLOSED.equals(token)) {
 				contentPanel.add(new ErrorClosedFrame(params));

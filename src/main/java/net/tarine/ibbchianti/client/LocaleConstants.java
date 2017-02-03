@@ -6,6 +6,8 @@ public interface LocaleConstants extends Constants {
 	String locale();
 	String pleaseWait();
 	String forward();
+	String warning();
+	String error();
 	
 	String queueVerify();
 	String queueCurrentlyOnline();

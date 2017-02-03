@@ -3,7 +3,9 @@ package net.tarine.ibbchianti.server.servlet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -11,6 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
+import com.stripe.net.RequestOptions;
+import com.stripe.net.RequestOptions.RequestOptionsBuilder;
 
 import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.server.DataBusiness;
@@ -179,6 +185,14 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		try {
 			Date now = new Date();
 			prt.setUpdateDt(now);
+			if (prt.getItemNumber() == null) prt.setItemNumber("");
+			if (prt.getItemNumber().equals("")) {
+				String seed = prt.getFirstName().substring(0, 2)+
+						prt.getLastName().substring(0, 2)+
+						prt.getEmail();
+				String itemNumber = DataBusiness.createCode(seed, AppConstants.ITEM_NUMBER_LENGHT);
+				prt.setItemNumber(itemNumber);
+			}
 			Participant oldPrt = null;
 			if (prt.getId() != null) oldPrt = GenericDao.findById(ses, Participant.class, prt.getId());
 			Integer id = null;
@@ -202,17 +216,17 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		return result;
 	}
 
-	@Override
-	public Participant createTransientParticipant() throws SystemException {
-		try {
-			String itemNumber = DataBusiness.createCode(this.getClass().getName(), AppConstants.ITEM_NUMBER_LENGHT);
-			Participant prt = new Participant();
-			prt.setItemNumber(itemNumber);
-			return prt;
-		} catch (Exception e) {
-			throw new SystemException(e.getMessage(), e);
-		}
-	}
+//	@Override
+//	public Participant createTransientParticipant() throws SystemException {
+//		try {
+//			String itemNumber = DataBusiness.createCode(this.getClass().getName(), AppConstants.ITEM_NUMBER_LENGHT);
+//			Participant prt = new Participant();
+//			prt.setItemNumber(itemNumber);
+//			return prt;
+//		} catch (Exception e) {
+//			throw new SystemException(e.getMessage(), e);
+//		}
+//	}
 
 	@Override
 	public Integer countConfirmed() throws SystemException {
@@ -346,6 +360,26 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			ses.close();
 		}
 		return result;
+	}
+
+	@Override
+	public String payWithStripe(String amount, String number, String expMonth,
+			String expYear) throws SystemException {
+		RequestOptions requestOptions = (new RequestOptionsBuilder()).setApiKey("YOUR-SECRET-KEY").build();
+		Map<String, Object> chargeMap = new HashMap<String, Object>();
+		chargeMap.put("amount", amount);
+		chargeMap.put("currency", "eur");
+		Map<String, Object> cardMap = new HashMap<String, Object>();
+		cardMap.put("number", number);
+		cardMap.put("exp_month", expMonth);
+		cardMap.put("exp_year", expYear);
+		chargeMap.put("card", cardMap);
+		try {
+			Charge charge = Charge.create(chargeMap, requestOptions);
+			return charge.toString();
+		} catch (StripeException e) {
+			throw new SystemException(e.getMessage(), e);
+		}
 	}
 
 }

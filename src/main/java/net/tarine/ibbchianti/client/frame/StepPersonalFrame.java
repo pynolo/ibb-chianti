@@ -7,7 +7,10 @@ import net.tarine.ibbchianti.client.LocaleConstants;
 import net.tarine.ibbchianti.client.UiSingleton;
 import net.tarine.ibbchianti.client.UriBuilder;
 import net.tarine.ibbchianti.client.UriDispatcher;
+import net.tarine.ibbchianti.client.WaitSingleton;
 import net.tarine.ibbchianti.client.WizardSingleton;
+import net.tarine.ibbchianti.client.service.DataService;
+import net.tarine.ibbchianti.client.service.DataServiceAsync;
 import net.tarine.ibbchianti.client.widgets.ExtendedTextBox;
 import net.tarine.ibbchianti.client.widgets.ForwardButton;
 import net.tarine.ibbchianti.shared.StringValidator;
@@ -15,6 +18,7 @@ import net.tarine.ibbchianti.shared.ValidationException;
 import net.tarine.ibbchianti.shared.entity.Participant;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -25,10 +29,8 @@ import com.google.gwt.user.datepicker.client.DateBox;
 
 public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 	
-	//private final DataServiceAsync dataService = GWT.create(DataService.class);
+	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
-	
-	//private DateTimeFormat DTF = DateTimeFormat.getFormat("dd/MM/yyyy");
 	
 	private VerticalPanel cp = null; // Content panel
 	
@@ -156,14 +158,31 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 			UiSingleton.get().addWarning(errorMessage);
 		} else {
 			//Store in bean
-			Participant participant = WizardSingleton.get().getParticipantBean();
-			participant.setEmail(email);
-			participant.setFirstName(firstName);
-			participant.setLastName(lastName);
-			participant.setBirthCity(birthCity);
-			participant.setBirthDt(birthDt);
-			UriBuilder param = new UriBuilder();
-			param.triggerUri(UriDispatcher.STEP_JOIN_CHECKOUT);
+			Participant transPrt = new Participant();
+			transPrt.setEmail(email);
+			transPrt.setFirstName(firstName);
+			transPrt.setLastName(lastName);
+			transPrt.setBirthCity(birthCity);
+			transPrt.setBirthDt(birthDt);
+			
+			AsyncCallback<Participant> callback = new AsyncCallback<Participant>() {
+				@Override
+				public void onFailure(Throwable caught) {
+					UiSingleton.get().addError(caught);
+					WaitSingleton.get().stop();
+				}
+				@Override
+				public void onSuccess(Participant prt) {
+					WaitSingleton.get().stop();
+					UriBuilder param = new UriBuilder();
+					param.add("item_number", prt.getItemNumber());
+					param.triggerUri(UriDispatcher.STEP_CHECKOUT);
+				}
+			};
+			WaitSingleton.get().start();
+			dataService.saveOrUpdateParticipant(transPrt, callback);
+			
+
 		}
 	}
 	

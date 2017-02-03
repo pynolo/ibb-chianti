@@ -3,8 +3,6 @@ package net.tarine.ibbchianti.shared;
 public class AppConstants {
 
 	//MAIN CONFIG
-	public static final long PARTICIPANT_MAX = 40;
-	public static final double PARTICIPANT_PRICE = 32.70d;
 	public static final int ITEM_NUMBER_LENGHT = 6;
 	public static final String EVENT_URL = "https://burningboots.it";
 	
