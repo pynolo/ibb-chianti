@@ -36,6 +36,7 @@ public interface DataService extends RemoteService {
 	public Integer getQueuePosition(String idWebSession) throws SystemException;
 	
 	//Payment
-	public String payWithStripe(String amount, String number, String expMonth, String expYear)
+	public String payWithStripe(String itemNumber, Double amount, String number,
+			String expMonth, String expYear)
 		throws SystemException;
 }

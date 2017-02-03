@@ -37,7 +37,8 @@ public interface DataServiceAsync
 	void getQueuePosition(String idWebSession, AsyncCallback<Integer> callback);
 	
 	//Payment
-	void payWithStripe(String amount, String number, String expMonth, String expYear, AsyncCallback<String> callback);
+	void payWithStripe(String itemNumber, Double amount, String number,
+			String expMonth, String expYear, AsyncCallback<String> callback);
 	
     /**
      * Utility class to get the RPC Async interface from client-side code

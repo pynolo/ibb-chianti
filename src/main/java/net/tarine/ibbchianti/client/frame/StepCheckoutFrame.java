@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.datepicker.client.DateBox;
 
 import net.tarine.ibbchianti.client.ClientConstants;
 import net.tarine.ibbchianti.client.LocaleConstants;
@@ -32,6 +33,10 @@ public class StepCheckoutFrame extends FramePanel {
 	private VerticalPanel cp = null; // Content panel
 	
 	private VerticalPanel checkoutPanel = null;
+	private TextBox amountText;
+	private TextBox numberText;
+	private TextBox monthText;
+	private TextBox yearText;
 	
 	public StepCheckoutFrame(UriBuilder params) {
 		super();
@@ -40,11 +45,15 @@ public class StepCheckoutFrame extends FramePanel {
 		} else {
 			this.params = new UriBuilder();
 		}
-		String itemNumber = this.params.getValue(AppConstants.PARAMS_ITEM_NUMBER);
+		String itemNumber = this.params.getValue(AppConstants.PARAM_ID);
 		if (itemNumber == null) itemNumber = "";
-		cp = new VerticalPanel();
-		this.add(cp);
-		saveOrUpdateAsyncData(itemNumber);
+		if (itemNumber.equals("")) {
+			UiSingleton.get().addWarning("Your data haven't been correctly saved");
+		} else {
+			cp = new VerticalPanel();
+			this.add(cp);
+			draw();
+		}
 	}
 	
 	private void draw() {

@@ -363,7 +363,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public String payWithStripe(String amount, String number, String expMonth,
+	public String payWithStripe(String itemNumber, Double amount, String number, String expMonth,
 			String expYear) throws SystemException {
 		RequestOptions requestOptions = (new RequestOptionsBuilder()).setApiKey("YOUR-SECRET-KEY").build();
 		Map<String, Object> chargeMap = new HashMap<String, Object>();
@@ -374,6 +374,9 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		cardMap.put("exp_month", expMonth);
 		cardMap.put("exp_year", expYear);
 		chargeMap.put("card", cardMap);
+		Map<String, String> initialMetadata = new HashMap<String, String>();
+		initialMetadata.put("order_id", itemNumber);
+		chargeMap.put("metadata", initialMetadata);
 		try {
 			Charge charge = Charge.create(chargeMap, requestOptions);
 			return charge.toString();

@@ -13,6 +13,7 @@ import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.client.service.DataServiceAsync;
 import net.tarine.ibbchianti.client.widgets.ExtendedTextBox;
 import net.tarine.ibbchianti.client.widgets.ForwardButton;
+import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.StringValidator;
 import net.tarine.ibbchianti.shared.ValidationException;
 import net.tarine.ibbchianti.shared.entity.Participant;
@@ -175,7 +176,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 				public void onSuccess(Participant prt) {
 					WaitSingleton.get().stop();
 					UriBuilder param = new UriBuilder();
-					param.add("item_number", prt.getItemNumber());
+					param.add(AppConstants.PARAM_ID, prt.getItemNumber());
 					param.triggerUri(UriDispatcher.STEP_CHECKOUT);
 				}
 			};
