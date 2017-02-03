@@ -1,5 +1,8 @@
 package net.tarine.ibbchianti.client.widgets;
 
+import net.tarine.ibbchianti.client.IWizardFrame;
+import net.tarine.ibbchianti.client.LocaleConstants;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -8,23 +11,15 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-import net.tarine.ibbchianti.client.LocaleConstants;
-import net.tarine.ibbchianti.client.frame.IWizardPanel;
-
-public class WizardButtons extends FlowPanel {
+public class ForwardButton extends FlowPanel {
 
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
 	
-	private IWizardPanel parent;
-	boolean prevEnabled = false;
-	boolean nextEnabled = false;
-	private Button prevButton;
 	private Button nextButton;
+	private IWizardFrame parent;
 	
-	public WizardButtons(IWizardPanel parent, boolean prevEnabled, boolean nextEnabled) {
+	public ForwardButton(IWizardFrame parent) {
 		this.parent = parent;
-		this.prevEnabled = prevEnabled;
-		this.nextEnabled = nextEnabled;
 		draw();
 	}
 	
@@ -34,18 +29,6 @@ public class WizardButtons extends FlowPanel {
 		//PREV
 		SimplePanel leftPanel = new SimplePanel();
 		leftPanel.setStyleName("col-xs-2");
-		prevButton = new Button();
-		prevButton.setHTML("&nbsp;<i class='glyphicon glyphicon-chevron-left'></i>"+
-				"<i class='glyphicon glyphicon-chevron-left'></i> "+constants.prev());
-		prevButton.setEnabled(prevEnabled);
-		prevButton.setStyleName("btn btn-primary");
-		prevButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				parent.goBackward();
-			}
-		});
-		leftPanel.add(prevButton);
 		this.add(leftPanel);
 		
 		SimplePanel centerPanel = new SimplePanel();
@@ -56,9 +39,8 @@ public class WizardButtons extends FlowPanel {
 		SimplePanel rightPanel = new SimplePanel();
 		rightPanel.setStyleName("col-xs-2");
 		nextButton = new Button();
-		nextButton.setHTML(constants.next()+" <i class='glyphicon glyphicon-chevron-right'></i>"+
+		nextButton.setHTML(constants.forward()+" <i class='glyphicon glyphicon-chevron-right'></i>"+
 		"<i class='glyphicon glyphicon-chevron-right'></i>&nbsp;");
-		nextButton.setEnabled(nextEnabled);
 		nextButton.setStyleName("btn btn-primary");
 		nextButton.addClickHandler(new ClickHandler() {
 			@Override

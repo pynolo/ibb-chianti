@@ -22,7 +22,7 @@ import net.tarine.ibbchianti.client.service.DataServiceAsync;
 import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.entity.WebSession;
 
-public class JoinIndexFrame extends FramePanel {
+public class StepQueueFrame extends FramePanel {
 	
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
@@ -32,7 +32,7 @@ public class JoinIndexFrame extends FramePanel {
 	
 	private InlineHTML countLabel = new InlineHTML();
 	
-	public JoinIndexFrame(UriBuilder params) {
+	public StepQueueFrame(UriBuilder params) {
 		super();
 		saveSessionCookie();
 		draw();
@@ -52,14 +52,14 @@ public class JoinIndexFrame extends FramePanel {
 	private void draw() {
 		VerticalPanel cp = new VerticalPanel(); //Content panel
 		this.add(cp);
-		cp.add(new HTML("<p><b>Verifica dei posti disponibili in corso.</b></p><p>&nbsp;</p>"));
+		cp.add(new HTML("<p><b>"+constants.queueVerify()+"</b></p><p>&nbsp;</p>"));
 		HorizontalPanel waitPanel = new HorizontalPanel();
 		cp.add(waitPanel);
 		
-		waitPanel.add(new HTML("</p>Attualmente sono in coda per iscriversi altre "));
+		waitPanel.add(new HTML("</p>"+constants.queueCurrentlyOnline()));
 		waitPanel.add(countLabel);
-		waitPanel.add(new HTML(" persone. </p><p>&nbsp;</p>"));
-		cp.add(new HTML("<p>Attendi per favore e <i>non forzare l'aggiornamento della pagina</i> o perderai la tua posizione in coda.</p>"));
+		waitPanel.add(new HTML(constants.queuePersons()+". </p><p>&nbsp;</p>"));
+		cp.add(new HTML("<p>"+constants.queuePersons()+".</p>"));
 	}
 	
 	private void controller() {
@@ -70,7 +70,7 @@ public class JoinIndexFrame extends FramePanel {
 				param.triggerUri(UriDispatcher.ERROR_CLOSED);
 			} else {
 				UriBuilder param = new UriBuilder();
-				param.triggerUri(UriDispatcher.STEP_JOIN_START2);
+				param.triggerUri(UriDispatcher.STEP_JOIN_PERSONAL);
 			}
 		} else {
 			countLabel.setHTML("<b>"+this.queuePosition+"</b>");

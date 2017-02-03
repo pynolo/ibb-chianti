@@ -2,8 +2,19 @@ package net.tarine.ibbchianti.client.frame;
 
 import java.util.Date;
 
+import net.tarine.ibbchianti.client.IWizardFrame;
+import net.tarine.ibbchianti.client.LocaleConstants;
+import net.tarine.ibbchianti.client.UiSingleton;
+import net.tarine.ibbchianti.client.UriBuilder;
+import net.tarine.ibbchianti.client.UriDispatcher;
+import net.tarine.ibbchianti.client.WizardSingleton;
+import net.tarine.ibbchianti.client.widgets.ExtendedTextBox;
+import net.tarine.ibbchianti.client.widgets.ForwardButton;
+import net.tarine.ibbchianti.shared.StringValidator;
+import net.tarine.ibbchianti.shared.ValidationException;
+import net.tarine.ibbchianti.shared.entity.Participant;
+
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -12,24 +23,12 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 
-import net.tarine.ibbchianti.client.LocaleConstants;
-import net.tarine.ibbchianti.client.UiSingleton;
-import net.tarine.ibbchianti.client.UriBuilder;
-import net.tarine.ibbchianti.client.WizardSingleton;
-import net.tarine.ibbchianti.client.service.DataService;
-import net.tarine.ibbchianti.client.service.DataServiceAsync;
-import net.tarine.ibbchianti.client.widgets.ExtendedTextBox;
-import net.tarine.ibbchianti.client.widgets.WizardButtons;
-import net.tarine.ibbchianti.shared.StringValidator;
-import net.tarine.ibbchianti.shared.ValidationException;
-import net.tarine.ibbchianti.shared.entity.Participant;
-
-public class JoinPersonalFrame extends FramePanel {
+public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 	
-	private final DataServiceAsync dataService = GWT.create(DataService.class);
+	//private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
 	
-	private DateTimeFormat DTF = DateTimeFormat.getFormat("dd/MM/yyyy");
+	//private DateTimeFormat DTF = DateTimeFormat.getFormat("dd/MM/yyyy");
 	
 	private VerticalPanel cp = null; // Content panel
 	
@@ -39,7 +38,7 @@ public class JoinPersonalFrame extends FramePanel {
 	private DateBox birthDate;
 	private TextBox birthCityText;
 	
-	public JoinPersonalFrame(UriBuilder params) {
+	public StepPersonalFrame(UriBuilder params) {
 		super();
 		cp = new VerticalPanel();
 		this.add(cp);
@@ -50,26 +49,26 @@ public class JoinPersonalFrame extends FramePanel {
 		Participant participant = WizardSingleton.get().getParticipantBean();
 		cp.clear();
 
+		//TITLE
+		setTitle(constants.personalTitle());
+		
+		cp.add(new HTML("<p>"+constants.personalIntro()+"</p>"));
+
 		//EMAIL
-		cp.add(new HTML("<p>"+constants.joinBaseEmail()+"</p>"));
+		cp.add(new HTML("<p>"+constants.personalEmail()+"</p>"));
 		HorizontalPanel emailPanel = new HorizontalPanel();
 		emailText = new ExtendedTextBox();
 		emailText.setValue(participant.getEmail());
 		emailPanel.add(emailText);
 		emailPanel.add(new InlineHTML("&nbsp;&nbsp;"));
 		cp.add(emailPanel);
-		cp.add(new HTML("<p><i>"+constants.joinBaseEmailWarning()+"</i></p>"));
-		
-		//TITLE
-		setTitle(constants.joinLegalTitle());
-		
-		cp.add(new HTML("<p>"+constants.joinLegalItalianLaw()+"</p>"));
+		cp.add(new HTML("<p><i>"+constants.personalEmailWarning()+"</i></p>"));
 		
 		HorizontalPanel namePanel = new HorizontalPanel();
 		cp.add(namePanel);
 
 		FlowPanel firstNamePanel = new FlowPanel();
-		firstNamePanel.add(new HTML(constants.joinLegalFirstName()));
+		firstNamePanel.add(new HTML(constants.personalFirstName()));
 		firstNameText = new TextBox();
 		firstNameText.setMaxLength(64);
 		firstNameText.setValue(participant.getFirstName());
@@ -79,7 +78,7 @@ public class JoinPersonalFrame extends FramePanel {
 		namePanel.add(new InlineHTML("&nbsp;"));
 		
 		FlowPanel lastNamePanel = new FlowPanel();
-		lastNamePanel.add(new HTML(constants.joinLegalLastName()));
+		lastNamePanel.add(new HTML(constants.personalLastName()));
 		lastNameText = new TextBox();
 		lastNameText.setMaxLength(64);
 		lastNameText.setValue(participant.getLastName());
@@ -88,37 +87,37 @@ public class JoinPersonalFrame extends FramePanel {
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));
 		
-		HorizontalPanel birthPanel = new HorizontalPanel();
-		cp.add(birthPanel);
-		
-		FlowPanel birthCityPanel = new FlowPanel();
-		birthCityPanel.add(new HTML("<p>"+constants.joinLegalBirthCity()+"</p>"));
-		birthCityText = new TextBox();
-		birthCityText.setMaxLength(128);
-		birthCityText.setValue(participant.getBirthCity());
-		birthCityPanel.add(birthCityText);
-		birthPanel.add(birthCityPanel);
-		
-		birthPanel.add(new InlineHTML("&nbsp;"));
-		
-		FlowPanel birthDatePanel = new FlowPanel();
-		birthDatePanel.add(new HTML("<p>"+constants.joinLegalBirthDate()+"</p>"));
-		birthDate = new DateBox();
-		DateBox.Format BOX_FORMAT_TIMESTAMP = new DateBox.DefaultFormat(DTF);
-		birthDate.setFormat(BOX_FORMAT_TIMESTAMP);
-		birthDate.setValue(participant.getBirthDt());
-		birthDatePanel.add(birthDate);
-		birthPanel.add(birthDatePanel);
-		
-		cp.add(new HTML("<p>&nbsp;</p>"));
+//		HorizontalPanel birthPanel = new HorizontalPanel();
+//		cp.add(birthPanel);
+//		
+//		FlowPanel birthCityPanel = new FlowPanel();
+//		birthCityPanel.add(new HTML("<p>"+constants.joinLegalBirthCity()+"</p>"));
+//		birthCityText = new TextBox();
+//		birthCityText.setMaxLength(128);
+//		birthCityText.setValue(participant.getBirthCity());
+//		birthCityPanel.add(birthCityText);
+//		birthPanel.add(birthCityPanel);
+//		
+//		birthPanel.add(new InlineHTML("&nbsp;"));
+//		
+//		FlowPanel birthDatePanel = new FlowPanel();
+//		birthDatePanel.add(new HTML("<p>"+constants.joinLegalBirthDate()+"</p>"));
+//		birthDate = new DateBox();
+//		DateBox.Format BOX_FORMAT_TIMESTAMP = new DateBox.DefaultFormat(DTF);
+//		birthDate.setFormat(BOX_FORMAT_TIMESTAMP);
+//		birthDate.setValue(participant.getBirthDt());
+//		birthDatePanel.add(birthDate);
+//		birthPanel.add(birthDatePanel);
+//		
+//		cp.add(new HTML("<p>&nbsp;</p>"));
 		
 		//Wizard panel
-		WizardButtons wb = new WizardButtons(this, true, true);
+		ForwardButton wb = new ForwardButton(this);
 		cp.add(wb);
 	}
 	
-	
-	private boolean storeInBean() {
+	@Override
+	public void goForward() {
 		//Verification
 		String errorMessage = "";
 		String email = emailText.getValue();
@@ -144,12 +143,12 @@ public class JoinPersonalFrame extends FramePanel {
 		String birthCity = birthCityText.getValue();
 		if (birthCity.length() < 3) {
 			if (errorMessage.length() > 0) errorMessage += "<br />";
-			errorMessage += constants.joinLegalErrorCity();
+			errorMessage += constants.personalErrorCity();
 		}
 		Date birthDt = birthDate.getValue();
 		if (birthDt == null) {
 			if (errorMessage.length() > 0) errorMessage += "<br />";
-			errorMessage += constants.joinLegalErrorDate();
+			errorMessage += constants.personalErrorDate();
 		}
 		
 		boolean isError = (errorMessage.length() > 0);
@@ -163,8 +162,9 @@ public class JoinPersonalFrame extends FramePanel {
 			participant.setLastName(lastName);
 			participant.setBirthCity(birthCity);
 			participant.setBirthDt(birthDt);
+			UriBuilder param = new UriBuilder();
+			param.triggerUri(UriDispatcher.STEP_JOIN_CHECKOUT);
 		}
-		return isError;
 	}
 	
 }

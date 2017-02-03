@@ -5,9 +5,10 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import net.tarine.ibbchianti.client.frame.ErrorClosedFrame;
 import net.tarine.ibbchianti.client.frame.ErrorPaymentFrame;
 import net.tarine.ibbchianti.client.frame.JoinCheckoutFrame;
-import net.tarine.ibbchianti.client.frame.JoinIndexFrame;
-import net.tarine.ibbchianti.client.frame.JoinPersonalFrame;
+import net.tarine.ibbchianti.client.frame.StepQueueFrame;
+import net.tarine.ibbchianti.client.frame.StepPersonalFrame;
 import net.tarine.ibbchianti.client.frame.JoinThankYouFrame;
+import net.tarine.ibbchianti.client.frame.WarningFrame;
 import net.tarine.ibbchianti.client.frame.ParticipantFrame;
 
 public class UriDispatcher {
@@ -37,13 +38,13 @@ public class UriDispatcher {
 			SimplePanel contentPanel = UiSingleton.get().getContentPanel();
 			contentPanel.clear();
 			if (STEP_JOIN_INDEX.equals(token)) {
-				contentPanel.add(new JoinIndexFrame(params));
+				contentPanel.add(new StepQueueFrame(params));
 			}
 			if (STEP_JOIN_WARNING.equals(token)) {
-				contentPanel.add(new JoinWarningFrame(params));
+				contentPanel.add(new WarningFrame(params));
 			}
 			if (STEP_JOIN_PERSONAL.equals(token)) {
-				contentPanel.add(new JoinPersonalFrame(params));
+				contentPanel.add(new StepPersonalFrame(params));
 			}
 			if (STEP_JOIN_CHECKOUT.equals(token)) {
 				contentPanel.add(new JoinCheckoutFrame(params));
