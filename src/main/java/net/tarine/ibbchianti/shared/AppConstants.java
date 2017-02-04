@@ -21,10 +21,14 @@ public class AppConstants {
 //	//BUYER TEST ACCOUNT paolo-buyer@tarine.net pw low level
 	
 	// CONFIG TABLE
-	public static final String CONFIG_TICKET_MAX = "ticketMax";
-	public static final String CONFIG_TICKET_PRICE = "ticketPrice";
+	public static final String CONFIG_TICKET_LIMIT = "ticketLimit";
+	public static final String CONFIG_DONATION_MIN = "donationMin";
+	public static final String CONFIG_DONATION_MAX = "donationMax";
 	public static final String CONFIG_ACCESS_KEY = "accessKey";
-	public static final String CONFIG_STRIPE_KEY = "stripeKey";
+	public static final String CONFIG_STRIPE_TEST_SECRET_KEY = "stripeTestSecretKey";
+	public static final String CONFIG_STRIPE_TEST_PUBLIC_KEY = "stripeTestPublicKey";
+	public static final String CONFIG_STRIPE_SECRET_KEY = "stripeSecretKey";
+	public static final String CONFIG_STRIPE_PUBLIC_KEY = "stripePublicKey";
 	
 	// CONFIG FILES
 	public static final String HIBERNATE_CONFIG_FILE="/hibernate.cfg.xml";

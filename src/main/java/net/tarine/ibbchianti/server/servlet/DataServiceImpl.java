@@ -53,16 +53,18 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			//String closedString = PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_CLOSED);
 			//if (closedString.equals("false")) bean.setClosed(false);
 			//if (closedString.equals("true")) bean.setClosed(true);
-			Config ticketMaxConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_TICKET_MAX);
-			int ticketMax = Integer.parseInt(ticketMaxConfig.getVal());
-			bean.setTicketMax(ticketMax);
-			Config ticketPriceConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_TICKET_PRICE);
-			double ticketPrice = Double.parseDouble(ticketPriceConfig.getVal());
-			bean.setTicketPrice(ticketPrice);
 			Config accessKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_ACCESS_KEY);
 			bean.setAccessKey(accessKeyConfig.getVal());
-			Config stripeKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_KEY);
-			bean.setStripeKey(stripeKeyConfig.getVal());
+			Config ticketLimitConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_TICKET_LIMIT);
+			int ticketLimit = Integer.parseInt(ticketLimitConfig.getVal());
+			bean.setTicketLimit(ticketLimit);
+			Config donationMinConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_DONATION_MIN);
+			double donationMin = Double.parseDouble(donationMinConfig.getVal());
+			bean.setDonationMin(donationMin);
+			Config stripePublicKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_PUBLIC_KEY);
+			bean.setStripePublicKey(stripePublicKeyConfig.getVal());
+			Config stripeTestPublicKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_TEST_PUBLIC_KEY);
+			bean.setStripeTestPublicKey(stripeTestPublicKeyConfig.getVal());
 			trn.commit();
 		} catch (IOException|NumberFormatException e) { // catch exception in case properties file does not exist
 			LOG.error(e.getMessage(), e);

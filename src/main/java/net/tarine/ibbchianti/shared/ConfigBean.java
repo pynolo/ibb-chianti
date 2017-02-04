@@ -7,9 +7,13 @@ public class ConfigBean implements Serializable {
 	
 	private String version = null;
 	private String accessKey = null;
-	private int ticketMax = -1;
-	private double ticketPrice = -1D;
-	private String stripeKey = "x";
+	private int ticketLimit = -1;
+	private double donationMin = -1D;
+	private double donationMax = -1D;
+	//private String stripeTestSecretKey = "x";
+	private String stripeTestPublicKey = "x";
+	//private String stripeSecretKey = "x";
+	private String stripePublicKey = "x";
 	
 	public ConfigBean() {
 	}
@@ -30,28 +34,44 @@ public class ConfigBean implements Serializable {
 		this.accessKey = accessKey;
 	}
 
-	public String getStripeKey() {
-		return stripeKey;
+	public int getTicketLimit() {
+		return ticketLimit;
 	}
 
-	public void setStripeKey(String stripeKey) {
-		this.stripeKey = stripeKey;
+	public void setTicketLimit(int ticketLimit) {
+		this.ticketLimit = ticketLimit;
 	}
 
-	public int getTicketMax() {
-		return ticketMax;
+	public double getDonationMin() {
+		return donationMin;
 	}
 
-	public void setTicketMax(int ticketMax) {
-		this.ticketMax = ticketMax;
+	public void setDonationMin(double donationMin) {
+		this.donationMin = donationMin;
 	}
 
-	public double getTicketPrice() {
-		return ticketPrice;
+	public double getDonationMax() {
+		return donationMax;
 	}
 
-	public void setTicketPrice(double ticketPrice) {
-		this.ticketPrice = ticketPrice;
+	public void setDonationMax(double donationMax) {
+		this.donationMax = donationMax;
 	}
-	
+
+	public String getStripeTestPublicKey() {
+		return stripeTestPublicKey;
+	}
+
+	public void setStripeTestPublicKey(String stripeTestPublicKey) {
+		this.stripeTestPublicKey = stripeTestPublicKey;
+	}
+
+	public String getStripePublicKey() {
+		return stripePublicKey;
+	}
+
+	public void setStripePublicKey(String stripePublicKey) {
+		this.stripePublicKey = stripePublicKey;
+	}
+
 }
