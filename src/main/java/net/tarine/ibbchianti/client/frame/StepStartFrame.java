@@ -39,6 +39,7 @@ public class StepStartFrame extends FramePanel {
 	}
 	
 	private void verifyQueueAndStart() {
+		reload();
 		Timer t = new Timer() {
 			public void run() {
 				reload();
@@ -55,10 +56,9 @@ public class StepStartFrame extends FramePanel {
 		HorizontalPanel waitPanel = new HorizontalPanel();
 		cp.add(waitPanel);
 		
-		waitPanel.add(new HTML("</p>"+constants.queueCurrentlyOnline()));
+		waitPanel.add(new HTML(constants.queueCurrentlyOnline()));
 		waitPanel.add(countLabel);
 		waitPanel.add(new HTML(constants.queuePersons()+". </p><p>&nbsp;</p>"));
-		cp.add(new HTML("<p>"+constants.queuePersons()+".</p>"));
 	}
 	
 	private void controller() {
@@ -119,7 +119,7 @@ public class StepStartFrame extends FramePanel {
 			}
 		};
 		WaitSingleton.get().start();
-		dataService.countConfirmed(callback);;
+		dataService.countConfirmed(callback);
 	}
 	
 	private void loadQueuePosition() {

@@ -17,7 +17,7 @@ import net.tarine.ibbchianti.client.service.DataServiceAsync;
 import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.entity.Participant;
 
-public class JoinThanksFrame extends FramePanel {
+public class StepThanksFrame extends FramePanel {
 	
 	private static final int DELAY = 6000;// 6 seconds
 	
@@ -27,7 +27,7 @@ public class JoinThanksFrame extends FramePanel {
 	private UriBuilder params = null;
 	private VerticalPanel cp = null; // Content panel
 	
-	public JoinThanksFrame(UriBuilder params) {
+	public StepThanksFrame(UriBuilder params) {
 		super();
 		if (params != null) {
 			this.params = params;

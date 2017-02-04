@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -37,8 +38,8 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 	
 	private TextBox amountText;
 	private TextBox cardNumberText;
-	private TextBox expMonthText;
-	private TextBox expYearText;
+	private ListBox expMonthList;
+	private ListBox expYearList;
 	
 	public StepCheckoutFrame(UriBuilder params) {
 		super();
@@ -104,19 +105,36 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		cp.add(expiryPanel);
 		
 		expiryPanel.add(new HTML("<p>"+constants.checkoutExpiration()+"</p>"));
-		expMonthText = new TextBox();
-		expMonthText.setMaxLength(2);
-		expMonthText.setWidth("2em");
-		expMonthText.setValue("00");
-		expiryPanel.add(expMonthText);
+		expMonthList = new ListBox();
+		expMonthList.addItem("01");
+		expMonthList.addItem("02");
+		expMonthList.addItem("03");
+		expMonthList.addItem("04");
+		expMonthList.addItem("05");
+		expMonthList.addItem("06");
+		expMonthList.addItem("07");
+		expMonthList.addItem("08");
+		expMonthList.addItem("09");
+		expMonthList.addItem("10");
+		expMonthList.addItem("11");
+		expMonthList.addItem("12");
+		expiryPanel.add(expMonthList);
 		
 		expiryPanel.add(new InlineHTML("/"));
 		
-		expYearText = new TextBox();
-		expYearText.setMaxLength(2);
-		expYearText.setWidth("2em");
-		expYearText.setValue("00");
-		expiryPanel.add(expYearText);
+		expYearList = new ListBox();
+		expYearList.addItem("17");
+		expYearList.addItem("18");
+		expYearList.addItem("19");
+		expYearList.addItem("20");
+		expYearList.addItem("21");
+		expYearList.addItem("22");
+		expYearList.addItem("23");
+		expYearList.addItem("24");
+		expYearList.addItem("25");
+		expYearList.addItem("26");
+		expYearList.addItem("27");
+		expiryPanel.add(expYearList);
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));
 		
@@ -139,19 +157,18 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		} catch (NumberFormatException|SystemException e) {
 			error += constants.checkoutErrorAmountFormat()+"<br/>";
 		}
-		if (amount.getAmountDouble() > WizardSingleton.get().getConfigBean().getDonationMax() ||
-				amount.getAmountDouble() < WizardSingleton.get().getConfigBean().getDonationMin())
+		Double amountDouble = amount.getAmountDouble();
+		if (amountDouble < WizardSingleton.get().getConfigBean().getDonationMax() &&
+				amountDouble > WizardSingleton.get().getConfigBean().getDonationMin())
 			error += constants.checkoutErrorAmountLimit();
 		if (cardNumberText.getValue().length() < 10 || cardNumberText.getValue().length() > 18)
 			error += constants.checkoutErrorCard()+" <br/>";
-		if (expMonthText.getValue().length() != 2 || expYearText.getValue().length() != 2)
-			error += constants.checkoutErrorExp()+"<br/>";
 		//Get data from textBoxes
 		if (error.length() > 0) {
 			UiSingleton.get().addWarning(error);
 		} else {
 			attemptPayment(itemNumber, amount, cardNumberText.getValue(),
-					expMonthText.getValue(), expYearText.getValue());
+					expMonthList.getSelectedValue(), expYearList.getSelectedValue());
 		}
 	}
 	

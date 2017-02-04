@@ -38,7 +38,7 @@ public class ParticipantDao {
 		List<Participant> entities = new ArrayList<Participant>();
 		try {
 			String qs = "from Participant p ";
-			if (confirmed) qs += "where p.paymentDt is not null ";
+			if (confirmed) qs += "where p.paymentAmount is not null ";
 			qs += "order by p.creationDt";
 			Query q = ses.createQuery(qs);
 			entities = (List<Participant>) q.list();
@@ -55,7 +55,7 @@ public class ParticipantDao {
 		try {
 			String qs = "from Participant p where "+
 					"p.email like :s1 ";
-			if (confirmed) qs += "and p.paymentDt is not null ";
+			if (confirmed) qs += "and p.paymentAmount is not null ";
 			qs += "order by p.creationDt";
 			Query q = ses.createQuery(qs);
 			q.setParameter("s1", email);
@@ -72,8 +72,7 @@ public class ParticipantDao {
 		Long result = null;
 		try {
 			String qs = "select count(p.id) from Participant p "+
-				"where p.paymentDt is not null and "+
-				"p.paymentAmount is not null ";
+				"where p.paymentAmount is not null ";
 			Query q = ses.createQuery(qs);
 			List<Object> list = q.list();
 			if (list != null) {
@@ -93,8 +92,7 @@ public class ParticipantDao {
 		Double result = null;
 		try {
 			String qs = "select sum(p.paymentAmount) from Participant p "+
-				"where p.paymentDt is not null and "+
-				"p.paymentAmount is not null";
+				"where p.paymentAmount is not null";
 			Query q = ses.createQuery(qs);
 			List<Object> list = q.list();
 			if (list != null) {

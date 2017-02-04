@@ -11,7 +11,7 @@ public class ConfigBean implements Serializable {
 	private double donationMin = -1D;
 	private double donationMax = -1D;
 	//private String stripeTestSecretKey = "x";
-	private String stripeTestPublicKey = "x";
+	//private String stripeTestPublicKey = "x";
 	//private String stripeSecretKey = "x";
 	private String stripePublicKey = "x";
 	
@@ -56,14 +56,6 @@ public class ConfigBean implements Serializable {
 
 	public void setDonationMax(double donationMax) {
 		this.donationMax = donationMax;
-	}
-
-	public String getStripeTestPublicKey() {
-		return stripeTestPublicKey;
-	}
-
-	public void setStripeTestPublicKey(String stripeTestPublicKey) {
-		this.stripeTestPublicKey = stripeTestPublicKey;
 	}
 
 	public String getStripePublicKey() {

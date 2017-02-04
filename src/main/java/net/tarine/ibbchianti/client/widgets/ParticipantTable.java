@@ -79,14 +79,6 @@ public class ParticipantTable extends PagingTable<Participant> {
 		InlineHTML paymentHtml = new InlineHTML(pag);
 		paymentHtml.setTitle(rowFinal.getItemNumber());
 		getInnerTable().setWidget(rowNum, 9, paymentHtml);
-		//TRANSFER
-		String repl = "";
-		if (rowFinal.getUpdateDt().after(rowFinal.getCreationDt())) {
-			if (rowFinal.getEmailOriginal() != null)
-					repl += rowFinal.getEmailOriginal()+" ";
-			repl += ClientConstants.FORMAT_DAY.format(rowFinal.getUpdateDt())+" ";
-		}
-		getInnerTable().setHTML(rowNum, 10, repl);
 	}
 	
 	@Override
@@ -97,7 +89,6 @@ public class ParticipantTable extends PagingTable<Participant> {
 		getInnerTable().setHTML(0, 3, "First name");
 		getInnerTable().setHTML(0, 5, "Birth");
 		getInnerTable().setHTML(0, 9, "Payment");
-		getInnerTable().setHTML(0, 10, "Transfer");
 	}
 	
 	@Override

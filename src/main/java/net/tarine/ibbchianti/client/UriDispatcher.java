@@ -7,7 +7,7 @@ import net.tarine.ibbchianti.client.frame.ErrorPaymentFrame;
 import net.tarine.ibbchianti.client.frame.StepCheckoutFrame;
 import net.tarine.ibbchianti.client.frame.StepStartFrame;
 import net.tarine.ibbchianti.client.frame.StepPersonalFrame;
-import net.tarine.ibbchianti.client.frame.JoinThanksFrame;
+import net.tarine.ibbchianti.client.frame.StepThanksFrame;
 import net.tarine.ibbchianti.client.frame.WarningFrame;
 import net.tarine.ibbchianti.client.frame.ParticipantFrame;
 
@@ -17,14 +17,15 @@ public class UriDispatcher {
 	public static final String SEPARATOR_PARAMS = "/"; // /
 	public static final String SEPARATOR_VALUES = "=";
 	
-	public static final String STEP_START = "index";
+	public static final String STEP_START = "start";
 	public static final String STEP_WARNING = "warning";
-	public static final String STEP_PERSONAL = "legal";
+	public static final String STEP_PERSONAL = "personal";
 	public static final String STEP_CHECKOUT = "checkout";
 	public static final String ERROR_CLOSED = "errClosed";
 	public static final String ERROR_PAYMENT = "errPayment";
 	public static final String STEP_THANK_YOU = "thankyou";
 	public static final String PARTICIPANTS = "participants";
+	public static final String INDEX = STEP_PERSONAL;
 	
 	//Reloads the current page from the server reload(true) and not from cache reload(false)
 	public static native void hardReload() /*-{
@@ -56,7 +57,7 @@ public class UriDispatcher {
 				contentPanel.add(new ErrorPaymentFrame(params));
 			}
 			if (STEP_THANK_YOU.equals(token)) {
-				contentPanel.add(new JoinThanksFrame(params));
+				contentPanel.add(new StepThanksFrame(params));
 			}
 			if (PARTICIPANTS.equals(token)) {
 				contentPanel.add(new ParticipantFrame(params));

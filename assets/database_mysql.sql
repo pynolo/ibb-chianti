@@ -33,33 +33,8 @@ insert into config (id,val) values ('ticketLimit','40');
 insert into config (id,val) values ('donationMin','35');
 insert into config (id,val) values ('donationMax','200');
 insert into config (id,val) values ('accessKey','x');
-insert into config (id,val) values ('stripeTestSecretKey','x');
-insert into config (id,val) values ('stripeTestPublicKey','x');
 insert into config (id,val) values ('stripeSecretKey','x');
 insert into config (id,val) values ('stripePublicKey','x');
-
---
--- Table structure for table `ipn_response`
---
-
-DROP TABLE IF EXISTS `ipn_response`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ipn_response` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`id_participant` int(11) DEFAULT NULL,
-	`item_number` varchar(64) DEFAULT NULL,
-	`payment_status` varchar(64) DEFAULT NULL,
-	`payer_email` varchar(64) DEFAULT NULL,
-	`mc_gross` varchar(64) DEFAULT NULL,
-	`mc_currency` varchar(64) DEFAULT NULL,
-	`payment_date` varchar(128) DEFAULT NULL,
-	`pending_reason` varchar(64) DEFAULT NULL,
-	`payment_type` varchar(64) DEFAULT NULL,
-	PRIMARY KEY (`id`),
-	KEY `unique_item_number` (`item_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `participant`
@@ -96,5 +71,29 @@ CREATE TABLE `web_session` (
 	`time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `ipn_response`
+--
+
+DROP TABLE IF EXISTS `ipn_response`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+/*CREATE TABLE `ipn_response` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`id_participant` int(11) DEFAULT NULL,
+	`item_number` varchar(64) DEFAULT NULL,
+	`payment_status` varchar(64) DEFAULT NULL,
+	`payer_email` varchar(64) DEFAULT NULL,
+	`mc_gross` varchar(64) DEFAULT NULL,
+	`mc_currency` varchar(64) DEFAULT NULL,
+	`payment_date` varchar(128) DEFAULT NULL,
+	`pending_reason` varchar(64) DEFAULT NULL,
+	`payment_type` varchar(64) DEFAULT NULL,
+	PRIMARY KEY (`id`),
+	KEY `unique_item_number` (`item_number`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;*/
 /*!40101 SET character_set_client = @saved_cs_client */;
 

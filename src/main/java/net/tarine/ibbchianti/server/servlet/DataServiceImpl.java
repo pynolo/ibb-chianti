@@ -59,8 +59,6 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			bean.setDonationMin(donationMin);
 			Config stripePublicKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_PUBLIC_KEY);
 			bean.setStripePublicKey(stripePublicKeyConfig.getVal());
-			Config stripeTestPublicKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_TEST_PUBLIC_KEY);
-			bean.setStripeTestPublicKey(stripeTestPublicKeyConfig.getVal());
 			trn.commit();
 		} catch (NumberFormatException e) { // catch exception in case properties file does not exist
 			LOG.error(e.getMessage(), e);
@@ -195,7 +193,6 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			if (prt.getId() != null) oldPrt = GenericDao.findById(ses, Participant.class, prt.getId());
 			Integer id = null;
 			if (oldPrt == null) {
-				prt.setEmailOriginal(prt.getEmail());
 				prt.setCreationDt(now);
 				id = (Integer) GenericDao.saveGeneric(ses, prt);
 			} else {
@@ -368,7 +365,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		Transaction trn = ses.beginTransaction();
 		try {
 			Participant prt = ParticipantDao.findByItemNumber(ses, itemNumber);
-			String secretKey = "";
+			Config secretConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_SECRET_KEY);
+			String secretKey = secretConfig.getVal();
 			RequestOptions requestOptions = (new RequestOptionsBuilder()).setApiKey(secretKey).build();
 			Map<String, Object> chargeMap = new HashMap<String, Object>();
 			chargeMap.put("amount", amount.getAmountLong());
@@ -380,17 +378,18 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			chargeMap.put("card", cardMap);
 			Map<String, String> initialMetadata = new HashMap<String, String>();
 			initialMetadata.put("order_id", itemNumber);
+			initialMetadata.put("description", "burningboots.it - "+prt.getFirstName()+" "+prt.getLastName());
 			chargeMap.put("metadata", initialMetadata);
+			
 			//Charge
 			Charge charge = Charge.create(chargeMap, requestOptions);
-			result = charge.toString();
+			result = charge.toJson();
 			//Store participant
 			Date now = new Date();
 			Amount paidAmount = new Amount(charge.getAmount());
 			prt.setPaymentAmount(paidAmount.getAmountDouble());
 			prt.setPaymentDetails(charge.toJson());
 			prt.setUpdateDt(now);
-			prt.setEmailOriginal(charge.getReceiptNumber());
 			GenericDao.updateGeneric(ses, prt.getId(), prt);
 			trn.commit();
 		} catch (OrmException e) {

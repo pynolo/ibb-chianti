@@ -27,9 +27,8 @@ public class Participant implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "creation_dt", nullable = false)
 	private Date creationDt = null;
-	@Basic(optional = false)
     @Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "update_dt", nullable = false)
+	@Column(name = "update_dt")
 	private Date updateDt = null;
 	@Basic(optional = false)
 	@Column(name = "item_number", length = 64, nullable = false)
@@ -40,12 +39,10 @@ public class Participant implements Serializable {
 	private String firstName = "";
 	@Column(name = "last_name", length = 64)
 	private String lastName = "";
-	@Column(name = "email_original", length = 64)
-	private String emailOriginal = "";
 	@Column(name = "birth_city", length = 128)
 	private String birthCity = "";
     @Temporal(TemporalType.DATE)
-	@Column(name = "birth_dt", nullable = false)
+	@Column(name = "birth_dt")
 	private Date birthDt = null;
 	//@Column(name = "food_restrictions", length = 2024)
 	//private String foodRestrictions = "";
@@ -106,14 +103,6 @@ public class Participant implements Serializable {
 
 	public void setUpdateDt(Date updateDt) {
 		this.updateDt = updateDt;
-	}
-
-	public String getEmailOriginal() {
-		return emailOriginal;
-	}
-
-	public void setEmailOriginal(String emailOriginal) {
-		this.emailOriginal = emailOriginal;
 	}
 
 	public String getBirthCity() {

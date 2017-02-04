@@ -40,7 +40,7 @@ public class Amount implements Serializable {
 	public void setAmount(String amount) throws SystemException {
 		amount = amount.replaceAll(",", "\\.");//Non deve essere nel formato italiano
 		try {
-			String[] parts = amount.split(".");
+			String[] parts = amount.split("\\.");
 			Long intPart = Long.parseLong(parts[0]);
 			Long fracPart = Long.parseLong(parts[1].substring(0, 2));
 			this.amount = fracPart+100*intPart;
@@ -54,7 +54,8 @@ public class Amount implements Serializable {
 	}
 	
 	public Double getAmountDouble() {
-		return amount/100D;
+		Double amountDouble = amount/100D;
+		return amountDouble;
 	}
 
 }
