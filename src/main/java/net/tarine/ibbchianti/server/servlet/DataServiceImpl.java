@@ -1,6 +1,5 @@
 package net.tarine.ibbchianti.server.servlet;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,7 +8,6 @@ import java.util.Map;
 
 import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.server.DataBusiness;
-import net.tarine.ibbchianti.server.PropertyConfigReader;
 import net.tarine.ibbchianti.server.persistence.GenericDao;
 import net.tarine.ibbchianti.server.persistence.ParticipantDao;
 import net.tarine.ibbchianti.server.persistence.SessionFactory;
@@ -50,10 +48,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		Transaction trn = ses.beginTransaction();
 		try {
 			//From app file
-			bean.setVersion(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_VERSION));
-			//String closedString = PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_CLOSED);
-			//if (closedString.equals("false")) bean.setClosed(false);
-			//if (closedString.equals("true")) bean.setClosed(true);
+			//bean.setVersion(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_VERSION));
 			Config accessKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_ACCESS_KEY);
 			bean.setAccessKey(accessKeyConfig.getVal());
 			Config ticketLimitConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_TICKET_LIMIT);
@@ -67,7 +62,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			Config stripeTestPublicKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_TEST_PUBLIC_KEY);
 			bean.setStripeTestPublicKey(stripeTestPublicKeyConfig.getVal());
 			trn.commit();
-		} catch (IOException|NumberFormatException e) { // catch exception in case properties file does not exist
+		} catch (NumberFormatException e) { // catch exception in case properties file does not exist
 			LOG.error(e.getMessage(), e);
 			throw new SystemException(e.getMessage(), e);
 		} catch (OrmException e) {
@@ -393,7 +388,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			Date now = new Date();
 			Amount paidAmount = new Amount(charge.getAmount());
 			prt.setPaymentAmount(paidAmount.getAmountDouble());
-			prt.setPaymentDt(now);
+			prt.setPaymentDetails(charge.toJson());
 			prt.setUpdateDt(now);
 			prt.setEmailOriginal(charge.getReceiptNumber());
 			GenericDao.updateGeneric(ses, prt.getId(), prt);

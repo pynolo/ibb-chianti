@@ -18,7 +18,7 @@ public class EnvSingleton {
 	private String mysqlHost = System.getenv(ServerConstants.MYSQL_DB_HOST);
 	private String mysqlPort = System.getenv(ServerConstants.MYSQL_DB_PORT);
 	private String mysqlDbName = System.getenv(ServerConstants.MYSQL_DB_NAME);
-	private String accessKey = null;
+	//private String accessKey = null;
 	
 	private static Properties appProps = null;
 	
@@ -53,8 +53,8 @@ public class EnvSingleton {
 			mysqlPort=readProperty(ServerConstants.MYSQL_DB_PORT);
 		if (mysqlDbName == null)
 			mysqlDbName=readProperty(ServerConstants.MYSQL_DB_NAME);
-		if (accessKey == null)
-			accessKey=readProperty(ServerConstants.ACCESS_KEY);
+//		if (accessKey == null)
+//			accessKey=readProperty(ServerConstants.ACCESS_KEY);
 	}
 	
 	public static EnvSingleton get() throws IOException {
@@ -92,7 +92,7 @@ public class EnvSingleton {
 		return mysqlDbName;
 	}
 	
-	public String getAccessKey() {
-		return accessKey;
-	}
+//	public String getAccessKey() {
+//		return accessKey;
+//	}
 }

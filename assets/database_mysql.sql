@@ -1,5 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `ibb` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `ibb`;
+CREATE DATABASE  IF NOT EXISTS `ibb_chianti` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `ibb_chianti`;
 -- MySQL dump 10.13  Distrib 5.5.34, for debian-linux-gnu (x86_64)
 --
 -- ------------------------------------------------------
@@ -29,6 +29,14 @@ CREATE TABLE `config` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+insert into config (id,val) values ('ticketLimit','40');
+insert into config (id,val) values ('donationMin','35');
+insert into config (id,val) values ('donationMax','200');
+insert into config (id,val) values ('accessKey','x');
+insert into config (id,val) values ('stripeTestSecretKey','x');
+insert into config (id,val) values ('stripeTestPublicKey','x');
+insert into config (id,val) values ('stripeSecretKey','x');
+insert into config (id,val) values ('stripePublicKey','x');
 
 --
 -- Table structure for table `ipn_response`
@@ -70,32 +78,22 @@ CREATE TABLE `participant` (
 	`last_name` varchar(64) DEFAULT NULL,
 	`birth_city` varchar(128) DEFAULT NULL,
 	`birth_dt` varchar(64) DEFAULT NULL,
-	`email_original` varchar(64) DEFAULT NULL,
-	`food_restrictions` varchar(2048) DEFAULT NULL,
-	`volunteering` varchar(64) DEFAULT NULL,
-	`already_burner` bit(1) NOT NULL DEFAULT b'0',
-	`already_ibb` bit(1) NOT NULL DEFAULT b'0',
-	`language` varchar(4) DEFAULT NULL,
-	`accommodation_type` int NOT NULL DEFAULT 1,
 	`payment_amount` varchar(64) DEFAULT NULL,
-	`payment_dt` datetime DEFAULT NULL,
-	`discount` bit(1) NOT NULL DEFAULT b'0',
+	`payment_details` text DEFAULT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `discount`
+-- Table structure for table `web_session`
 --
 
-DROP TABLE IF EXISTS `discount`;
+DROP TABLE IF EXISTS `web_session`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `discount` (
+CREATE TABLE `web_session` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`email` varchar(64) NOT NULL,
-	`tickets` int NOT NULL DEFAULT 1,
-	`note` VARCHAR(256) DEFAULT NULL,
+	`time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

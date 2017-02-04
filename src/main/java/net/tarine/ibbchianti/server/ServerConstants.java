@@ -24,7 +24,7 @@ public class ServerConstants {
 	public static final String MYSQL_DB_NAME = "APP_NAME";
 	public static final String ACCESS_KEY = "ACCESS_KEY";
 	
-	public static final String PROPERTY_FILE = "/app.properties";
+	public static final String PROPERTY_FILE = "/custom.properties";
 	public static final String UPLOAD_DIRECTORY = System.getProperty("java.io.tmpdir");
 	
 	//public static final Charset DEFAULT_FILE_CHARSET = Charset.forName("ISO-8859-15");//Now UTF-8

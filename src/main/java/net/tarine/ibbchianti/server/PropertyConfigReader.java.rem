@@ -6,14 +6,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
 
+import net.tarine.ibbchianti.server.persistence.GenericDao;
+import net.tarine.ibbchianti.shared.OrmException;
+import net.tarine.ibbchianti.shared.entity.Config;
+
 import org.apache.commons.io.input.BOMInputStream;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import net.tarine.ibbchianti.server.persistence.GenericDao;
-import net.tarine.ibbchianti.shared.OrmException;
-import net.tarine.ibbchianti.shared.entity.Config;
 
 public class PropertyConfigReader {
 
@@ -43,13 +43,17 @@ public class PropertyConfigReader {
 	
 	private static String readProperty(String propertyName) throws IOException {
 		URL confUrl = new PropertyConfigReader().getClass().getResource(ServerConstants.PROPERTY_FILE);
-		if (confUrl == null) LOG.error("Could not find "+confUrl);
-		LOG.debug(ServerConstants.PROPERTY_FILE + " exists (path "+confUrl.getPath()+")");
-		Properties props = new Properties();
-		String value = "";
-		File f = new File(confUrl.getPath());
-		props.load(new BOMInputStream(new FileInputStream(f)));
-		value = props.getProperty(propertyName);
-		return value;
+		if (confUrl == null) {
+			LOG.error("Could not find "+confUrl);
+			throw new IOException("Could not find "+confUrl);
+		} else {
+			LOG.debug(ServerConstants.PROPERTY_FILE + " exists (path "+confUrl.getPath()+")");
+			Properties props = new Properties();
+			String value = "";
+			File f = new File(confUrl.getPath());
+			props.load(new BOMInputStream(new FileInputStream(f)));
+			value = props.getProperty(propertyName);
+			return value;
+		}
 	}
 }

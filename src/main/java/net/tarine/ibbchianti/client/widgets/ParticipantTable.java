@@ -74,8 +74,8 @@ public class ParticipantTable extends PagingTable<Participant> {
 		String pag = "";
 		if (rowFinal.getPaymentAmount() != null)
 				pag += "<b>&euro;"+ClientConstants.FORMAT_CURRENCY.format(rowFinal.getPaymentAmount())+"</b> ";
-		if (rowFinal.getPaymentDt() != null)
-				pag += ClientConstants.FORMAT_TIMESTAMP.format(rowFinal.getPaymentDt())+" ";
+		if (rowFinal.getPaymentDetails() != null)
+				pag += rowFinal.getPaymentDetails()+" ";
 		InlineHTML paymentHtml = new InlineHTML(pag);
 		paymentHtml.setTitle(rowFinal.getItemNumber());
 		getInnerTable().setWidget(rowNum, 9, paymentHtml);

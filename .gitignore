@@ -23,3 +23,5 @@ gwt-unitCache
 /target/
 /deployments/
 
+custom.properties
+

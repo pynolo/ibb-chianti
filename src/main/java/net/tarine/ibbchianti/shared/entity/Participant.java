@@ -63,9 +63,8 @@ public class Participant implements Serializable {
 	//private Integer accommodationType = AppConstants.ACCOMMODATION_HUT;
 	@Column(name = "payment_amount")
 	private Double paymentAmount = null;
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "payment_dt")
-	private Date paymentDt = null;
+	@Column(name = "payment_details")
+	private String paymentDetails = null;
 	//@Basic(optional = false)
 	//@Column(name = "discount", nullable = false)
 	//private boolean discount;
@@ -157,20 +156,20 @@ public class Participant implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public Date getPaymentDt() {
-		return paymentDt;
-	}
-
-	public void setPaymentDt(Date paymentDt) {
-		this.paymentDt = paymentDt;
-	}
-
 	public Double getPaymentAmount() {
 		return paymentAmount;
 	}
 
 	public void setPaymentAmount(Double paymentAmount) {
 		this.paymentAmount = paymentAmount;
+	}
+
+	public String getPaymentDetails() {
+		return paymentDetails;
+	}
+
+	public void setPaymentDetails(String paymentDetails) {
+		this.paymentDetails = paymentDetails;
 	}
 
 	@Override

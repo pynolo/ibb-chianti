@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ConfigBean implements Serializable {
 	private static final long serialVersionUID = 5717993261825827825L;
 	
-	private String version = null;
+	//private String version = null;
 	private String accessKey = null;
 	private int ticketLimit = -1;
 	private double donationMin = -1D;
@@ -18,13 +18,13 @@ public class ConfigBean implements Serializable {
 	public ConfigBean() {
 	}
 	
-	public String getVersion() {
-		return version;
-	}
-	
-	public void setVersion(String version) {
-		this.version = version;
-	}
+//	public String getVersion() {
+//		return version;
+//	}
+//	
+//	public void setVersion(String version) {
+//		this.version = version;
+//	}
 
 	public String getAccessKey() {
 		return accessKey;
