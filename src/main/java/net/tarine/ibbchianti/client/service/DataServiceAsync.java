@@ -1,12 +1,13 @@
 package net.tarine.ibbchianti.client.service;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
+import net.tarine.ibbchianti.shared.Amount;
 import net.tarine.ibbchianti.shared.ConfigBean;
 import net.tarine.ibbchianti.shared.entity.Config;
 import net.tarine.ibbchianti.shared.entity.Participant;
 import net.tarine.ibbchianti.shared.entity.WebSession;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface DataServiceAsync
 {
@@ -37,7 +38,7 @@ public interface DataServiceAsync
 	void getQueuePosition(String idWebSession, AsyncCallback<Integer> callback);
 	
 	//Payment
-	void payWithStripe(String itemNumber, Double amount, String number,
+	void payWithStripe(String itemNumber, Amount amount, String number,
 			String expMonth, String expYear, AsyncCallback<String> callback);
 	
     /**

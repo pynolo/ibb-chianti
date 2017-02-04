@@ -8,6 +8,7 @@ public interface LocaleConstants extends Constants {
 	String forward();
 	String warning();
 	String error();
+	String itemNumber();
 	
 	String queueVerify();
 	String queueCurrentlyOnline();
@@ -23,33 +24,27 @@ public interface LocaleConstants extends Constants {
 //	String personalBirthDate();
 	String personalErrorCity();
 	String personalErrorDate();
+
+	String checkoutTitle();
+	String checkoutIntro();
+	String checkoutDonationAmount();
+	String checkoutDonationMinimumDesc();
+	String checkoutCardNumber();
+	String checkoutExpiration();
+	String checkoutContactUs();
+	String checkoutErrorAmountFormat();
+	String checkoutErrorAmountLimit();
+	String checkoutErrorCard();
+	String checkoutErrorExp();
 	
-	
-	String joinBaseTitle();
-	String joinBaseWelcome();
-
-	String joinBaseAccommodation();
-	String joinBaseToSoldOut();
-	String joinBaseBedFeatures();
-	String joinBaseTentFeatures();
-
-	String joinCheckoutTitle();
-	String joinCheckoutOneMoreStep();
-	String joinCheckoutPleaseConfirm();
-	String joinCheckoutMinimumAmount();
-	String joinCheckoutContactUs();
-	String joinCheckoutDonateButton();
-	String joinCheckoutMinimum();
-
-
-	String joinThankYouTitle();
-	String joinThankYouDonation();
-	String joinThankYouConfirmed();
-	String joinThankYouTakeNote();
-	String joinThankYouWhatIs();
-	String joinThankYouTellSomeone();
-	String joinThankYouGoToForum();
-	String joinThankYouReceiveEmail();
+	String thanksTitle();
+	String thanksDonation();
+	String thanksConfirmed();
+	String thanksTakeNote();
+	String thanksWhatIs();
+	String thanksTellSomeone();
+	String thanksGoToForum();
+	String thanksReceiveEmail();
 
 	String errorPaymentTitle();
 	String errorPaymentInfo();

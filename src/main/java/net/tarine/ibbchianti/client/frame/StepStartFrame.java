@@ -1,15 +1,5 @@
 package net.tarine.ibbchianti.client.frame;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.InlineHTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
-
 import net.tarine.ibbchianti.client.ClientConstants;
 import net.tarine.ibbchianti.client.LocaleConstants;
 import net.tarine.ibbchianti.client.UiSingleton;
@@ -19,8 +9,17 @@ import net.tarine.ibbchianti.client.WaitSingleton;
 import net.tarine.ibbchianti.client.WizardSingleton;
 import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.client.service.DataServiceAsync;
-import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.entity.WebSession;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class StepStartFrame extends FramePanel {
 	
@@ -65,7 +64,7 @@ public class StepStartFrame extends FramePanel {
 	private void controller() {
 		if (this.queuePosition < 1) {
 			//Forward
-			if (confirmed >= AppConstants.PARTICIPANT_MAX) {
+			if (confirmed >= WizardSingleton.get().getConfigBean().getTicketLimit()) {
 				UriBuilder param = new UriBuilder();
 				param.triggerUri(UriDispatcher.ERROR_CLOSED);
 			} else {

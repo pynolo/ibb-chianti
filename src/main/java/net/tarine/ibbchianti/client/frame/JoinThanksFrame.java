@@ -17,7 +17,7 @@ import net.tarine.ibbchianti.client.service.DataServiceAsync;
 import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.entity.Participant;
 
-public class JoinThankYouFrame extends FramePanel {
+public class JoinThanksFrame extends FramePanel {
 	
 	private static final int DELAY = 6000;// 6 seconds
 	
@@ -27,14 +27,14 @@ public class JoinThankYouFrame extends FramePanel {
 	private UriBuilder params = null;
 	private VerticalPanel cp = null; // Content panel
 	
-	public JoinThankYouFrame(UriBuilder params) {
+	public JoinThanksFrame(UriBuilder params) {
 		super();
 		if (params != null) {
 			this.params = params;
 		} else {
 			this.params = new UriBuilder();
 		}
-		String itemNumber = this.params.getValue(AppConstants.PARAMS_ITEM_NUMBER);
+		String itemNumber = this.params.getValue(AppConstants.PARAM_ID);
 		if (itemNumber == null) itemNumber = "";
 		if (itemNumber.length() > AppConstants.ITEM_NUMBER_LENGHT) {
 			itemNumber = itemNumber.substring(0, AppConstants.ITEM_NUMBER_LENGHT);
@@ -52,33 +52,31 @@ public class JoinThankYouFrame extends FramePanel {
 		} else {
 			//Payment not registered
 			UriBuilder param = new UriBuilder();
-			param.add(AppConstants.PARAMS_ITEM_NUMBER, participant.getItemNumber());
+			param.add(AppConstants.PARAM_ID, participant.getItemNumber());
 			param.triggerUri(UriDispatcher.ERROR_PAYMENT);
 		}
 		//TITLE
-		setTitle(constants.joinThankYouTitle());
+		setTitle(constants.thanksTitle());
 		
-		cp.add(new HTML("<p>"+constants.joinThankYouDonation()+" &euro;"+amountString+
-				". "+constants.joinThankYouConfirmed()+"</p>"));
+		cp.add(new HTML("<p>"+constants.thanksDonation()+" &euro;"+amountString+
+				". "+constants.thanksConfirmed()+"</p>"));
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));
 		
-		if (!participant.getDiscount()) {
-			cp.add(new HTML("<p style='text-align: center; font-size: 1.5em; color: #e32077;'>"+
-					constants.replacementCode()+"</p>"));
-			
-			cp.add(new HTML("<p style='text-align: center; font-size: 4.5em; color: #e32077;'>"+
-					participant.getItemNumber().toUpperCase()+"</p>"));
-			cp.add(new HTML("<p style='text-align: center; font-size: 1em;'>"+
-					constants.joinThankYouTakeNote()+"</p>"));
-			
-			cp.add(new HTML("<p>"+constants.joinThankYouWhatIs()+"<br />"+
-					"<b>"+constants.joinThankYouTellSomeone()+"</b><br/>"+
-					"("+constants.joinThankYouGoToForum()+")</p>"));
-			cp.add(new HTML("<p>&nbsp;</p>"));
-		}
+		cp.add(new HTML("<p style='text-align: center; font-size: 1.5em; color: #e32077;'>"+
+				constants.itemNumber()+"</p>"));
+		
+		cp.add(new HTML("<p style='text-align: center; font-size: 4.5em; color: #e32077;'>"+
+				participant.getItemNumber().toUpperCase()+"</p>"));
+		cp.add(new HTML("<p style='text-align: center; font-size: 1em;'>"+
+				constants.thanksTakeNote()+"</p>"));
+		
+		cp.add(new HTML("<p>"+constants.thanksWhatIs()+"<br />"+
+				"<b>"+constants.thanksTellSomeone()+"</b><br/>"+
+				"("+constants.thanksGoToForum()+")</p>"));
+		cp.add(new HTML("<p>&nbsp;</p>"));
 
-		cp.add(new HTML("<p>"+constants.joinThankYouReceiveEmail()+" <b>"+
+		cp.add(new HTML("<p>"+constants.thanksReceiveEmail()+" <b>"+
 				participant.getEmail()+"</b></p>"));
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));
@@ -104,7 +102,7 @@ public class JoinThankYouFrame extends FramePanel {
 				if (result == null) {
 					UiSingleton.get().addWarning("Couldn't find participant with id = "+fItemNumber);
 					UriBuilder param = new UriBuilder();
-					param.add(AppConstants.PARAMS_ITEM_NUMBER, fItemNumber);
+					param.add(AppConstants.PARAM_ID, fItemNumber);
 					param.triggerUri(UriDispatcher.ERROR_PAYMENT);
 				} else {
 					WizardSingleton.get().setParticipantBean(result);

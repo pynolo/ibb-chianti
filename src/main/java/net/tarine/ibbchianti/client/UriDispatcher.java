@@ -7,7 +7,7 @@ import net.tarine.ibbchianti.client.frame.ErrorPaymentFrame;
 import net.tarine.ibbchianti.client.frame.StepCheckoutFrame;
 import net.tarine.ibbchianti.client.frame.StepStartFrame;
 import net.tarine.ibbchianti.client.frame.StepPersonalFrame;
-import net.tarine.ibbchianti.client.frame.JoinThankYouFrame;
+import net.tarine.ibbchianti.client.frame.JoinThanksFrame;
 import net.tarine.ibbchianti.client.frame.WarningFrame;
 import net.tarine.ibbchianti.client.frame.ParticipantFrame;
 
@@ -56,7 +56,7 @@ public class UriDispatcher {
 				contentPanel.add(new ErrorPaymentFrame(params));
 			}
 			if (STEP_THANK_YOU.equals(token)) {
-				contentPanel.add(new JoinThankYouFrame(params));
+				contentPanel.add(new JoinThanksFrame(params));
 			}
 			if (PARTICIPANTS.equals(token)) {
 				contentPanel.add(new ParticipantFrame(params));

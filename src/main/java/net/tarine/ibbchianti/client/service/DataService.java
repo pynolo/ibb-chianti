@@ -2,14 +2,15 @@ package net.tarine.ibbchianti.client.service;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-
+import net.tarine.ibbchianti.shared.Amount;
 import net.tarine.ibbchianti.shared.ConfigBean;
 import net.tarine.ibbchianti.shared.SystemException;
 import net.tarine.ibbchianti.shared.entity.Config;
 import net.tarine.ibbchianti.shared.entity.Participant;
 import net.tarine.ibbchianti.shared.entity.WebSession;
+
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
  * The client-side stub for the RPC service.
@@ -36,7 +37,7 @@ public interface DataService extends RemoteService {
 	public Integer getQueuePosition(String idWebSession) throws SystemException;
 	
 	//Payment
-	public String payWithStripe(String itemNumber, Double amount, String number,
+	public String payWithStripe(String itemNumber, Amount amount, String number,
 			String expMonth, String expYear)
 		throws SystemException;
 }

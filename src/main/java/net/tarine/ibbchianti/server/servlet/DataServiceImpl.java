@@ -7,6 +7,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.tarine.ibbchianti.client.service.DataService;
+import net.tarine.ibbchianti.server.DataBusiness;
+import net.tarine.ibbchianti.server.PropertyConfigReader;
+import net.tarine.ibbchianti.server.persistence.GenericDao;
+import net.tarine.ibbchianti.server.persistence.ParticipantDao;
+import net.tarine.ibbchianti.server.persistence.SessionFactory;
+import net.tarine.ibbchianti.server.persistence.WebSessionDao;
+import net.tarine.ibbchianti.shared.Amount;
+import net.tarine.ibbchianti.shared.AppConstants;
+import net.tarine.ibbchianti.shared.ConfigBean;
+import net.tarine.ibbchianti.shared.OrmException;
+import net.tarine.ibbchianti.shared.SystemException;
+import net.tarine.ibbchianti.shared.entity.Config;
+import net.tarine.ibbchianti.shared.entity.Participant;
+import net.tarine.ibbchianti.shared.entity.WebSession;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
@@ -17,21 +33,6 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import com.stripe.net.RequestOptions;
 import com.stripe.net.RequestOptions.RequestOptionsBuilder;
-
-import net.tarine.ibbchianti.client.service.DataService;
-import net.tarine.ibbchianti.server.DataBusiness;
-import net.tarine.ibbchianti.server.PropertyConfigReader;
-import net.tarine.ibbchianti.server.persistence.GenericDao;
-import net.tarine.ibbchianti.server.persistence.ParticipantDao;
-import net.tarine.ibbchianti.server.persistence.SessionFactory;
-import net.tarine.ibbchianti.server.persistence.WebSessionDao;
-import net.tarine.ibbchianti.shared.AppConstants;
-import net.tarine.ibbchianti.shared.ConfigBean;
-import net.tarine.ibbchianti.shared.OrmException;
-import net.tarine.ibbchianti.shared.SystemException;
-import net.tarine.ibbchianti.shared.entity.Config;
-import net.tarine.ibbchianti.shared.entity.Participant;
-import net.tarine.ibbchianti.shared.entity.WebSession;
 
 /**
  * The server-side implementation of the RPC service.
@@ -365,26 +366,50 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public String payWithStripe(String itemNumber, Double amount, String number, String expMonth,
+	public String payWithStripe(String itemNumber, Amount amount, String number, String expMonth,
 			String expYear) throws SystemException {
-		RequestOptions requestOptions = (new RequestOptionsBuilder()).setApiKey("YOUR-SECRET-KEY").build();
-		Map<String, Object> chargeMap = new HashMap<String, Object>();
-		chargeMap.put("amount", amount);
-		chargeMap.put("currency", "eur");
-		Map<String, Object> cardMap = new HashMap<String, Object>();
-		cardMap.put("number", number);
-		cardMap.put("exp_month", expMonth);
-		cardMap.put("exp_year", expYear);
-		chargeMap.put("card", cardMap);
-		Map<String, String> initialMetadata = new HashMap<String, String>();
-		initialMetadata.put("order_id", itemNumber);
-		chargeMap.put("metadata", initialMetadata);
+		String result = "";
+		Session ses = SessionFactory.getSession();
+		Transaction trn = ses.beginTransaction();
 		try {
+			Participant prt = ParticipantDao.findByItemNumber(ses, itemNumber);
+			String secretKey = "";
+			RequestOptions requestOptions = (new RequestOptionsBuilder()).setApiKey(secretKey).build();
+			Map<String, Object> chargeMap = new HashMap<String, Object>();
+			chargeMap.put("amount", amount.getAmountLong());
+			chargeMap.put("currency", "eur");
+			Map<String, Object> cardMap = new HashMap<String, Object>();
+			cardMap.put("number", number);
+			cardMap.put("exp_month", expMonth);
+			cardMap.put("exp_year", expYear);
+			chargeMap.put("card", cardMap);
+			Map<String, String> initialMetadata = new HashMap<String, String>();
+			initialMetadata.put("order_id", itemNumber);
+			chargeMap.put("metadata", initialMetadata);
+			//Charge
 			Charge charge = Charge.create(chargeMap, requestOptions);
-			return charge.toString();
-		} catch (StripeException e) {
+			result = charge.toString();
+			//Store participant
+			Date now = new Date();
+			Amount paidAmount = new Amount(charge.getAmount());
+			prt.setPaymentAmount(paidAmount.getAmountDouble());
+			prt.setPaymentDt(now);
+			prt.setUpdateDt(now);
+			prt.setEmailOriginal(charge.getReceiptNumber());
+			GenericDao.updateGeneric(ses, prt.getId(), prt);
+			trn.commit();
+		} catch (OrmException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
 			throw new SystemException(e.getMessage(), e);
+		} catch (StripeException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} finally {
+			ses.close();
 		}
+		return result;
 	}
 
 }

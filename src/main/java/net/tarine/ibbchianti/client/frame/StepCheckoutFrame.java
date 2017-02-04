@@ -1,15 +1,5 @@
 package net.tarine.ibbchianti.client.frame;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.InlineHTML;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.datepicker.client.DateBox;
-
 import net.tarine.ibbchianti.client.ClientConstants;
 import net.tarine.ibbchianti.client.IWizardFrame;
 import net.tarine.ibbchianti.client.LocaleConstants;
@@ -22,9 +12,19 @@ import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.client.service.DataServiceAsync;
 import net.tarine.ibbchianti.client.widgets.ExtendedTextBox;
 import net.tarine.ibbchianti.client.widgets.ForwardButton;
+import net.tarine.ibbchianti.shared.Amount;
 import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.ConfigBean;
-import net.tarine.ibbchianti.shared.entity.Participant;
+import net.tarine.ibbchianti.shared.SystemException;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 	
@@ -74,7 +74,8 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		emailPanel.add(amountText);
 		emailPanel.add(new InlineHTML("&nbsp;&nbsp;"));
 		cp.add(emailPanel);
-		cp.add(new HTML("<p><i>"+constants.checkoutDonationWarning()+"</i></p>"));
+		cp.add(new HTML("<p><i>"+constants.checkoutDonationMinimumDesc()+" &euro;"+
+				ClientConstants.FORMAT_CURRENCY.format(cb.getDonationMin())+"</i></p>"));
 		
 		HorizontalPanel cardPanel = new HorizontalPanel();
 		cp.add(cardPanel);
@@ -119,6 +120,10 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));
 		
+		cp.add(new HTML("<p>"+constants.checkoutContactUs()+"</p>"));
+		
+		cp.add(new HTML("<p>&nbsp;</p>"));
+		
 		//Wizard panel
 		ForwardButton wb = new ForwardButton(this);
 		cp.add(wb);
@@ -127,30 +132,33 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 	public void goForward() {
 		//Validation
 		String error = "";
-		Double amount = -1D;
+		Amount amount = null;
 		try {
 			String amountString = amountText.getValue();
-			amountString = amountString.replaceAll(",", "\\.");//Non deve essere nel formato italiano
-			amount = Double.parseDouble(amountString);
-		} catch (NumberFormatException e) {
+			amount = new Amount(amountString);
+		} catch (NumberFormatException|SystemException e) {
 			error += constants.checkoutErrorAmountFormat()+"<br/>";
 		}
-		if (amount > WizardSingleton.get().getConfigBean().getDonationMax() ||
-				amount < WizardSingleton.get().getConfigBean().getDonationMin())
+		if (amount.getAmountDouble() > WizardSingleton.get().getConfigBean().getDonationMax() ||
+				amount.getAmountDouble() < WizardSingleton.get().getConfigBean().getDonationMin())
 			error += constants.checkoutErrorAmountLimit();
 		if (cardNumberText.getValue().length() < 10 || cardNumberText.getValue().length() > 18)
 			error += constants.checkoutErrorCard()+" <br/>";
 		if (expMonthText.getValue().length() != 2 || expYearText.getValue().length() != 2)
 			error += constants.checkoutErrorExp()+"<br/>";
 		//Get data from textBoxes
-		attemptPayment(itemNumber, amount, cardNumberText.getValue(),
-				expMonthText.getValue(), expYearText.getValue());
+		if (error.length() > 0) {
+			UiSingleton.get().addWarning(error);
+		} else {
+			attemptPayment(itemNumber, amount, cardNumberText.getValue(),
+					expMonthText.getValue(), expYearText.getValue());
+		}
 	}
 	
 	
 	//Async methods
 	
-	private void attemptPayment(String itemNumber, Double amount, String cardNumber,
+	private void attemptPayment(String itemNumber, Amount amount, String cardNumber,
 			String expMonth, String expYear) {
 		final String fItemNumber = itemNumber;
 		AsyncCallback<String> callback = new AsyncCallback<String>() {
