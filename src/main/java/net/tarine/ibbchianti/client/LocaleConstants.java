@@ -22,8 +22,8 @@ public interface LocaleConstants extends Constants {
 	String personalLastName();
 //	String personalBirthCity();
 //	String personalBirthDate();
-	String personalErrorCity();
-	String personalErrorDate();
+//	String personalErrorCity();
+//	String personalErrorDate();
 
 	String checkoutTitle();
 	String checkoutIntro();

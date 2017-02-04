@@ -1,8 +1,15 @@
 package net.tarine.ibbchianti.shared;
 
-public class Amount {
+import java.io.Serializable;
 
+public class Amount implements Serializable {
+	private static final long serialVersionUID = 7637565767663436L;
+	
 	private Long amount = null;
+	
+	public Amount() {
+		this.amount = null;
+	}
 	
 	public Amount(Long amount) {
 		setAmount(amount);

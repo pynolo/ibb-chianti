@@ -11,27 +11,19 @@
 	
 	<!-- Servlets -->
 	<servlet>
-		<servlet-name>ipnServlet</servlet-name>
-		<servlet-class>net.tarine.ibbchianti.server.servlet.IpnServlet</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>dataServiceImpl</servlet-name>
 		<servlet-class>net.tarine.ibbchianti.server.servlet.DataServiceImpl</servlet-class>
 	</servlet>
 	
 	<!-- Servlet mappings -->
 	<servlet-mapping>
-		<servlet-name>ipnServlet</servlet-name>
-		<url-pattern>/ipn</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>dataServiceImpl</servlet-name>
-		<url-pattern>/appennino/dataService</url-pattern>
+		<url-pattern>/ibbchianti/dataService</url-pattern>
 	</servlet-mapping>
 	
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>Appennino.html</welcome-file>
+		<welcome-file>Ibbchianti.html</welcome-file>
 	</welcome-file-list>
 
 </web-app>
