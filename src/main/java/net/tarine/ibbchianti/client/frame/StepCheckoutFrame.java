@@ -156,9 +156,13 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 			error += constants.checkoutErrorAmountFormat()+"<br/>";
 		}
 		Double amountDouble = amount.getAmountDouble();
-		if (amountDouble < WizardSingleton.get().getConfigBean().getDonationMax() &&
-				amountDouble > WizardSingleton.get().getConfigBean().getDonationMin())
-			error += constants.checkoutErrorAmountLimit();
+		if (amountDouble > WizardSingleton.get().getConfigBean().getDonationMax() ||
+				amountDouble < WizardSingleton.get().getConfigBean().getDonationMin())
+			error += constants.checkoutErrorAmountLimit()+
+			" (min &euro;"+ClientConstants.FORMAT_CURRENCY.format(
+					WizardSingleton.get().getConfigBean().getDonationMin())+
+			" max &euro;"+ClientConstants.FORMAT_CURRENCY.format(
+					WizardSingleton.get().getConfigBean().getDonationMax())+")";
 		if (cardNumberText.getValue().length() < 10 || cardNumberText.getValue().length() > 18)
 			error += constants.checkoutErrorCard()+" <br/>";
 		//Get data from textBoxes

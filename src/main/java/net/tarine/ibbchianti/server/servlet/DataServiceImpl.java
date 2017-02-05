@@ -55,6 +55,9 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			Config ticketLimitConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_TICKET_LIMIT);
 			int ticketLimit = Integer.parseInt(ticketLimitConfig.getVal());
 			bean.setTicketLimit(ticketLimit);
+			Config donationMaxConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_DONATION_MAX);
+			double donationMax = Double.parseDouble(donationMaxConfig.getVal());
+			bean.setDonationMax(donationMax);
 			Config donationMinConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_DONATION_MIN);
 			double donationMin = Double.parseDouble(donationMinConfig.getVal());
 			bean.setDonationMin(donationMin);
