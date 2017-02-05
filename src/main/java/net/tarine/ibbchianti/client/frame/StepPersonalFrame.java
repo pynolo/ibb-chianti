@@ -1,7 +1,5 @@
 package net.tarine.ibbchianti.client.frame;
 
-import net.tarine.ibbchianti.client.ClientConstants;
-import net.tarine.ibbchianti.client.CookieSingleton;
 import net.tarine.ibbchianti.client.IWizardFrame;
 import net.tarine.ibbchianti.client.LocaleConstants;
 import net.tarine.ibbchianti.client.UiSingleton;
@@ -33,9 +31,9 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
 	
-	private String idWebSession = null;
 	private VerticalPanel cp = null; // Content panel
 	
+	private HeartbeatWidget heartbeat = null;
 	private ExtendedTextBox emailText;
 	private TextBox firstNameText;
 	private TextBox lastNameText;
@@ -44,9 +42,6 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 	
 	public StepPersonalFrame(UriBuilder params) {
 		super();
-		//Web session
-		idWebSession = CookieSingleton.get().getCookie(ClientConstants.WEBSESSION_COOKIE_NAME);
-
 		cp = new VerticalPanel();
 		this.add(cp);
 		draw();
@@ -122,7 +117,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 		ForwardButton wb = new ForwardButton(this);
 		cp.add(wb);
 
-		HeartbeatWidget heartbeat = new HeartbeatWidget(idWebSession);
+		heartbeat = new HeartbeatWidget();
 		cp.add(heartbeat);
 	}
 	
@@ -182,6 +177,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 				@Override
 				public void onSuccess(Participant prt) {
 					WaitSingleton.get().stop();
+					heartbeat.cancelHeartbeatTimer();
 					UriBuilder param = new UriBuilder();
 					param.add(AppConstants.PARAM_ID, prt.getItemNumber());
 					param.triggerUri(UriDispatcher.STEP_CHECKOUT);

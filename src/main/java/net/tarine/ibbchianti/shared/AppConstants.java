@@ -9,6 +9,7 @@ public class AppConstants {
 	//WebSession
 	public static long WEBSESSION_TTL = 1000*60*15; //15 minutes
 	public static int QUEUE_RELOAD_TIME = 1000*30; //30 seconds
+	public static int QUEUE_MAX_LENGTH = 10; //30 seconds
 	public static long HEARTBEAT_TTL = 1000*60*5; //5 minutes
 	public static int HEARTBEAT_RELOAD_TIME = 1000*20; //20 seconds
 	

@@ -68,7 +68,7 @@ DROP TABLE IF EXISTS `web_session`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `web_session` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`id` varchar(256) NOT NULL,
 	`creation_dt` datetime NOT NULL,
 	`heartbeat_dt` datetime NOT NULL,
 	PRIMARY KEY (`id`)

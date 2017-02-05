@@ -28,6 +28,7 @@ public class DataBusiness {
 			digest.update(seed.getBytes(), 0, seed.length());
 			//Converts message digest value in base 16 (hex)
 			md5 = new BigInteger(1, digest.digest()).toString(16);
+			md5+="000000000000000000000000000000";
 		} catch (NoSuchAlgorithmException e) {
 			throw new SystemException(e.getMessage(), e);
 		}

@@ -291,7 +291,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public WebSession createWebSession(String seed) throws SystemException {
+	public String createWebSession(String seed) throws SystemException {
 		Session ses = SessionFactory.getSession();
 		Transaction trn = ses.beginTransaction();
 		WebSession ws = null;
@@ -302,6 +302,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			ws.setCreationDt(now);
 			ws.setHeartbeatDt(now);
 			GenericDao.saveGeneric(ses, ws);
+			trn.commit();
 		} catch (OrmException e) {
 			trn.rollback();
 			LOG.error(e.getMessage(), e);
@@ -309,7 +310,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		} finally {
 			ses.close();
 		}
-		return ws;
+		return ws.getId();
 	}
 
 	@Override

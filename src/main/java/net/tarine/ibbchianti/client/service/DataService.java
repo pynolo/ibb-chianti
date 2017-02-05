@@ -8,7 +8,6 @@ import net.tarine.ibbchianti.shared.ConfigBean;
 import net.tarine.ibbchianti.shared.SystemException;
 import net.tarine.ibbchianti.shared.entity.Config;
 import net.tarine.ibbchianti.shared.entity.Participant;
-import net.tarine.ibbchianti.shared.entity.WebSession;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -36,7 +35,7 @@ public interface DataService extends RemoteService {
 			String expMonth, String expYear) throws SystemException;
 
 	//WebSession
-	public WebSession createWebSession(String seed) throws SystemException;
+	public String createWebSession(String seed) throws SystemException;
 	public Boolean verifyWebSession(String idWebSession) throws SystemException;
 	public Integer getQueuePosition(String idWebSession) throws SystemException;
 	public Date updateHeartbeat(String idWebSession) throws SystemException;

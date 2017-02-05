@@ -6,7 +6,6 @@ import net.tarine.ibbchianti.shared.Amount;
 import net.tarine.ibbchianti.shared.ConfigBean;
 import net.tarine.ibbchianti.shared.entity.Config;
 import net.tarine.ibbchianti.shared.entity.Participant;
-import net.tarine.ibbchianti.shared.entity.WebSession;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -34,7 +33,7 @@ public interface DataServiceAsync
 			String expMonth, String expYear, AsyncCallback<String> callback);
     
     //WebSession
-	void createWebSession(String seed, AsyncCallback<WebSession> callback);
+	void createWebSession(String seed, AsyncCallback<String> callback);
 	void verifyWebSession(String idWebSession, AsyncCallback<Boolean> callback);
 	void getQueuePosition(String idWebSession, AsyncCallback<Integer> callback);
 	void updateHeartbeat(String idWebSession, AsyncCallback<Date> callback);

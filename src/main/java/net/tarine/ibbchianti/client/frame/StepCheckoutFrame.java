@@ -1,7 +1,6 @@
 package net.tarine.ibbchianti.client.frame;
 
 import net.tarine.ibbchianti.client.ClientConstants;
-import net.tarine.ibbchianti.client.CookieSingleton;
 import net.tarine.ibbchianti.client.IWizardFrame;
 import net.tarine.ibbchianti.client.LocaleConstants;
 import net.tarine.ibbchianti.client.UiSingleton;
@@ -36,9 +35,9 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 	
 	private UriBuilder params = null;
 	private String itemNumber = null;
-	private String idWebSession = null;
 	private VerticalPanel cp = null; // Content panel
 	
+	private HeartbeatWidget heartbeat = null;
 	private TextBox amountText;
 	private TextBox cardNumberText;
 	private ListBox expMonthList;
@@ -52,8 +51,6 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		} else {
 			this.params = new UriBuilder();
 		}
-		//Web session
-		idWebSession = CookieSingleton.get().getCookie(ClientConstants.WEBSESSION_COOKIE_NAME);
 		//Item number
 		itemNumber = this.params.getValue(AppConstants.PARAM_ID);
 		if (itemNumber == null) itemNumber = "";
@@ -95,16 +92,6 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		cardNumberText.setValue("");
 		cardNumberPanel.add(cardNumberText);
 		cardPanel.add(cardNumberPanel);
-		
-//		cardPanel.add(new InlineHTML("&nbsp;"));
-//		
-//		FlowPanel lastNamePanel = new FlowPanel();
-//		lastNamePanel.add(new HTML(constants.personalLastName()));
-//		lastNameText = new TextBox();
-//		lastNameText.setMaxLength(64);
-//		lastNameText.setValue(participant.getLastName());
-//		lastNamePanel.add(lastNameText);
-//		cardPanel.add(lastNamePanel);
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));
 		
@@ -153,7 +140,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		ForwardButton wb = new ForwardButton(this);
 		cp.add(wb);
 		
-		HeartbeatWidget heartbeat = new HeartbeatWidget(idWebSession);
+		heartbeat = new HeartbeatWidget();
 		cp.add(heartbeat);
 	}
 	
@@ -198,6 +185,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 			public void onSuccess(String stripeResult) {
 				UiSingleton.get().addWarning(stripeResult);
 				WaitSingleton.get().stop();
+				heartbeat.cancelHeartbeatTimer();
 				UriBuilder param = new UriBuilder();
 				param.add(AppConstants.PARAM_ID, fItemNumber);
 				param.triggerUri(UriDispatcher.STEP_THANK_YOU);

@@ -12,7 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "session")
+@Table(name = "web_session")
 public class WebSession implements Serializable {
 	private static final long serialVersionUID = 113261555593379988L;
 	

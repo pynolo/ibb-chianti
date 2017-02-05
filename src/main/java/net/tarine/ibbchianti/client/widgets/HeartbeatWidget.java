@@ -3,6 +3,7 @@ package net.tarine.ibbchianti.client.widgets;
 import java.util.Date;
 
 import net.tarine.ibbchianti.client.ClientConstants;
+import net.tarine.ibbchianti.client.CookieSingleton;
 import net.tarine.ibbchianti.client.UiSingleton;
 import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.client.service.DataServiceAsync;
@@ -17,22 +18,33 @@ public class HeartbeatWidget extends InlineHTML {
 
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private String idWebSession = null;
+	Timer timer = null;
 	
-	public HeartbeatWidget(String idWebSession) {
+	public HeartbeatWidget() {
 		super();
-		this.idWebSession=idWebSession;
+		this.idWebSession=CookieSingleton.get().getCookie(ClientConstants.WEBSESSION_COOKIE_NAME);
 		startHeartbeatTimer();
 	}
 	
 	private void startHeartbeatTimer() {
 		sendHeartbeat();
-		Timer t = new Timer() {
+		timer = new Timer() {
 			public void run() {
 				sendHeartbeat();
 			}
 		};
 		// Schedule the timer to run once in 1 minute.
-		t.schedule(AppConstants.HEARTBEAT_RELOAD_TIME);
+		timer.schedule(AppConstants.HEARTBEAT_RELOAD_TIME);
+	}
+	
+	public void cancelHeartbeatTimer() {
+		if (timer != null) {
+			if (timer.isRunning()) {
+				timer.cancel();
+				if (timer.isRunning())
+					UiSingleton.get().addWarning("I couldn't cancel Heartbeat timer");
+			}
+		}
 	}
 	
 	private void updateValue(Date date) {
@@ -44,14 +56,13 @@ public class HeartbeatWidget extends InlineHTML {
 			@Override
 			public void onFailure(Throwable e) {
 				UiSingleton.get().addError(e);
-				UiSingleton.get().addWarning("Try to reload the page please");
 			}
 			@Override
 			public void onSuccess(Date result) {
 				updateValue(result);
 			}
 		};
-		dataService.updateHeartbeat(idWebSession, callback);
+		dataService.updateHeartbeat(this.idWebSession, callback);
 	}
 	
 }
