@@ -44,7 +44,7 @@ public class ParticipantFrame extends FramePanel implements IAuthenticatedWidget
 	}
 	
 	private void draw() {
-		setTitle("Participants");
+		setTitle("Partecipanti");
 		panel = new VerticalPanel();
 		this.add(panel);
 		// Select
@@ -74,11 +74,6 @@ public class ParticipantFrame extends FramePanel implements IAuthenticatedWidget
 		resultPanel = new FlowPanel();
 		panel.add(resultPanel);
 		refreshTable();
-		//Tabella low income
-		panel.add(new HTML("<p>&nbsp;<br /><b>Low income address list</b></p>"));
-		//DataModel<Discount> discModel = new DiscountTable.DiscountModel();
-		//DiscountTable discTable = new DiscountTable(discModel);
-		//panel.add(discTable);
 	}
 	
 	private void refreshTable() {
