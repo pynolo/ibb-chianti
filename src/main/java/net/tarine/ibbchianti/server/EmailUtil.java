@@ -73,7 +73,7 @@ public class EmailUtil {
 				//		" a "+participant.getBirthCity()+EOL+
 				EOL+
 				"Questo e' il tuo Codice Segreto: "+itemNumber+EOL+
-				"Funzione COME UN BIGLIETTP per entrare all'evento, quindi portalo con te."+EOL+
+				"Funziona COME UN BIGLIETTO per entrare all'evento, quindi portalo con te."+EOL+
 				"Puoi darlo a qualcun altro se non puoi piu' partecipare e vuoi essere sostituito/a."+EOL+
 				"E' vietato cedere la partecipazione a IBB per un importo superiore a quello che hai donato."+EOL+
 				EOL+

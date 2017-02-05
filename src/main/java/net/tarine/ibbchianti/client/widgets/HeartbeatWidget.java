@@ -34,7 +34,7 @@ public class HeartbeatWidget extends InlineHTML {
 			}
 		};
 		// Schedule the timer to run once in 1 minute.
-		timer.schedule(AppConstants.HEARTBEAT_RELOAD_TIME);
+		timer.scheduleRepeating(AppConstants.HEARTBEAT_RELOAD_TIME);
 	}
 	
 	public void cancelHeartbeatTimer() {

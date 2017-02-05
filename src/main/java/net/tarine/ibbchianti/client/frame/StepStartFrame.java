@@ -48,7 +48,7 @@ public class StepStartFrame extends FramePanel {
 			}
 		};
 		// Schedule the timer to run once in 1 minute.
-		timer.schedule(AppConstants.QUEUE_RELOAD_TIME);
+		timer.scheduleRepeating(AppConstants.QUEUE_RELOAD_TIME);
 	}
 
 	public void cancelQueueCheckTimer() {

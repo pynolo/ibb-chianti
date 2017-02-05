@@ -132,8 +132,8 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));
 		
-		cp.add(new HTML("<p>"+constants.checkoutSecurity()+" <img src='img/powered_by_stripe.png' /></p>"));
-		cp.add(new HTML("<p>"+constants.checkoutContactUs()+"</p>"));
+		cp.add(new HTML("<p>"+constants.checkoutSecurity()+" &nbsp;&nbsp; <img src='img/powered_by_stripe.png' /><br/>"+
+				constants.checkoutContactUs()+"</p>"));
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));
 		
