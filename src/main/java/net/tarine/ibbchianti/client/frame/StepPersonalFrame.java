@@ -60,7 +60,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 				"</b> "+constants.personalIntro2()+"</p>"));
 
 		//EMAIL
-		cp.add(new HTML("<p>"+constants.personalEmail()+"</p>"));
+		cp.add(new HTML(constants.personalEmail()));
 		HorizontalPanel emailPanel = new HorizontalPanel();
 		emailText = new ExtendedTextBox();
 		emailText.setValue(participant.getEmail());

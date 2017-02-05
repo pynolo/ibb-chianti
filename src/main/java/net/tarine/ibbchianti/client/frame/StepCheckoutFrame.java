@@ -72,7 +72,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		cp.add(new HTML("<p>"+constants.checkoutIntro()+"</p>"));
 
 		//EMAIL
-		cp.add(new HTML("<p>"+constants.checkoutDonationAmount()+"</p>"));
+		cp.add(new HTML(constants.checkoutDonationAmount()));
 		HorizontalPanel emailPanel = new HorizontalPanel();
 		amountText = new ExtendedTextBox();
 		amountText.setValue(ClientConstants.FORMAT_CURRENCY.format(cb.getDonationMin()));

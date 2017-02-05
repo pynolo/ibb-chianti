@@ -10,9 +10,11 @@ public interface LocaleConstants extends Constants {
 	String error();
 	String itemNumber();
 	
+	String queueTitle();
 	String queueVerify();
 	String queueCurrentlyOnline1();
 	String queueCurrentlyOnline2();
+	String queuePleaseWait();
 	
 	String personalTitle();
 	String personalIntro1();

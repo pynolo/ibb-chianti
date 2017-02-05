@@ -386,4 +386,28 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		}
 		return result;
 	}
+	
+	@Override
+	public Boolean deleteWebSession(String idWebSession) throws SystemException {
+		boolean result = false;
+		Session ses = SessionFactory.getSession();
+		Transaction trn = ses.beginTransaction();
+		WebSession ws = null;
+		try {
+			ws = GenericDao.findById(ses, WebSession.class, idWebSession);
+			if (ws != null) {
+				GenericDao.deleteGeneric(ses, idWebSession, ws);
+				result = true;
+				WebSessionDao.deleteAllExpiredSessions(ses);
+			}
+			trn.commit();
+		} catch (OrmException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} finally {
+			ses.close();
+		}
+		return result;
+	}
 }

@@ -39,5 +39,6 @@ public interface DataService extends RemoteService {
 	public Boolean verifyWebSession(String idWebSession) throws SystemException;
 	public Integer getQueuePosition(String idWebSession) throws SystemException;
 	public Date updateHeartbeat(String idWebSession) throws SystemException;
+	public Boolean deleteWebSession(String idWebSession) throws SystemException;
 	
 }

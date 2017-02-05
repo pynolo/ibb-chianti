@@ -1,11 +1,7 @@
 package net.tarine.ibbchianti.client.frame;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
-
 import net.tarine.ibbchianti.client.ClientConstants;
+import net.tarine.ibbchianti.client.CookieSingleton;
 import net.tarine.ibbchianti.client.LocaleConstants;
 import net.tarine.ibbchianti.client.UiSingleton;
 import net.tarine.ibbchianti.client.UriBuilder;
@@ -16,6 +12,11 @@ import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.client.service.DataServiceAsync;
 import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.entity.Participant;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class StepThanksFrame extends FramePanel {
 	
@@ -99,6 +100,8 @@ public class StepThanksFrame extends FramePanel {
 			}
 			@Override
 			public void onSuccess(Participant result) {
+				WaitSingleton.get().stop();
+				
 				if (result == null) {
 					UiSingleton.get().addWarning("Couldn't find participant with id = "+fItemNumber);
 					UriBuilder param = new UriBuilder();
@@ -107,8 +110,8 @@ public class StepThanksFrame extends FramePanel {
 				} else {
 					WizardSingleton.get().setParticipantBean(result);
 					draw();
+					removeWebSession();
 				}
-				WaitSingleton.get().stop();
 			}
 		};
 		
@@ -118,4 +121,21 @@ public class StepThanksFrame extends FramePanel {
 		}
 	}
 	
+	private void removeWebSession() {
+		String idWebSession = CookieSingleton.get().getCookie(ClientConstants.WEBSESSION_COOKIE_NAME);
+		AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				UiSingleton.get().addError(caught);
+				WaitSingleton.get().stop();
+			}
+			@Override
+			public void onSuccess(Boolean result) {
+				WaitSingleton.get().stop();
+				CookieSingleton.get().removeCookie(ClientConstants.WEBSESSION_COOKIE_NAME);
+			}
+		};
+		WaitSingleton.get().start();
+		dataService.deleteWebSession(idWebSession, callback);
+	}
 }

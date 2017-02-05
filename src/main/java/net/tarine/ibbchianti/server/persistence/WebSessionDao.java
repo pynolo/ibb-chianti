@@ -3,14 +3,14 @@ package net.tarine.ibbchianti.server.persistence;
 import java.util.Date;
 import java.util.List;
 
+import net.tarine.ibbchianti.shared.AppConstants;
+import net.tarine.ibbchianti.shared.OrmException;
+import net.tarine.ibbchianti.shared.entity.WebSession;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.type.TimestampType;
-
-import net.tarine.ibbchianti.shared.AppConstants;
-import net.tarine.ibbchianti.shared.OrmException;
-import net.tarine.ibbchianti.shared.entity.WebSession;
 
 public class WebSessionDao {
 	
@@ -40,4 +40,19 @@ public class WebSessionDao {
 		return result;
 	}
 	
+	public static Integer deleteAllExpiredSessions(Session ses) 
+			throws OrmException {
+		Integer result = null;
+		try {
+			String qs = "delete from WebSession ws where "+
+					"ws.creationDt < :t1 ";//maggiori di ttl
+			Query q = ses.createQuery(qs);
+			Long now = new Date().getTime();
+			q.setParameter("t1", new Date(now-AppConstants.WEBSESSION_TTL));
+			result = q.executeUpdate();
+		} catch (HibernateException e) {
+			throw new OrmException(e.getMessage(), e);
+		}
+		return result;
+	}
 }

@@ -63,15 +63,22 @@ public class StepStartFrame extends FramePanel {
 	
 	private void draw() {
 		VerticalPanel cp = new VerticalPanel(); //Content panel
+		
+		//TITLE
+		setTitle(constants.queueTitle());
+				
 		this.add(cp);
-		cp.add(new HTML("<p><b>"+constants.queueVerify()+"</b></p><p>&nbsp;</p>"));
+		cp.add(new HTML("<p>"+constants.queueVerify()+"</p><p>&nbsp;</p>"));
 		HorizontalPanel waitPanel = new HorizontalPanel();
 		cp.add(waitPanel);
 		
 		waitPanel.add(new HTML(constants.queueCurrentlyOnline1()));
 		waitPanel.add(countLabel);
-		waitPanel.add(new HTML(constants.queueCurrentlyOnline2()+". </p><p>&nbsp;</p>"));
-
+		waitPanel.add(new HTML(constants.queueCurrentlyOnline2()+"</p>"));
+		cp.add(new HTML("<p>&nbsp;</p>"));
+		cp.add(new HTML(constants.queuePleaseWait()));
+		cp.add(new HTML("<p>&nbsp;</p>"));
+		cp.add(new HTML("<p align='center'>"+ClientConstants.ICON_LOADING_BIG+"</p>"));
 		heartbeat = new HeartbeatWidget();
 		cp.add(heartbeat);
 	}
@@ -119,10 +126,6 @@ public class StepStartFrame extends FramePanel {
 				setIdWebSession(result);
 				CookieSingleton.get().removeCookie(ClientConstants.WEBSESSION_COOKIE_NAME);
 				CookieSingleton.get().setCookie(ClientConstants.WEBSESSION_COOKIE_NAME, result);
-				String verification = CookieSingleton.get().getCookie(ClientConstants.WEBSESSION_COOKIE_NAME);
-				if (!result.equals(verification)) {
-					UiSingleton.get().addWarning("I couldn't correctly store a cookie: "+result+" != "+verification);
-				}
 				WaitSingleton.get().stop();
 				
 				draw();

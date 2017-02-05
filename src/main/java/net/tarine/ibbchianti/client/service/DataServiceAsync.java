@@ -10,8 +10,7 @@ import net.tarine.ibbchianti.shared.entity.Participant;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface DataServiceAsync
-{
+public interface DataServiceAsync{
 
     /**
      * GWT-RPC service  asynchronous (client-side) interface
@@ -37,6 +36,7 @@ public interface DataServiceAsync
 	void verifyWebSession(String idWebSession, AsyncCallback<Boolean> callback);
 	void getQueuePosition(String idWebSession, AsyncCallback<Integer> callback);
 	void updateHeartbeat(String idWebSession, AsyncCallback<Date> callback);
+	void deleteWebSession(String idWebSession, AsyncCallback<Boolean> callback);
 	
     /**
      * Utility class to get the RPC Async interface from client-side code

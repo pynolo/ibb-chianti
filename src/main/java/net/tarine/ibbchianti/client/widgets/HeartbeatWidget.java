@@ -48,7 +48,7 @@ public class HeartbeatWidget extends InlineHTML {
 	}
 	
 	private void updateValue(Date date) {
-		this.setHTML(ClientConstants.FORMAT_TIMESTAMP.format(date));
+		//this.setHTML(ClientConstants.FORMAT_TIMESTAMP.format(date));
 	}
 	
 	private void sendHeartbeat() {
