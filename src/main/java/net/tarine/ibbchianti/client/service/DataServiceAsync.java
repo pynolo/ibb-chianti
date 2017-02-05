@@ -1,5 +1,7 @@
 package net.tarine.ibbchianti.client.service;
 
+import java.util.Date;
+
 import net.tarine.ibbchianti.shared.Amount;
 import net.tarine.ibbchianti.shared.ConfigBean;
 import net.tarine.ibbchianti.shared.entity.Config;
@@ -24,22 +26,18 @@ public interface DataServiceAsync
     void findParticipantById( java.lang.Integer id, AsyncCallback<Participant> callback );
     void findParticipantByItemNumber( java.lang.String itemNumber, int delayMillis, AsyncCallback<Participant> callback );
     void findParticipants( boolean confirmed, AsyncCallback<java.util.List<Participant>> callback );
-    //void createTransientParticipant( AsyncCallback<Participant> callback );
     void saveOrUpdateParticipant(Participant prt, AsyncCallback<Participant> callback );
 	void countConfirmed(AsyncCallback<Integer> callback);
-	//void countPaymentTotal(AsyncCallback<Double> callback);
-	
-	//void findDiscounts(AsyncCallback<List<Discount>> callback);
-    //void canHaveDiscount(String email, AsyncCallback<Boolean> callback);
+
+	//Payment
+	void payWithStripe(String itemNumber, Amount amount, String number,
+			String expMonth, String expYear, AsyncCallback<String> callback);
     
     //WebSession
 	void createWebSession(String seed, AsyncCallback<WebSession> callback);
 	void verifyWebSession(String idWebSession, AsyncCallback<Boolean> callback);
 	void getQueuePosition(String idWebSession, AsyncCallback<Integer> callback);
-	
-	//Payment
-	void payWithStripe(String itemNumber, Amount amount, String number,
-			String expMonth, String expYear, AsyncCallback<String> callback);
+	void updateHeartbeat(String idWebSession, AsyncCallback<Date> callback);
 	
     /**
      * Utility class to get the RPC Async interface from client-side code

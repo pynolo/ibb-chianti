@@ -9,7 +9,6 @@ import net.tarine.ibbchianti.shared.AppConstants;
 public class ClientConstants {
 	
 	//WebSession
-	public static final int WEBSESSION_RELOAD_TIME = 1000*60*1; //1 minute
 	public static final String WEBSESSION_COOKIE_NAME = "ibbchianti";
 	
 	//CLIENT DEFAULTS

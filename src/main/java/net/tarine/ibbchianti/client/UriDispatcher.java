@@ -23,6 +23,7 @@ public class UriDispatcher {
 	public static final String STEP_CHECKOUT = "checkout";
 	public static final String ERROR_CLOSED = "errClosed";
 	public static final String ERROR_PAYMENT = "errPayment";
+	public static final String ERROR_SYSTEM = "errSystem";
 	public static final String STEP_THANK_YOU = "thankyou";
 	public static final String PARTICIPANTS = "participants";
 	public static final String INDEX = STEP_PERSONAL;

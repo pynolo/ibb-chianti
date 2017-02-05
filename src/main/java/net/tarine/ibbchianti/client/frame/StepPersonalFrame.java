@@ -1,5 +1,7 @@
 package net.tarine.ibbchianti.client.frame;
 
+import net.tarine.ibbchianti.client.ClientConstants;
+import net.tarine.ibbchianti.client.CookieSingleton;
 import net.tarine.ibbchianti.client.IWizardFrame;
 import net.tarine.ibbchianti.client.LocaleConstants;
 import net.tarine.ibbchianti.client.UiSingleton;
@@ -11,6 +13,7 @@ import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.client.service.DataServiceAsync;
 import net.tarine.ibbchianti.client.widgets.ExtendedTextBox;
 import net.tarine.ibbchianti.client.widgets.ForwardButton;
+import net.tarine.ibbchianti.client.widgets.HeartbeatWidget;
 import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.StringValidator;
 import net.tarine.ibbchianti.shared.ValidationException;
@@ -30,6 +33,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
 	
+	private String idWebSession = null;
 	private VerticalPanel cp = null; // Content panel
 	
 	private ExtendedTextBox emailText;
@@ -40,6 +44,9 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 	
 	public StepPersonalFrame(UriBuilder params) {
 		super();
+		//Web session
+		idWebSession = CookieSingleton.get().getCookie(ClientConstants.WEBSESSION_COOKIE_NAME);
+
 		cp = new VerticalPanel();
 		this.add(cp);
 		draw();
@@ -114,6 +121,9 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 		//Wizard panel
 		ForwardButton wb = new ForwardButton(this);
 		cp.add(wb);
+
+		HeartbeatWidget heartbeat = new HeartbeatWidget(idWebSession);
+		cp.add(heartbeat);
 	}
 	
 	@Override

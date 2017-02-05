@@ -7,9 +7,11 @@ public class AppConstants {
 	public static final String EVENT_URL = "https://burningboots.it";
 	
 	//WebSession
-	public static long WEBSESSION_TTL = 1000*60*30; //30 minutes
-	public static long WEBSESSION_RELOAD_TIME = 1000*20; //20 seconds
-
+	public static long WEBSESSION_TTL = 1000*60*15; //15 minutes
+	public static int QUEUE_RELOAD_TIME = 1000*30; //30 seconds
+	public static long HEARTBEAT_TTL = 1000*60*5; //5 minutes
+	public static int HEARTBEAT_RELOAD_TIME = 1000*20; //20 seconds
+	
 //	// IPN
 //	// GUIDE https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNSetup/
 //	public static final String BASE_URL = "https://burningboots.it/appennino";

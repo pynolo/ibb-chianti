@@ -8,7 +8,6 @@ public class WizardSingleton {
 	private static WizardSingleton instance = null;
 	private Participant participantBean = null;
 	private ConfigBean configBean = null;
-	private String webSessionId = null;
 	
 	private WizardSingleton() {}
 	
@@ -26,14 +25,6 @@ public class WizardSingleton {
 
 	public void setParticipantBean(Participant participantBean) {
 		this.participantBean = participantBean;
-	}
-
-	public String getWebSessionId() {
-		return webSessionId;
-	}
-
-	public void setWebSessionId(String webSessionId) {
-		this.webSessionId = webSessionId;
 	}
 
 	public ConfigBean getConfigBean() {

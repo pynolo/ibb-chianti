@@ -45,7 +45,7 @@ DROP TABLE IF EXISTS `participant`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `participant` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`creation_dt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	`creation_dt` datetime NOT NULL,
 	`update_dt` datetime NOT NULL,
 	`item_number` varchar(64) NOT NULL,
 	`email` varchar(64) DEFAULT NULL,
@@ -55,6 +55,7 @@ CREATE TABLE `participant` (
 	`birth_dt` varchar(64) DEFAULT NULL,
 	`payment_amount` varchar(64) DEFAULT NULL,
 	`payment_details` text DEFAULT NULL,
+	`payment_dt` datetime DEFAULT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -68,7 +69,8 @@ DROP TABLE IF EXISTS `web_session`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `web_session` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`creation_dt` datetime NOT NULL,
+	`heartbeat_dt` datetime NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

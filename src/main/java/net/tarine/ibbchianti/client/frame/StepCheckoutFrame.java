@@ -1,6 +1,7 @@
 package net.tarine.ibbchianti.client.frame;
 
 import net.tarine.ibbchianti.client.ClientConstants;
+import net.tarine.ibbchianti.client.CookieSingleton;
 import net.tarine.ibbchianti.client.IWizardFrame;
 import net.tarine.ibbchianti.client.LocaleConstants;
 import net.tarine.ibbchianti.client.UiSingleton;
@@ -12,6 +13,7 @@ import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.client.service.DataServiceAsync;
 import net.tarine.ibbchianti.client.widgets.ExtendedTextBox;
 import net.tarine.ibbchianti.client.widgets.ForwardButton;
+import net.tarine.ibbchianti.client.widgets.HeartbeatWidget;
 import net.tarine.ibbchianti.shared.Amount;
 import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.ConfigBean;
@@ -34,6 +36,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 	
 	private UriBuilder params = null;
 	private String itemNumber = null;
+	private String idWebSession = null;
 	private VerticalPanel cp = null; // Content panel
 	
 	private TextBox amountText;
@@ -43,11 +46,15 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 	
 	public StepCheckoutFrame(UriBuilder params) {
 		super();
+		//Params
 		if (params != null) {
 			this.params = params;
 		} else {
 			this.params = new UriBuilder();
 		}
+		//Web session
+		idWebSession = CookieSingleton.get().getCookie(ClientConstants.WEBSESSION_COOKIE_NAME);
+		//Item number
 		itemNumber = this.params.getValue(AppConstants.PARAM_ID);
 		if (itemNumber == null) itemNumber = "";
 		if (itemNumber.equals("")) {
@@ -145,6 +152,9 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		//Wizard panel
 		ForwardButton wb = new ForwardButton(this);
 		cp.add(wb);
+		
+		HeartbeatWidget heartbeat = new HeartbeatWidget(idWebSession);
+		cp.add(heartbeat);
 	}
 	
 	public void goForward() {

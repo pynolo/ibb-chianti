@@ -241,122 +241,6 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		return (result == null ? 0 : result);
 	}
 
-	//@Override
-	//public Double countPaymentTotal() throws SystemException {
-	//	Double result = null;
-	//	Session ses = SessionFactory.getSession();
-	//	Transaction trn = ses.beginTransaction();
-	//	try {
-	//		result = ParticipantDao.countPaymentTotal(ses);
-	//		trn.commit();
-	//	} catch (OrmException e) {
-	//		trn.rollback();
-	//		LOG.error(e.getMessage(), e);
-	//		throw new SystemException(e.getMessage(), e);
-	//	} finally {
-	//		ses.close();
-	//	}
-	//	return (result == null ? 0 : result);
-	//}
-	
-	//@Override
-	//public List<Discount> findDiscounts() throws SystemException {
-	//	List<Discount> pList = new ArrayList<Discount>();
-	//	Session ses = SessionFactory.getSession();
-	//	Transaction trn = ses.beginTransaction();
-	//	try {
-	//		pList = GenericDao.findByClass(ses, Discount.class, "email");
-	//		trn.commit();
-	//	} catch (OrmException e) {
-	//		trn.rollback();
-	//		LOG.error(e.getMessage(), e);
-	//		throw new SystemException(e.getMessage(), e);
-	//	} finally {
-	//		ses.close();
-	//	}
-	//	return pList;
-	//}
-	//
-	//@Override
-	//public Boolean canHaveDiscount(String email) throws SystemException {
-	//	Boolean result = false;
-	//	Session ses = SessionFactory.getSession();
-	//	Transaction trn = ses.beginTransaction();
-	//	try {
-	//		result = canHaveDiscount(ses, email);
-	//		trn.commit();
-	//	} catch (OrmException e) {
-	//		trn.rollback();
-	//		LOG.error(e.getMessage(), e);
-	//		throw new SystemException(e.getMessage(), e);
-	//	} finally {
-	//		ses.close();
-	//	}
-	//	return result;
-	//}
-	//private boolean canHaveDiscount(Session ses, String email) throws OrmException {
-	//	boolean result = false;
-	//	Discount discount = DiscountDao.findDiscount(ses, email);
-	//	if (discount != null) {
-	//		List<Participant> confirmedList = ParticipantDao.findByEmail(ses, email, true);
-	//		int confirmed = confirmedList.size();
-	//		if (discount.getTickets() > confirmed) {
-	//			result = true;
-	//		}
-	//	}
-	//	return result;
-	//}
-	
-
-	@Override
-	public WebSession createWebSession(String seed) throws SystemException {
-		WebSession ws = new WebSession();
-		ws.setId(DataBusiness.createCode(new Date().getTime()+seed, 32));
-		return null;
-	}
-
-	@Override
-	public Boolean verifyWebSession(String idWebSession) throws SystemException {
-		boolean result = false;
-		Session ses = SessionFactory.getSession();
-		Transaction trn = ses.beginTransaction();
-		WebSession ws = null;
-		try {
-			ws = GenericDao.findById(ses, WebSession.class, idWebSession);
-			trn.commit();
-		} catch (OrmException e) {
-			trn.rollback();
-			LOG.error(e.getMessage(), e);
-			throw new SystemException(e.getMessage(), e);
-		} finally {
-			ses.close();
-		}
-		Date now = new Date();
-		if (now.getTime()-ws.getTime().getTime() < AppConstants.WEBSESSION_TTL) {
-			//not expired yet
-			result = true;
-		}
-		return result;
-	}
-
-	@Override
-	public Integer getQueuePosition(String idWebSession) throws SystemException {
-		Integer result = null;
-		Session ses = SessionFactory.getSession();
-		Transaction trn = ses.beginTransaction();
-		try {
-			result = WebSessionDao.getQueuePosition(ses, idWebSession);
-			trn.commit();
-		} catch (OrmException e) {
-			trn.rollback();
-			LOG.error(e.getMessage(), e);
-			throw new SystemException(e.getMessage(), e);
-		} finally {
-			ses.close();
-		}
-		return result;
-	}
-
 	@Override
 	public String payWithStripe(String itemNumber, Amount amount, String number, String expMonth,
 			String expYear) throws SystemException {
@@ -389,7 +273,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			Amount paidAmount = new Amount(charge.getAmount());
 			prt.setPaymentAmount(paidAmount.getAmountDouble());
 			prt.setPaymentDetails(charge.toJson());
-			prt.setUpdateDt(now);
+			prt.setPaymentDt(now);
 			GenericDao.updateGeneric(ses, prt.getId(), prt);
 			trn.commit();
 		} catch (OrmException e) {
@@ -406,4 +290,89 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		return result;
 	}
 
+	@Override
+	public WebSession createWebSession(String seed) throws SystemException {
+		Session ses = SessionFactory.getSession();
+		Transaction trn = ses.beginTransaction();
+		WebSession ws = null;
+		try {
+			ws = new WebSession();
+			ws.setId(DataBusiness.createCode(new Date().getTime()+seed, 32));
+			Date now = new Date();
+			ws.setCreationDt(now);
+			ws.setHeartbeatDt(now);
+			GenericDao.saveGeneric(ses, ws);
+		} catch (OrmException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} finally {
+			ses.close();
+		}
+		return ws;
+	}
+
+	@Override
+	public Boolean verifyWebSession(String idWebSession) throws SystemException {
+		boolean result = false;
+		Session ses = SessionFactory.getSession();
+		Transaction trn = ses.beginTransaction();
+		WebSession ws = null;
+		try {
+			ws = GenericDao.findById(ses, WebSession.class, idWebSession);
+			trn.commit();
+		} catch (OrmException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} finally {
+			ses.close();
+		}
+		Date now = new Date();
+		if (now.getTime()-ws.getCreationDt().getTime() < AppConstants.WEBSESSION_TTL) {
+			//not expired yet
+			result = true;
+		}
+		return result;
+	}
+
+	@Override
+	public Integer getQueuePosition(String idWebSession) throws SystemException {
+		Integer result = null;
+		Session ses = SessionFactory.getSession();
+		Transaction trn = ses.beginTransaction();
+		try {
+			result = WebSessionDao.getQueuePosition(ses, idWebSession);
+			trn.commit();
+		} catch (OrmException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} finally {
+			ses.close();
+		}
+		return result;
+	}
+	@Override
+	public Date updateHeartbeat(String idWebSession) throws SystemException {
+		if (idWebSession == null) throw new SystemException("Web session id is empty");
+		Date result = null;
+		Session ses = SessionFactory.getSession();
+		Transaction trn = ses.beginTransaction();
+		try {
+			WebSession ws = GenericDao.findById(ses, WebSession.class, idWebSession);
+			if (ws == null) throw new SystemException("Web session does not exist");
+			ws.setHeartbeatDt(new Date());
+			GenericDao.updateGeneric(ses, ws.getId(), ws);
+        	trn.commit();
+        	result = ws.getHeartbeatDt();
+		} catch (OrmException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} finally {
+			ses.close();
+		}
+		return result;
+	}
 }

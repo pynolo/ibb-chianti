@@ -27,8 +27,9 @@ public class Participant implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "creation_dt", nullable = false)
 	private Date creationDt = null;
+	@Basic(optional = false)
     @Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "update_dt")
+	@Column(name = "update_dt", nullable = false)
 	private Date updateDt = null;
 	@Basic(optional = false)
 	@Column(name = "item_number", length = 64, nullable = false)
@@ -62,6 +63,9 @@ public class Participant implements Serializable {
 	private Double paymentAmount = null;
 	@Column(name = "payment_details")
 	private String paymentDetails = null;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "payment_dt")
+	private Date paymentDt = null;
 	//@Basic(optional = false)
 	//@Column(name = "discount", nullable = false)
 	//private boolean discount;
@@ -161,6 +165,14 @@ public class Participant implements Serializable {
 		this.paymentDetails = paymentDetails;
 	}
 
+	public Date getPaymentDt() {
+		return paymentDt;
+	}
+
+	public void setPaymentDt(Date paymentDt) {
+		this.paymentDt = paymentDt;
+	}
+	
 	@Override
     public int hashCode() {
         int hash = 0;

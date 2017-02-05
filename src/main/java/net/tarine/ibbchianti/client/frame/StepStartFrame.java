@@ -9,6 +9,8 @@ import net.tarine.ibbchianti.client.WaitSingleton;
 import net.tarine.ibbchianti.client.WizardSingleton;
 import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.client.service.DataServiceAsync;
+import net.tarine.ibbchianti.client.widgets.HeartbeatWidget;
+import net.tarine.ibbchianti.shared.AppConstants;
 import net.tarine.ibbchianti.shared.entity.WebSession;
 
 import com.google.gwt.core.client.GWT;
@@ -26,6 +28,7 @@ public class StepStartFrame extends FramePanel {
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
 	
+	private String idWebSession = null;
 	private int queuePosition = 1000;
 	private int confirmed = 1000;
 	
@@ -34,8 +37,6 @@ public class StepStartFrame extends FramePanel {
 	public StepStartFrame(UriBuilder params) {
 		super();
 		saveSessionCookie();
-		draw();
-		verifyQueueAndStart();
 	}
 	
 	private void verifyQueueAndStart() {
@@ -46,7 +47,7 @@ public class StepStartFrame extends FramePanel {
 			}
 		};
 		// Schedule the timer to run once in 1 minute.
-		t.schedule(ClientConstants.WEBSESSION_RELOAD_TIME);
+		t.schedule(AppConstants.QUEUE_RELOAD_TIME);
 	}
 
 	private void draw() {
@@ -59,6 +60,9 @@ public class StepStartFrame extends FramePanel {
 		waitPanel.add(new HTML(constants.queueCurrentlyOnline()));
 		waitPanel.add(countLabel);
 		waitPanel.add(new HTML(constants.queuePersons()+". </p><p>&nbsp;</p>"));
+
+		HeartbeatWidget heartbeat = new HeartbeatWidget(idWebSession);
+		cp.add(heartbeat);
 	}
 	
 	private void controller() {
@@ -78,7 +82,7 @@ public class StepStartFrame extends FramePanel {
 	
 	private void reload() {
 		//Window.Location.reload();
-		loadConfirmed();
+		loadConfirmedParticipants();
 	}
 
 	
@@ -93,18 +97,20 @@ public class StepStartFrame extends FramePanel {
 			}
 			@Override
 			public void onSuccess(WebSession result) {
-				WizardSingleton.get().setWebSessionId(result.getId());
+				idWebSession = result.getId();
 				Cookies.removeCookie(ClientConstants.WEBSESSION_COOKIE_NAME);
 				Cookies.setCookie(ClientConstants.WEBSESSION_COOKIE_NAME, result.getId());
-				draw();
 				WaitSingleton.get().stop();
+				
+				draw();
+				verifyQueueAndStart();
 			}
 		};
 		WaitSingleton.get().start();
 		dataService.createWebSession(Window.getClientHeight()+" "+Window.getClientWidth(), callback);
 	}
 	
-	private void loadConfirmed() {
+	private void loadConfirmedParticipants() {
 		AsyncCallback<Integer> callback = new AsyncCallback<Integer>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -113,7 +119,7 @@ public class StepStartFrame extends FramePanel {
 			}
 			@Override
 			public void onSuccess(Integer result) {
-				setConfirmed(result);
+				setConfirmedParticipants(result);
 				loadQueuePosition();
 				WaitSingleton.get().stop();
 			}
@@ -137,13 +143,13 @@ public class StepStartFrame extends FramePanel {
 			}
 		};
 		WaitSingleton.get().start();
-		dataService.getQueuePosition(WizardSingleton.get().getWebSessionId(), callback);
+		dataService.getQueuePosition(idWebSession, callback);
 	}
 
 	public void setQueuePosition(int queuePosition) {
 		this.queuePosition = queuePosition;
 	}
-	public void setConfirmed(int confirmed) {
+	public void setConfirmedParticipants(int confirmed) {
 		this.confirmed = confirmed;
 	}
 	

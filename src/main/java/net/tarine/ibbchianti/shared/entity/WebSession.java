@@ -20,9 +20,14 @@ public class WebSession implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false, length = 256)
 	private String id;
+	@Basic(optional = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "time")
-	private Date time = null;
+	@Column(name = "creation_dt", nullable = false)
+	private Date creationDt = null;
+	@Basic(optional = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "heartbeat_dt", nullable = false)
+	private Date heartbeatDt = null;
 	
 	public WebSession() {
 	}
@@ -35,12 +40,20 @@ public class WebSession implements Serializable {
 		this.id = id;
 	}
 	
-	public Date getTime() {
-		return time;
+	public Date getCreationDt() {
+		return creationDt;
 	}
 
-	public void setTime(Date time) {
-		this.time = time;
+	public void setCreationDt(Date creationDt) {
+		this.creationDt = creationDt;
+	}
+
+	public Date getHeartbeatDt() {
+		return heartbeatDt;
+	}
+
+	public void setHeartbeatDt(Date heartbeatDt) {
+		this.heartbeatDt = heartbeatDt;
 	}
 
 	@Override
