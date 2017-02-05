@@ -1,5 +1,6 @@
 package net.tarine.ibbchianti.client.frame;
 
+import net.tarine.ibbchianti.client.ClientConstants;
 import net.tarine.ibbchianti.client.IWizardFrame;
 import net.tarine.ibbchianti.client.LocaleConstants;
 import net.tarine.ibbchianti.client.UiSingleton;
@@ -54,7 +55,9 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 		//TITLE
 		setTitle(constants.personalTitle());
 		
-		cp.add(new HTML("<p>"+constants.personalIntro()+"</p>"));
+		cp.add(new HTML("<p>"+constants.personalIntro1()+
+				" <b>&euro;"+ClientConstants.FORMAT_CURRENCY.format(WizardSingleton.get().getConfigBean().getDonationMin())+
+				"</b> "+constants.personalIntro2()+"</p>"));
 
 		//EMAIL
 		cp.add(new HTML("<p>"+constants.personalEmail()+"</p>"));
@@ -177,6 +180,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 				@Override
 				public void onSuccess(Participant prt) {
 					WaitSingleton.get().stop();
+					
 					heartbeat.cancelHeartbeatTimer();
 					UriBuilder param = new UriBuilder();
 					param.add(AppConstants.PARAM_ID, prt.getItemNumber());

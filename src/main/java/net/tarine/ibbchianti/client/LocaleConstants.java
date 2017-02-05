@@ -11,11 +11,12 @@ public interface LocaleConstants extends Constants {
 	String itemNumber();
 	
 	String queueVerify();
-	String queueCurrentlyOnline();
-	String queuePersons();
+	String queueCurrentlyOnline1();
+	String queueCurrentlyOnline2();
 	
 	String personalTitle();
-	String personalIntro();
+	String personalIntro1();
+	String personalIntro2();
 	String personalEmail();
 	String personalEmailWarning();
 	String personalFirstName();
@@ -31,6 +32,7 @@ public interface LocaleConstants extends Constants {
 	String checkoutDonationMinimumDesc();
 	String checkoutCardNumber();
 	String checkoutExpiration();
+	String checkoutSecurity();
 	String checkoutContactUs();
 	String checkoutErrorAmountFormat();
 	String checkoutErrorAmountLimit();

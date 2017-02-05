@@ -40,7 +40,7 @@ public class AppConstants {
 	public static final String PARAM_ID = "id";
 	
 	// FORMATS
-	public static final String PATTERN_TIMESTAMP = "dd/MM/yyyy HH:mm";//"dd/MM/yyyy HH:mm";
+	public static final String PATTERN_TIMESTAMP = "dd/MM/yyyy HH:mm:ss";//"dd/MM/yyyy HH:mm";
 	public static final String PATTERN_DAY = "dd/MM/yyyy";
 	public static final String PATTERN_MONTH = "MM/yyyy";
 	public static final String PATTERN_CURRENCY = "#0.00";

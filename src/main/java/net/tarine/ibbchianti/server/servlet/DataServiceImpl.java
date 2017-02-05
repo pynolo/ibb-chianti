@@ -8,6 +8,7 @@ import java.util.Map;
 
 import net.tarine.ibbchianti.client.service.DataService;
 import net.tarine.ibbchianti.server.DataBusiness;
+import net.tarine.ibbchianti.server.EmailUtil;
 import net.tarine.ibbchianti.server.persistence.GenericDao;
 import net.tarine.ibbchianti.server.persistence.ParticipantDao;
 import net.tarine.ibbchianti.server.persistence.SessionFactory;
@@ -245,10 +246,11 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 	public String payWithStripe(String itemNumber, Amount amount, String number, String expMonth,
 			String expYear) throws SystemException {
 		String result = "";
+		Participant prt = null;
 		Session ses = SessionFactory.getSession();
 		Transaction trn = ses.beginTransaction();
 		try {
-			Participant prt = ParticipantDao.findByItemNumber(ses, itemNumber);
+			prt = ParticipantDao.findByItemNumber(ses, itemNumber);
 			Config secretConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_SECRET_KEY);
 			String secretKey = secretConfig.getVal();
 			RequestOptions requestOptions = (new RequestOptionsBuilder()).setApiKey(secretKey).build();
@@ -287,6 +289,14 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		} finally {
 			ses.close();
 		}
+
+		//Email confirmation
+		if (prt != null) {
+			if (prt.getPaymentAmount() != null && prt.getPaymentDetails() != null) {
+				EmailUtil.sendConfirmationEmail(prt.getItemNumber(), prt.getPaymentAmount());
+			}
+		}
+
 		return result;
 	}
 

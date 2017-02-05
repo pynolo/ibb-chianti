@@ -68,9 +68,9 @@ public class StepStartFrame extends FramePanel {
 		HorizontalPanel waitPanel = new HorizontalPanel();
 		cp.add(waitPanel);
 		
-		waitPanel.add(new HTML(constants.queueCurrentlyOnline()));
+		waitPanel.add(new HTML(constants.queueCurrentlyOnline1()));
 		waitPanel.add(countLabel);
-		waitPanel.add(new HTML(constants.queuePersons()+". </p><p>&nbsp;</p>"));
+		waitPanel.add(new HTML(constants.queueCurrentlyOnline2()+". </p><p>&nbsp;</p>"));
 
 		heartbeat = new HeartbeatWidget();
 		cp.add(heartbeat);
@@ -110,6 +110,7 @@ public class StepStartFrame extends FramePanel {
 			public void onFailure(Throwable caught) {
 				UiSingleton.get().addError(caught);
 				WaitSingleton.get().stop();
+				
 				UriBuilder param = new UriBuilder();
 				param.triggerUri(UriDispatcher.ERROR_SYSTEM);
 			}

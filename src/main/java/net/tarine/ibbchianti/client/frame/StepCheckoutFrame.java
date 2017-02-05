@@ -132,6 +132,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));
 		
+		cp.add(new HTML("<p>"+constants.checkoutSecurity()+" <img src='img/powered_by_stripe.png' /></p>"));
 		cp.add(new HTML("<p>"+constants.checkoutContactUs()+"</p>"));
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));
@@ -185,6 +186,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 			public void onSuccess(String stripeResult) {
 				UiSingleton.get().addWarning(stripeResult);
 				WaitSingleton.get().stop();
+				
 				heartbeat.cancelHeartbeatTimer();
 				UriBuilder param = new UriBuilder();
 				param.add(AppConstants.PARAM_ID, fItemNumber);
