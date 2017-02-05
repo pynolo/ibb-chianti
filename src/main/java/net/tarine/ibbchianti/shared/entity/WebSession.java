@@ -18,7 +18,7 @@ public class WebSession implements Serializable {
 	
 	@Id
     @Basic(optional = false)
-    @Column(name = "id", nullable = false, length = 256)
+    @Column(name = "id", nullable = false, length = 64)
 	private String id;
 	@Basic(optional = false)
 	@Temporal(TemporalType.TIMESTAMP)
