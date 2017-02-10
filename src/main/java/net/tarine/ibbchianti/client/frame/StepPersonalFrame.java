@@ -1,5 +1,7 @@
 package net.tarine.ibbchianti.client.frame;
 
+import java.util.Date;
+
 import net.tarine.ibbchianti.client.ClientConstants;
 import net.tarine.ibbchianti.client.IWizardFrame;
 import net.tarine.ibbchianti.client.LocaleConstants;
@@ -26,6 +28,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.datepicker.client.DateBox;
 
 public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 	
@@ -38,8 +41,8 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 	private ExtendedTextBox emailText;
 	private TextBox firstNameText;
 	private TextBox lastNameText;
-	//private DateBox birthDate;
-	//private TextBox birthCityText;
+	private DateBox birthDate;
+	private TextBox birthCityText;
 	
 	public StepPersonalFrame(UriBuilder params) {
 		super();
@@ -92,11 +95,11 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));
 		
-		/*HorizontalPanel birthPanel = new HorizontalPanel();
+		HorizontalPanel birthPanel = new HorizontalPanel();
 		cp.add(birthPanel);
 		
 		FlowPanel birthCityPanel = new FlowPanel();
-		birthCityPanel.add(new HTML("<p>"+constants.joinLegalBirthCity()+"</p>"));
+		birthCityPanel.add(new HTML("<p>"+constants.personalBirthCity()+"</p>"));
 		birthCityText = new TextBox();
 		birthCityText.setMaxLength(128);
 		birthCityText.setValue(participant.getBirthCity());
@@ -106,15 +109,15 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 		birthPanel.add(new InlineHTML("&nbsp;"));
 		
 		FlowPanel birthDatePanel = new FlowPanel();
-		birthDatePanel.add(new HTML("<p>"+constants.joinLegalBirthDate()+"</p>"));
+		birthDatePanel.add(new HTML("<p>"+constants.personalBirthDate()+"</p>"));
 		birthDate = new DateBox();
-		DateBox.Format BOX_FORMAT_TIMESTAMP = new DateBox.DefaultFormat(DTF);
+		DateBox.Format BOX_FORMAT_TIMESTAMP = new DateBox.DefaultFormat(ClientConstants.FORMAT_DAY);
 		birthDate.setFormat(BOX_FORMAT_TIMESTAMP);
 		birthDate.setValue(participant.getBirthDt());
 		birthDatePanel.add(birthDate);
 		birthPanel.add(birthDatePanel);
 		
-		cp.add(new HTML("<p>&nbsp;</p>"));*/
+		cp.add(new HTML("<p>&nbsp;</p>"));
 		
 		//Wizard panel
 		ForwardButton wb = new ForwardButton(this);
@@ -148,7 +151,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 			if (errorMessage.length() > 0) errorMessage += "<br />";
 			errorMessage += e.getMessage();
 		}
-		/*String birthCity = birthCityText.getValue();
+		String birthCity = birthCityText.getValue();
 		if (birthCity.length() < 3) {
 			if (errorMessage.length() > 0) errorMessage += "<br />";
 			errorMessage += constants.personalErrorCity();
@@ -157,7 +160,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 		if (birthDt == null) {
 			if (errorMessage.length() > 0) errorMessage += "<br />";
 			errorMessage += constants.personalErrorDate();
-		}*/
+		}
 		
 		boolean isError = (errorMessage.length() > 0);
 		if (isError) {
@@ -168,8 +171,8 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 			transPrt.setEmail(email);
 			transPrt.setFirstName(firstName);
 			transPrt.setLastName(lastName);
-			/*transPrt.setBirthCity(birthCity);
-			transPrt.setBirthDt(birthDt);*/
+			transPrt.setBirthCity(birthCity);
+			transPrt.setBirthDt(birthDt);
 			
 			AsyncCallback<Participant> callback = new AsyncCallback<Participant>() {
 				@Override

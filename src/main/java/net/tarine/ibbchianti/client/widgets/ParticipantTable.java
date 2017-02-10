@@ -69,11 +69,11 @@ public class ParticipantTable extends PagingTable<Participant> {
 		String nome = "";
 		if (rowFinal.getFirstName() != null) nome = rowFinal.getFirstName();
 		getInnerTable().setHTML(rowNum, 3, nome);
-		////NASCITA
-		//String nascita = "";
-		//nascita += ClientConstants.FORMAT_DAY.format(rowFinal.getBirthDt())+" ";
-		//if (rowFinal.getBirthCity() != null) nascita += rowFinal.getBirthCity()+" ";
-		//getInnerTable().setHTML(rowNum, 5, nascita);
+		//NASCITA
+		String nascita = "";
+		if (rowFinal.getBirthDt() != null) nascita += ClientConstants.FORMAT_DAY.format(rowFinal.getBirthDt())+" ";
+		if (rowFinal.getBirthCity() != null) nascita += rowFinal.getBirthCity()+" ";
+		getInnerTable().setHTML(rowNum, 4, nascita);
 		//PAGAMENTO
 		String pag = "";
 		if (rowFinal.getPaymentAmount() != null) {
@@ -85,7 +85,7 @@ public class ParticipantTable extends PagingTable<Participant> {
 				pag += "("+ClientConstants.FORMAT_TIMESTAMP.format(rowFinal.getPaymentDt())+") ";
 		InlineHTML paymentHtml = new InlineHTML(pag);
 		paymentHtml.setTitle(rowFinal.getItemNumber());
-		getInnerTable().setWidget(rowNum, 4, paymentHtml);
+		getInnerTable().setWidget(rowNum, 5, paymentHtml);
 	}
 	
 	@Override
@@ -94,7 +94,8 @@ public class ParticipantTable extends PagingTable<Participant> {
 		getInnerTable().setHTML(0, 1, "Email");
 		getInnerTable().setHTML(0, 2, "Last name");
 		getInnerTable().setHTML(0, 3, "First name");
-		getInnerTable().setHTML(0, 4, "Payment");
+		getInnerTable().setHTML(0, 4, "Birth");
+		getInnerTable().setHTML(0, 5, "Payment");
 	}
 	
 	@Override
