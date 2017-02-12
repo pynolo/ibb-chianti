@@ -30,24 +30,6 @@
 	<link type="text/css" rel="stylesheet" href="fonts/font-awesome/css/font-awesome.css">
 	<link type="text/css" rel="stylesheet" href="Ibbchianti.css">
 	
-	<!-- Pollicino 
-	<script type="text/javascript">
-		var _paq = _paq || [];
-		_paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
-		_paq.push(["setCookieDomain", "*.burningboots.it"]);
-		_paq.push(["setDomains", ["*.burningboots.it"]]);
-		_paq.push(['trackPageView']);
-		_paq.push(['enableLinkTracking']);
-		(function() {
-			var u="//pollicino.tarine.net/";
-			_paq.push(['setTrackerUrl', u+'piwik.php']);
-			_paq.push(['setSiteId', 1]);
-			var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-			g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-		})();
-	</script>
-	<noscript><p><img src="//pollicino.tarine.net/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
-	 End Pollicino Code -->
   </head>
 
   <!--                                           -->
@@ -77,5 +59,23 @@
 		<div id="content-area"></div>
 	</div>
 	<div id="message-panel"></div>
+	
+	
+	<!-- Piwik -->
+	<script type="text/javascript">
+	  var _paq = _paq || [];
+	  // tracker methods like "setCustomDimension" should be called before "trackPageView"
+	  _paq.push(['trackPageView']);
+	  _paq.push(['enableLinkTracking']);
+	  (function() {
+	    var u="//burningboots.it/piwik/";
+	    _paq.push(['setTrackerUrl', u+'piwik.php']);
+	    _paq.push(['setSiteId', '1']);
+	    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+	    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+	  })();
+	</script>
+	<noscript><p><img src="//burningboots.it/piwik/piwik.php?idsite=1&rec=1" style="border:0;" alt="" /></p></noscript>
+	<!-- End Piwik Code -->
   </body>
 </html>
