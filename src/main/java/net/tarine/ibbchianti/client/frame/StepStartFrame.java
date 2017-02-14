@@ -132,7 +132,6 @@ public class StepStartFrame extends FramePanel {
 				startQueueCheckTimer();
 			}
 		};
-		WaitSingleton.get().start();
 		dataService.createWebSession(Window.getClientHeight()+" "+Window.getClientWidth(), callback);
 	}
 	
@@ -141,17 +140,17 @@ public class StepStartFrame extends FramePanel {
 			@Override
 			public void onFailure(Throwable caught) {
 				UiSingleton.get().addError(caught);
-				WaitSingleton.get().stop();
+				//WaitSingleton.get().stop();
 			}
 			@Override
 			public void onSuccess(Integer result) {
 				setConfirmedParticipants(result);
-				WaitSingleton.get().stop();
+				//WaitSingleton.get().stop();
 				
 				loadQueuePosition();
 			}
 		};
-		WaitSingleton.get().start();
+		//WaitSingleton.get().start();
 		dataService.countConfirmed(callback);
 	}
 	
@@ -160,17 +159,17 @@ public class StepStartFrame extends FramePanel {
 			@Override
 			public void onFailure(Throwable caught) {
 				UiSingleton.get().addError(caught);
-				WaitSingleton.get().stop();
+				//WaitSingleton.get().stop();
 			}
 			@Override
 			public void onSuccess(Integer result) {
 				setQueuePosition(result);
-				WaitSingleton.get().stop();
+				//WaitSingleton.get().stop();
 				
 				controller();
 			}
 		};
-		WaitSingleton.get().start();
+		//WaitSingleton.get().start();
 		dataService.getQueuePosition(idWebSession, callback);
 	}
 
