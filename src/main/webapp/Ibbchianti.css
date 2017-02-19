@@ -25,6 +25,13 @@
 	padding: 0px 0px;
 	text-align: left;
 	font-family: 'Arvo',tahoma,'Lucida Sans',sans !important;
+	
+	background: url('img/logo_background.jpg');
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	-moz-background-size: cover;
+	-webkit-background-size: cover;
+	background-size: cover;
 }
 #message-panel {
 	position: fixed ; /* absolute: in page - fixed: in browser window */
