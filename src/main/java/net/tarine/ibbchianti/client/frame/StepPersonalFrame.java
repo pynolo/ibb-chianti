@@ -61,7 +61,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 		cp.add(new HTML("<p>"+constants.personalIntro1()+
 				" <b>&euro;"+ClientConstants.FORMAT_CURRENCY.format(WizardSingleton.get().getConfigBean().getDonationMin())+
 				"</b> "+constants.personalIntro2()+"</p>"));
-
+		cp.add(new HTML("<p>"+constants.personalIntroWarning()+"</p>"));
 		//EMAIL
 		cp.add(new HTML(constants.personalEmail()));
 		HorizontalPanel emailPanel = new HorizontalPanel();

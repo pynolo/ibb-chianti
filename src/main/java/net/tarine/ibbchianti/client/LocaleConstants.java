@@ -19,6 +19,7 @@ public interface LocaleConstants extends Constants {
 	String personalTitle();
 	String personalIntro1();
 	String personalIntro2();
+	String personalIntroWarning();
 	String personalEmail();
 	String personalEmailWarning();
 	String personalFirstName();
