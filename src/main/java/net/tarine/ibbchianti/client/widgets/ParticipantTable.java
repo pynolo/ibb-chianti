@@ -104,7 +104,7 @@ public class ParticipantTable extends PagingTable<Participant> {
 				"<b>TOTAL participants: "+(peopleTotal)+"</b>");
 		//getInnerTable().getFlexCellFormatter().setColSpan(rowNum, 1, 2);
 		//PAGAMENTO
-		getInnerTable().setHTML(rowNum, 4, "<b>TOTAL amount: &euro;"+
+		getInnerTable().setHTML(rowNum, 5, "<b>TOTAL amount: &euro;"+
 				ClientConstants.FORMAT_CURRENCY.format(paymentTotal)+"</b>");
 	}
 	

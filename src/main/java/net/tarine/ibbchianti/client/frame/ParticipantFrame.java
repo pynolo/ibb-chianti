@@ -44,15 +44,15 @@ public class ParticipantFrame extends FramePanel implements IAuthenticatedWidget
 	}
 	
 	private void draw() {
-		setTitle("Partecipanti");
+		setTitle("Participants");
 		panel = new VerticalPanel();
 		this.add(panel);
 		// Select
 		HorizontalPanel topPanel = new HorizontalPanel();
-		topPanel.add(new HTML("Mostra:&nbsp;"));
+		topPanel.add(new HTML("Show:&nbsp;"));
 		final ListBox confirmList = new ListBox();
-		confirmList.addItem("Tutti","0");
-		confirmList.addItem("Solo i confermati", "1");
+		confirmList.addItem("All","0");
+		confirmList.addItem("Confirmed only", "1");
 		if (filterConfirmed.equals("0")) {
 			confirmList.setSelectedIndex(0);
 		} else {
