@@ -77,8 +77,8 @@ public class StepThanksFrame extends FramePanel {
 				"("+constants.thanksGoToForum()+")</p>"));
 		cp.add(new HTML("<p>&nbsp;</p>"));
 
-		cp.add(new HTML("<p>"+constants.thanksReceiveEmail()+" <b>"+
-				participant.getEmail()+"</b></p>"));
+		cp.add(new HTML("<p>"+constants.thanksReceiveEmail1()+" <b>"+
+				participant.getEmail()+"</b> "+constants.thanksReceiveEmail2()+"</p>"));
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));
 				
