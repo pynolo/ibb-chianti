@@ -46,6 +46,7 @@ public class ClientConstants {
 	public static final String COOKIE_VERSION = "appVersion";
 	public static final String COOKIE_ACCESS_KEY = "ak";
 	public static final String COOKIE_FILTER_CONFIRMED = "confirmed";
+	public static final String COOKIE_ORDER_BY = "order";
 	
 	//TRACKING PIWIK
 	public static final String TRACKING_PIWIK_CODE =

@@ -55,20 +55,20 @@ public class ParticipantTable extends PagingTable<Participant> {
 		if (rowFinal.getPaymentAmount() != null) {
 			getInnerTable().setHTML(rowNum, 0, "<i class='fa fa-ticket' ></i>");
 		}
-		//EMAIL
-		if (rowFinal.getPaymentAmount() != null) {
-			getInnerTable().setHTML(rowNum, 1, "<b>"+rowFinal.getEmail()+"</b> ");
-		} else {
-			getInnerTable().setHTML(rowNum, 1, rowFinal.getEmail());
-		}
 		//COGNOME
 		String cognome = "";
 		if (rowFinal.getLastName() != null) cognome = rowFinal.getLastName();
-		getInnerTable().setHTML(rowNum, 2, cognome);
+		getInnerTable().setHTML(rowNum, 1, cognome);
 		//NOME
 		String nome = "";
 		if (rowFinal.getFirstName() != null) nome = rowFinal.getFirstName();
-		getInnerTable().setHTML(rowNum, 3, nome);
+		getInnerTable().setHTML(rowNum, 2, nome);
+		//EMAIL
+		if (rowFinal.getPaymentAmount() != null) {
+			getInnerTable().setHTML(rowNum, 3, "<b>"+rowFinal.getEmail()+"</b> ");
+		} else {
+			getInnerTable().setHTML(rowNum, 3, rowFinal.getEmail());
+		}
 		//NASCITA
 		String nascita = "";
 		if (rowFinal.getBirthDt() != null) nascita += ClientConstants.FORMAT_DAY.format(rowFinal.getBirthDt())+" ";
@@ -96,9 +96,9 @@ public class ParticipantTable extends PagingTable<Participant> {
 	@Override
 	protected void addHeader() {
 		// Set the data in the current row
-		getInnerTable().setHTML(0, 1, "Email");
-		getInnerTable().setHTML(0, 2, "Last name");
-		getInnerTable().setHTML(0, 3, "First name");
+		getInnerTable().setHTML(0, 1, "Last name");
+		getInnerTable().setHTML(0, 2, "First name");
+		getInnerTable().setHTML(0, 3, "Email");
 		getInnerTable().setHTML(0, 4, "Birth");
 		getInnerTable().setHTML(0, 5, "Payment");
 		getInnerTable().setHTML(0, 6, "Secret");
@@ -108,10 +108,11 @@ public class ParticipantTable extends PagingTable<Participant> {
 	protected void addFooter(int rowNum) {
 		getInnerTable().setHTML(rowNum, 1,
 				"<b>TOTAL participants: "+(peopleTotal)+"</b>");
-		//getInnerTable().getFlexCellFormatter().setColSpan(rowNum, 1, 2);
+		getInnerTable().getFlexCellFormatter().setColSpan(rowNum, 1, 4);
 		//PAGAMENTO
-		getInnerTable().setHTML(rowNum, 5, "<b>TOTAL amount: &euro;"+
+		getInnerTable().setHTML(rowNum, 2, "<b>TOTAL amount: &euro;"+
 				ClientConstants.FORMAT_CURRENCY.format(paymentTotal)+"</b>");
+		getInnerTable().getFlexCellFormatter().setColSpan(rowNum, 2, 2);
 	}
 	
 	@Override
@@ -126,15 +127,17 @@ public class ParticipantTable extends PagingTable<Participant> {
 	public static class ParticipantModel implements DataModel<Participant> {
 		private DataServiceAsync dataService = GWT.create(DataService.class);
 		private boolean confirmed = true;
+		private String orderBy = "id";
 		
-		public ParticipantModel(boolean confirmed) {
+		public ParticipantModel(boolean confirmed, String orderBy) {
 			this.confirmed=confirmed;
+			this.orderBy=orderBy;
 		}
 
 		@Override
 		public void find(int offset, int pageSize, AsyncCallback<List<Participant>> callback) {
 			//WaitSingleton.get().start();
-			dataService.findParticipants(confirmed, callback);
+			dataService.findParticipants(confirmed, orderBy, callback);
 		}
 	}
 

@@ -19,7 +19,8 @@ import net.tarine.ibbchianti.shared.entity.Participant;
 
 public class ParticipantFrame extends FramePanel implements IAuthenticatedWidget {
 	
-	private String filterConfirmed = "1";
+	private String filterCookie = "1";
+	private String orderCookie = "id";
 	
 	private VerticalPanel panel = null;
 	private FlowPanel resultPanel = null;
@@ -31,9 +32,12 @@ public class ParticipantFrame extends FramePanel implements IAuthenticatedWidget
 		}
 		String fc = CookieSingleton.get().getCookie(ClientConstants.COOKIE_FILTER_CONFIRMED);
 		if (fc != null) {
-			if (!fc.equals(""))	filterConfirmed = fc;
+			if (!fc.equals(""))	filterCookie = fc;
 		}
-		
+		String oc = CookieSingleton.get().getCookie(ClientConstants.COOKIE_ORDER_BY);
+		if (oc != null) {
+			if (!oc.equals(""))	orderCookie = oc;
+		}
 		this.setWidth("100%");
 		AuthSingleton.get().queueForAuthentication(this);
 	}
@@ -49,11 +53,12 @@ public class ParticipantFrame extends FramePanel implements IAuthenticatedWidget
 		this.add(panel);
 		// Select
 		HorizontalPanel topPanel = new HorizontalPanel();
+		// FILTER
 		topPanel.add(new HTML("Show:&nbsp;"));
 		final ListBox confirmList = new ListBox();
 		confirmList.addItem("All","0");
 		confirmList.addItem("Confirmed only", "1");
-		if (filterConfirmed.equals("0")) {
+		if (filterCookie.equals("0")) {
 			confirmList.setSelectedIndex(0);
 		} else {
 			confirmList.setSelectedIndex(1);
@@ -61,14 +66,36 @@ public class ParticipantFrame extends FramePanel implements IAuthenticatedWidget
 		confirmList.addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
-				filterConfirmed = confirmList.getSelectedValue();
+				filterCookie = confirmList.getSelectedValue();
 				CookieSingleton.get().setCookie(ClientConstants.COOKIE_FILTER_CONFIRMED,
-						filterConfirmed);
+						filterCookie);
 				refreshTable();
 			}
 		});
 		confirmList.setEnabled(true);
 		topPanel.add(confirmList);
+		//ORDER BY
+		topPanel.add(new HTML("&nbsp;Order:&nbsp;"));
+		final ListBox orderList = new ListBox();
+		orderList.addItem("Registration date","id");
+		orderList.addItem("Last name", "lastName");
+		if (orderCookie.equals("lastName")) {
+			orderList.setSelectedIndex(1);
+		} else {
+			orderList.setSelectedIndex(0);
+		}
+		orderList.addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				orderCookie = orderList.getSelectedValue();
+				CookieSingleton.get().setCookie(ClientConstants.COOKIE_ORDER_BY,
+						orderCookie);
+				refreshTable();
+			}
+		});
+		orderList.setEnabled(true);
+		topPanel.add(orderList);
+		
 		panel.add(topPanel);
 		//Tabella partecipanti
 		resultPanel = new FlowPanel();
@@ -79,7 +106,7 @@ public class ParticipantFrame extends FramePanel implements IAuthenticatedWidget
 	private void refreshTable() {
 		resultPanel.clear();
 		//Tabella
-		DataModel<Participant> model = new ParticipantTable.ParticipantModel(filterConfirmed.equals("1"));
+		DataModel<Participant> model = new ParticipantTable.ParticipantModel(filterCookie.equals("1"), orderCookie);
 		ParticipantTable partTable = new ParticipantTable(model);
 		resultPanel.add(partTable);
 	}

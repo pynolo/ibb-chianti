@@ -33,13 +33,15 @@ public class ParticipantDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List<Participant> find(Session ses, boolean confirmed)
+	public static List<Participant> find(Session ses, boolean confirmed, String orderBy)
 			throws OrmException {
 		List<Participant> entities = new ArrayList<Participant>();
+		if (orderBy == null) orderBy = "id";
+		if (orderBy.length() > 15) orderBy = "id";
 		try {
 			String qs = "from Participant p ";
 			if (confirmed) qs += "where p.paymentAmount is not null ";
-			qs += "order by p.creationDt";
+			qs += "order by "+orderBy;
 			Query q = ses.createQuery(qs);
 			entities = (List<Participant>) q.list();
 		} catch (HibernateException e) {

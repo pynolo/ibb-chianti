@@ -160,12 +160,12 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public List<Participant> findParticipants(boolean confirmed) throws SystemException {
+	public List<Participant> findParticipants(boolean confirmed, String orderBy) throws SystemException {
 		List<Participant> pList = new ArrayList<Participant>();
 		Session ses = SessionFactory.getSession();
 		Transaction trn = ses.beginTransaction();
 		try {
-			pList = ParticipantDao.find(ses, confirmed);
+			pList = ParticipantDao.find(ses, confirmed, orderBy);
 			trn.commit();
 		} catch (OrmException e) {
 			trn.rollback();

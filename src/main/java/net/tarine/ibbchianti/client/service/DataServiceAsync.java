@@ -23,7 +23,7 @@ public interface DataServiceAsync{
 
     void findParticipantById( java.lang.Integer id, AsyncCallback<Participant> callback );
     void findParticipantByItemNumber( java.lang.String itemNumber, int delayMillis, AsyncCallback<Participant> callback );
-    void findParticipants( boolean confirmed, AsyncCallback<java.util.List<Participant>> callback );
+    void findParticipants( boolean confirmed, String orderBy, AsyncCallback<java.util.List<Participant>> callback );
     void saveOrUpdateParticipant(Participant prt, AsyncCallback<Participant> callback );
 	void countConfirmed(AsyncCallback<Integer> callback);
 
