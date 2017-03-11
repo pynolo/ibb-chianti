@@ -84,8 +84,13 @@ public class ParticipantTable extends PagingTable<Participant> {
 		if (rowFinal.getPaymentDt() != null)
 				pag += "("+ClientConstants.FORMAT_TIMESTAMP.format(rowFinal.getPaymentDt())+") ";
 		InlineHTML paymentHtml = new InlineHTML(pag);
-		paymentHtml.setTitle(rowFinal.getItemNumber());
+		//paymentHtml.setTitle(rowFinal.getItemNumber());
 		getInnerTable().setWidget(rowNum, 5, paymentHtml);
+		//ITEM NUMBER
+		String itemNumber = "";
+		if (rowFinal.getFirstName() != null && rowFinal.getPaymentDt() != null)
+				itemNumber = "<b>"+rowFinal.getItemNumber()+"</b>";
+		getInnerTable().setHTML(rowNum, 6, itemNumber);
 	}
 	
 	@Override
@@ -96,6 +101,7 @@ public class ParticipantTable extends PagingTable<Participant> {
 		getInnerTable().setHTML(0, 3, "First name");
 		getInnerTable().setHTML(0, 4, "Birth");
 		getInnerTable().setHTML(0, 5, "Payment");
+		getInnerTable().setHTML(0, 6, "Secret");
 	}
 	
 	@Override
