@@ -18,10 +18,14 @@ Thumbs.db
 
 *.war
 gwt-unitCache
-/gwt-unitCache/
-/war/
-/target/
-/deployments/
+gwt-unitCache/**
+war
+war/**
+target
+target/**
+deployments/**
+.settings
+.settings/**
 
 custom.properties
 

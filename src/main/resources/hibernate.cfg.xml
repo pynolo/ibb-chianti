@@ -51,8 +51,8 @@
 		
 
 		<!--mapping package="it.hubzilla.hubchart.model"/-->
-		<mapping class="net.tarine.ibbchianti.shared.entity.Config"/>
-		<mapping class="net.tarine.ibbchianti.shared.entity.WebSession"/>
-		<mapping class="net.tarine.ibbchianti.shared.entity.Participant"/>
+		<mapping class="it.burningboots.entrance.shared.entity.Config"/>
+		<mapping class="it.burningboots.entrance.shared.entity.WebSession"/>
+		<mapping class="it.burningboots.entrance.shared.entity.Participant"/>
     </session-factory>
 </hibernate-configuration>
