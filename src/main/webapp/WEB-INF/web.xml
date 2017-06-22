@@ -18,12 +18,12 @@
 	<!-- Servlet mappings -->
 	<servlet-mapping>
 		<servlet-name>dataServiceImpl</servlet-name>
-		<url-pattern>/ibbchianti/dataService</url-pattern>
+		<url-pattern>/entrance/dataService</url-pattern>
 	</servlet-mapping>
 	
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>Ibbchianti.html</welcome-file>
+		<welcome-file>Entrance.html</welcome-file>
 	</welcome-file-list>
 
 </web-app>
