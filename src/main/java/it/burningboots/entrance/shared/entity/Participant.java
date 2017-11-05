@@ -66,10 +66,9 @@ public class Participant implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "payment_dt")
 	private Date paymentDt = null;
-	//@Basic(optional = false)
-	//@Column(name = "discount", nullable = false)
-	//private boolean discount;
-	
+    @Column(name = "id_level")
+	private Integer idLevel;
+    
     //@OneToMany(fetch = FetchType.EAGER, mappedBy="participant")
     //private Set<IpnResponse> ipnResponses;
 	
@@ -173,6 +172,14 @@ public class Participant implements Serializable {
 		this.paymentDt = paymentDt;
 	}
 	
+	public Integer getIdLevel() {
+		return idLevel;
+	}
+
+	public void setIdLevel(Integer idLevel) {
+		this.idLevel = idLevel;
+	}
+
 	@Override
     public int hashCode() {
         int hash = 0;

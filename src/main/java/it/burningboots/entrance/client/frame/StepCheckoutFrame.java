@@ -1,5 +1,7 @@
 package it.burningboots.entrance.client.frame;
 
+import java.util.Date;
+
 import it.burningboots.entrance.client.ClientConstants;
 import it.burningboots.entrance.client.IWizardFrame;
 import it.burningboots.entrance.client.LocaleConstants;
@@ -65,6 +67,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 	
 	private void draw() {
 		ConfigBean cb = WizardSingleton.get().getConfigBean();
+		Date now = new Date();
 		
 		//TITLE
 		setTitle(constants.checkoutTitle());
@@ -75,12 +78,12 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		cp.add(new HTML(constants.checkoutDonationAmount()));
 		HorizontalPanel emailPanel = new HorizontalPanel();
 		amountText = new ExtendedTextBox();
-		amountText.setValue(ClientConstants.FORMAT_CURRENCY.format(cb.getDonationMin()));
+		amountText.setValue(ClientConstants.FORMAT_CURRENCY.format(cb.getDonationMin(now)));
 		emailPanel.add(amountText);
 		emailPanel.add(new InlineHTML("&nbsp;&nbsp;"));
 		cp.add(emailPanel);
 		cp.add(new HTML("<p><i>"+constants.checkoutDonationMinimumDesc()+" &euro;"+
-				ClientConstants.FORMAT_CURRENCY.format(cb.getDonationMin())+"</i></p>"));
+				ClientConstants.FORMAT_CURRENCY.format(cb.getDonationMin(now))+"</i></p>"));
 		
 		HorizontalPanel cardPanel = new HorizontalPanel();
 		cp.add(cardPanel);
@@ -149,6 +152,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		//Validation
 		String error = "";
 		Amount amount = null;
+		Date now = new Date();
 		try {
 			String amountString = amountText.getValue();
 			amount = new Amount(amountString);
@@ -157,10 +161,10 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		}
 		Double amountDouble = amount.getAmountDouble();
 		if (amountDouble > WizardSingleton.get().getConfigBean().getDonationMax() ||
-				amountDouble < WizardSingleton.get().getConfigBean().getDonationMin())
+				amountDouble < WizardSingleton.get().getConfigBean().getDonationMin(now))
 			error += constants.checkoutErrorAmountLimit()+
 			" (min &euro;"+ClientConstants.FORMAT_CURRENCY.format(
-					WizardSingleton.get().getConfigBean().getDonationMin())+
+					WizardSingleton.get().getConfigBean().getDonationMin(now))+
 			" max &euro;"+ClientConstants.FORMAT_CURRENCY.format(
 					WizardSingleton.get().getConfigBean().getDonationMax())+")";
 		if (cardNumberText.getValue().length() < 10 || cardNumberText.getValue().length() > 18)
