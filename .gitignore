@@ -28,4 +28,6 @@ deployments/**
 .settings/**
 
 custom.properties
+.project
+.classpath
 
