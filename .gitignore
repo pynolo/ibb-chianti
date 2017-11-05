@@ -31,3 +31,4 @@ custom.properties
 .project
 .classpath
 
+/bin/
