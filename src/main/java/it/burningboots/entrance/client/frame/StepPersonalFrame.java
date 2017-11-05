@@ -10,6 +10,7 @@ import it.burningboots.entrance.client.WaitSingleton;
 import it.burningboots.entrance.client.WizardSingleton;
 import it.burningboots.entrance.client.service.DataService;
 import it.burningboots.entrance.client.service.DataServiceAsync;
+import it.burningboots.entrance.client.widgets.DonationAmountWidget;
 import it.burningboots.entrance.client.widgets.ExtendedTextBox;
 import it.burningboots.entrance.client.widgets.ForwardButton;
 import it.burningboots.entrance.client.widgets.HeartbeatWidget;
@@ -37,6 +38,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 	
 	private VerticalPanel cp = null; // Content panel
 	
+	private DonationAmountWidget donationWdg = null;
 	private HeartbeatWidget heartbeat = null;
 	private ExtendedTextBox emailText;
 	private TextBox firstNameText;
@@ -58,9 +60,10 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 		//TITLE
 		setTitle(constants.personalTitle());
 		
-		cp.add(new HTML("<p>"+constants.personalIntro1()+
-				" <b>&euro;"+ClientConstants.FORMAT_CURRENCY.format(WizardSingleton.get().getConfigBean().getDonationMin())+
-				"</b> "+constants.personalIntro2()+"</p>"));
+		cp.add(new InlineHTML(constants.personalIntro1()));
+		donationWdg = new DonationAmountWidget();
+		cp.add(donationWdg);
+		cp.add(new InlineHTML(constants.personalIntro2()));
 		cp.add(new HTML("<p>"+constants.personalIntroWarning()+"</p>"));
 		//EMAIL
 		cp.add(new HTML(constants.personalEmail()));
@@ -201,8 +204,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 			WaitSingleton.get().start();
 			dataService.saveOrUpdateParticipant(transPrt, callback);
 			
-
 		}
 	}
-	
+
 }

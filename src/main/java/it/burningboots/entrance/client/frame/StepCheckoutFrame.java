@@ -1,8 +1,7 @@
 package it.burningboots.entrance.client.frame;
 
-import java.util.Date;
-
 import it.burningboots.entrance.client.ClientConstants;
+import it.burningboots.entrance.client.IAmountHandler;
 import it.burningboots.entrance.client.IWizardFrame;
 import it.burningboots.entrance.client.LocaleConstants;
 import it.burningboots.entrance.client.UiSingleton;
@@ -12,12 +11,12 @@ import it.burningboots.entrance.client.WaitSingleton;
 import it.burningboots.entrance.client.WizardSingleton;
 import it.burningboots.entrance.client.service.DataService;
 import it.burningboots.entrance.client.service.DataServiceAsync;
+import it.burningboots.entrance.client.widgets.DonationAmountWidget;
 import it.burningboots.entrance.client.widgets.ExtendedTextBox;
 import it.burningboots.entrance.client.widgets.ForwardButton;
 import it.burningboots.entrance.client.widgets.HeartbeatWidget;
 import it.burningboots.entrance.shared.Amount;
 import it.burningboots.entrance.shared.AppConstants;
-import it.burningboots.entrance.shared.ConfigBean;
 import it.burningboots.entrance.shared.SystemException;
 
 import com.google.gwt.core.client.GWT;
@@ -30,15 +29,18 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
+public class StepCheckoutFrame extends FramePanel implements IWizardFrame, IAmountHandler {
 	
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
+	
+	private Double minAmount = 100000D;
 	
 	private UriBuilder params = null;
 	private String itemNumber = null;
 	private VerticalPanel cp = null; // Content panel
 	
+	private DonationAmountWidget amountWgt = null;
 	private HeartbeatWidget heartbeat = null;
 	private TextBox amountText;
 	private TextBox cardNumberText;
@@ -66,9 +68,6 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 	}
 	
 	private void draw() {
-		ConfigBean cb = WizardSingleton.get().getConfigBean();
-		Date now = new Date();
-		
 		//TITLE
 		setTitle(constants.checkoutTitle());
 		
@@ -78,12 +77,12 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		cp.add(new HTML(constants.checkoutDonationAmount()));
 		HorizontalPanel emailPanel = new HorizontalPanel();
 		amountText = new ExtendedTextBox();
-		amountText.setValue(ClientConstants.FORMAT_CURRENCY.format(cb.getDonationMin(now)));
 		emailPanel.add(amountText);
 		emailPanel.add(new InlineHTML("&nbsp;&nbsp;"));
 		cp.add(emailPanel);
-		cp.add(new HTML("<p><i>"+constants.checkoutDonationMinimumDesc()+" &euro;"+
-				ClientConstants.FORMAT_CURRENCY.format(cb.getDonationMin(now))+"</i></p>"));
+		amountWgt = new DonationAmountWidget(this);
+		cp.add(new HTML("<i>"+constants.checkoutDonationMinimumDesc()+"</i>"));
+		cp.add(amountWgt);
 		
 		HorizontalPanel cardPanel = new HorizontalPanel();
 		cp.add(cardPanel);
@@ -152,7 +151,6 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		//Validation
 		String error = "";
 		Amount amount = null;
-		Date now = new Date();
 		try {
 			String amountString = amountText.getValue();
 			amount = new Amount(amountString);
@@ -161,10 +159,9 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		}
 		Double amountDouble = amount.getAmountDouble();
 		if (amountDouble > WizardSingleton.get().getConfigBean().getDonationMax() ||
-				amountDouble < WizardSingleton.get().getConfigBean().getDonationMin(now))
+				amountDouble < minAmount)
 			error += constants.checkoutErrorAmountLimit()+
-			" (min &euro;"+ClientConstants.FORMAT_CURRENCY.format(
-					WizardSingleton.get().getConfigBean().getDonationMin(now))+
+			" (min &euro;"+ClientConstants.FORMAT_CURRENCY.format(minAmount)+
 			" max &euro;"+ClientConstants.FORMAT_CURRENCY.format(
 					WizardSingleton.get().getConfigBean().getDonationMax())+")";
 		if (cardNumberText.getValue().length() < 10 || cardNumberText.getValue().length() > 18)
@@ -203,6 +200,13 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame {
 		};
 		WaitSingleton.get().start();
 		dataService.payWithStripe(itemNumber, amount, cardNumber, expMonth, expYear, callback);
+	}
+
+	@Override
+	public void updateAmount(Double value) {
+		this.minAmount = value;
+		if (amountText != null)
+			amountText.setValue(ClientConstants.FORMAT_CURRENCY.format(minAmount));
 	}
 	
 }

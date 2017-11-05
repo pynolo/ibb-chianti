@@ -46,8 +46,8 @@ DROP TABLE IF EXISTS `level`;
 CREATE TABLE `level` (
 	`id` int(11) NOT NULL,
 	`price` varchar(8) NOT NULL,
-	`max_date` date NOT NULL,
-	`max_count` int(11) NOT NULL,
+	`last_date` date NOT NULL,
+	`last_count` int(11) NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

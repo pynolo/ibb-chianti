@@ -24,11 +24,11 @@ public class Level implements Serializable {
 	private String price;
 	@Basic(optional = false)
     @Temporal(TemporalType.DATE)
-	@Column(name = "max_date", nullable = false)
-	private Date maxDate = null;
+	@Column(name = "last_date", nullable = false)
+	private Date lastDate = null;
 	@Basic(optional = false)
-	@Column(name = "max_count", nullable = false)
-	private Integer maxCount = null;
+	@Column(name = "last_count", nullable = false)
+	private Integer lastCount = null;
 	
 	public Level() {
 	}
@@ -49,20 +49,20 @@ public class Level implements Serializable {
 		this.price = price;
 	}
 
-	public Date getMaxDate() {
-		return maxDate;
+	public Date getLastDate() {
+		return lastDate;
 	}
 
-	public void setMaxDate(Date maxDate) {
-		this.maxDate = maxDate;
+	public void setLastDate(Date lastDate) {
+		this.lastDate = lastDate;
 	}
 
-	public Integer getMaxCount() {
-		return maxCount;
+	public Integer getLastCount() {
+		return lastCount;
 	}
 
-	public void setMaxCount(Integer maxCount) {
-		this.maxCount = maxCount;
+	public void setLastCount(Integer lastCount) {
+		this.lastCount = lastCount;
 	}
 
 	@Override

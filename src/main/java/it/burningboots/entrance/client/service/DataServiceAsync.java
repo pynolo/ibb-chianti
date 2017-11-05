@@ -20,7 +20,8 @@ public interface DataServiceAsync{
 	void getConfigBean(AsyncCallback<ConfigBean> callback );
 	void findConfigByKey(String key, AsyncCallback<Config> callback );
     //void saveOrUpdateConfig(Config config, AsyncCallback<Void> callback);
-
+	void getDonationMin(AsyncCallback<Double> callback );
+	
     void findParticipantById( java.lang.Integer id, AsyncCallback<Participant> callback );
     void findParticipantByItemNumber( java.lang.String itemNumber, int delayMillis, AsyncCallback<Participant> callback );
     void findParticipants( boolean confirmed, String orderBy, AsyncCallback<java.util.List<Participant>> callback );

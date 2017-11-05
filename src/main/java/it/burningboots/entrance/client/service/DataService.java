@@ -22,7 +22,8 @@ public interface DataService extends RemoteService {
 	public ConfigBean getConfigBean() throws SystemException;
 	public Config findConfigByKey(String key) throws SystemException;
 	//public void saveOrUpdateConfig(Config config) throws SystemException;
-
+	public Double getDonationMin() throws SystemException;
+	
 	//Participants
 	public Participant findParticipantById(Integer id) throws SystemException;
 	public Participant findParticipantByItemNumber(String itemNumber, int delayMillis) throws SystemException;

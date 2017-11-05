@@ -3,6 +3,7 @@ package it.burningboots.entrance.server.servlet;
 import it.burningboots.entrance.client.service.DataService;
 import it.burningboots.entrance.server.DataBusiness;
 import it.burningboots.entrance.server.EmailUtil;
+import it.burningboots.entrance.server.ServerConstants;
 import it.burningboots.entrance.server.persistence.GenericDao;
 import it.burningboots.entrance.server.persistence.LevelDao;
 import it.burningboots.entrance.server.persistence.ParticipantDao;
@@ -18,6 +19,7 @@ import it.burningboots.entrance.shared.entity.Level;
 import it.burningboots.entrance.shared.entity.Participant;
 import it.burningboots.entrance.shared.entity.WebSession;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -409,6 +411,38 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			}
 			trn.commit();
 		} catch (OrmException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} finally {
+			ses.close();
+		}
+		return result;
+	}
+	
+	@Override
+	public Double getDonationMin() throws SystemException {
+		Double result = null;
+		Session ses = SessionFactory.getSession();
+		Transaction trn = ses.beginTransaction();
+		try {
+			Integer count = ParticipantDao.countConfirmed(ses);
+			List<Level> levelList = LevelDao.findAll(ses);
+			Date now = new Date();
+			Level level = new Level();
+			level.setId(-1);
+			level.setLastDate(now);
+			level.setLastCount(-1);
+			for (Level l:levelList) {
+				if ((count <= level.getLastCount()) && (!now.after(level.getLastDate()))) {
+					level = l;
+				}
+			}
+			if (level.getPrice() != null) {
+				Number price = (Number) ServerConstants.FORMAT_CURRENCY.parse(level.getPrice());
+				result = price.doubleValue();
+			}
+		} catch (OrmException | ParseException e) {
 			trn.rollback();
 			LOG.error(e.getMessage(), e);
 			throw new SystemException(e.getMessage(), e);

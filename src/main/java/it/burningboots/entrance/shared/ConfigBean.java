@@ -3,7 +3,6 @@ package it.burningboots.entrance.shared;
 import it.burningboots.entrance.shared.entity.Level;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 public class ConfigBean implements Serializable {
@@ -47,8 +46,14 @@ public class ConfigBean implements Serializable {
 		this.donationMax = donationMax;
 	}
 
-	public double getDonationMin(Date dt) {
-		
+	public Integer getTicketLimit() {
+		if (levelList != null) {
+			Integer max = 0;
+			for (Level l:levelList) {
+				if (l.getLastCount() > max) max = l.getLastCount();
+			}
+			return max;
+		} else return 0;
 	}
 	
 	public List<Level> getLevelList() {
