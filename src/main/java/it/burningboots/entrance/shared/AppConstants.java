@@ -5,6 +5,7 @@ public class AppConstants {
 	//MAIN CONFIG
 	public static final int ITEM_NUMBER_LENGHT = 6;
 	public static final String EVENT_URL = "https://burningboots.it";
+	public static final double DONATION_MAX = 200D;
 	
 	//WebSession
 	public static int QUEUE_RELOAD_TIME = 1000*30; //30 seconds
@@ -25,9 +26,6 @@ public class AppConstants {
 	
 	// CONFIG TABLE
 	public static final String CONFIG_ACCESS_KEY = "accessKey";
-//	public static final String CONFIG_TICKET_LIMIT = "ticketLimit";
-//	public static final String CONFIG_DONATION_MIN = "donationMin";
-	public static final String CONFIG_DONATION_MAX = "donationMax";
 	public static final String CONFIG_STRIPE_SECRET_KEY = "stripeSecretKey";
 	public static final String CONFIG_STRIPE_PUBLIC_KEY = "stripePublicKey";
 	

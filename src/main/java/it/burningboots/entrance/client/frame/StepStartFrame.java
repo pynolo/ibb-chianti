@@ -7,7 +7,6 @@ import it.burningboots.entrance.client.UiSingleton;
 import it.burningboots.entrance.client.UriBuilder;
 import it.burningboots.entrance.client.UriDispatcher;
 import it.burningboots.entrance.client.WaitSingleton;
-import it.burningboots.entrance.client.WizardSingleton;
 import it.burningboots.entrance.client.service.DataService;
 import it.burningboots.entrance.client.service.DataServiceAsync;
 import it.burningboots.entrance.client.widgets.HeartbeatWidget;
@@ -86,7 +85,7 @@ public class StepStartFrame extends FramePanel {
 	private void controller() {
 		if (this.queuePosition < AppConstants.QUEUE_MAX_LENGTH) {
 			//Forward
-			if (confirmed >= WizardSingleton.get().getConfigBean().getTicketLimit()) {
+			if (confirmed >= AppConstants.DONATION_MAX) {
 				cancelQueueCheckTimer();
 				heartbeat.cancelHeartbeatTimer();
 				UriBuilder param = new UriBuilder();

@@ -8,7 +8,6 @@ import it.burningboots.entrance.client.UiSingleton;
 import it.burningboots.entrance.client.UriBuilder;
 import it.burningboots.entrance.client.UriDispatcher;
 import it.burningboots.entrance.client.WaitSingleton;
-import it.burningboots.entrance.client.WizardSingleton;
 import it.burningboots.entrance.client.service.DataService;
 import it.burningboots.entrance.client.service.DataServiceAsync;
 import it.burningboots.entrance.client.widgets.DonationAmountWidget;
@@ -158,12 +157,11 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, IAmou
 			error += constants.checkoutErrorAmountFormat()+"<br/>";
 		}
 		Double amountDouble = amount.getAmountDouble();
-		if (amountDouble > WizardSingleton.get().getConfigBean().getDonationMax() ||
+		if (amountDouble > AppConstants.DONATION_MAX ||
 				amountDouble < minAmount)
 			error += constants.checkoutErrorAmountLimit()+
 			" (min &euro;"+ClientConstants.FORMAT_CURRENCY.format(minAmount)+
-			" max &euro;"+ClientConstants.FORMAT_CURRENCY.format(
-					WizardSingleton.get().getConfigBean().getDonationMax())+")";
+			" max &euro;"+ClientConstants.FORMAT_CURRENCY.format(AppConstants.DONATION_MAX)+")";
 		if (cardNumberText.getValue().length() < 10 || cardNumberText.getValue().length() > 18)
 			error += constants.checkoutErrorCard()+" <br/>";
 		//Get data from textBoxes

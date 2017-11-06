@@ -1,5 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `ibb_chianti` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `ibb_chianti`;
+CREATE DATABASE  IF NOT EXISTS `ibb_2018` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `ibb_2018`;
 -- MySQL dump 10.13  Distrib 5.5.34, for debian-linux-gnu (x86_64)
 --
 -- ------------------------------------------------------
@@ -29,9 +29,6 @@ CREATE TABLE `config` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-insert into config (id,val) values ('ticketLimit','40');
-insert into config (id,val) values ('donationMin','35');
-insert into config (id,val) values ('donationMax','200');
 insert into config (id,val) values ('accessKey','x');
 insert into config (id,val) values ('stripeSecretKey','x');
 insert into config (id,val) values ('stripePublicKey','x');

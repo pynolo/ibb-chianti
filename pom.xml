@@ -7,7 +7,7 @@
 <artifactId>ibb-entrance</artifactId>
 <packaging>war</packaging>
 <version>4.0-SNAPSHOT</version>
-<name>Maven Archetype for GWT</name>
+<name>IBB registration service</name>
 
 <properties>
 	<!-- Charset UTF-8 -->
@@ -155,6 +155,10 @@
 						<runTarget>Entrance.html</runTarget>
 						<!-- Ask GWT to create the Story of Your Compile (SOYC) (gwt:compile) -->
 						<compileReport>false</compileReport>
+						<!-- some more memory and “workers” work in threads (instead of spawning new processes) -->
+						<extraJvmArgs>-Xms768m -Xmx768m -Dgwt.jjs.permutationWorkerFactory=com.google.gwt.dev.ThreadedPermutationWorkerFactory</extraJvmArgs>
+						<!-- Lowering the number of workers below your available cores -->
+						<localWorkers>3</localWorkers>
 					</configuration>
 				</plugin>
 
@@ -263,6 +267,10 @@
 						<mode>htmlunit</mode>
 						<!-- Tests patterns -->
 						<includes>**/Test*.java,**/*Test.java,**/*TestCase.java</includes>
+						<!-- some more memory and “workers” work in threads (instead of spawning new processes) -->
+						<extraJvmArgs>-Xms768m -Xmx768m -Dgwt.jjs.permutationWorkerFactory=com.google.gwt.dev.ThreadedPermutationWorkerFactory</extraJvmArgs>
+						<!-- Lowering the number of workers below your available cores -->
+						<localWorkers>3</localWorkers>
 					</configuration>
 				</plugin>
 		

@@ -56,17 +56,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			//bean.setVersion(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_VERSION));
 			Config accessKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_ACCESS_KEY);
 			bean.setAccessKey(accessKeyConfig.getVal());
-			//Config ticketLimitConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_TICKET_LIMIT);
-			//int ticketLimit = Integer.parseInt(ticketLimitConfig.getVal());
-			//bean.setTicketLimit(ticketLimit);
-			Config donationMaxConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_DONATION_MAX);
-			double donationMax = Double.parseDouble(donationMaxConfig.getVal());
-			bean.setDonationMax(donationMax);
-			//Config donationMinConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_DONATION_MIN);
-			//double donationMin = Double.parseDouble(donationMinConfig.getVal());
-			//bean.setDonationMin(donationMin);
-			List<Level> levelList = LevelDao.findAll(ses);
-			bean.setLevelList(levelList);
+			//Config stripe
 			Config stripePublicKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_PUBLIC_KEY);
 			bean.setStripePublicKey(stripePublicKeyConfig.getVal());
 			trn.commit();
