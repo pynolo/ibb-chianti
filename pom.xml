@@ -131,7 +131,7 @@
 	<profile>
 		<id>prod</id>
 		<build>
-			<finalName>ibb-greeter</finalName>
+			<finalName>greeter</finalName>
 			<plugins>
 				<!-- GWT Maven Plugin -->
 				<plugin>
@@ -230,7 +230,7 @@
             <activeByDefault>true</activeByDefault>
         </activation>
 		<build>
-			<finalName>ibb-greeter</finalName>
+			<finalName>greeter</finalName>
 			<plugins>
 				<!-- GWT Maven Plugin -->
 				<plugin>
