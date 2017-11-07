@@ -50,7 +50,7 @@ public interface LocaleConstants extends Constants {
 	String thanksTakeNote();
 	String thanksWhatIs();
 	String thanksTellSomeone();
-	String thanksGoToForum();
+	//String thanksGoToForum();
 	String thanksReceiveEmail1();
 	String thanksReceiveEmail2();
 
