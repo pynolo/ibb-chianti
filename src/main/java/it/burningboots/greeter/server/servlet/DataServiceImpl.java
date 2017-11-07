@@ -446,12 +446,17 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		try {
 			Config adminPasswordConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_ADMIN_PASSWORD);
 			if (adminPasswordConfig.getVal().equals(newParticipant.getAdminPassword())) {
+				//New participant
 				Date now = new Date();
 				newParticipant.setId(null);
 				newParticipant.setUpdateDt(now);
-				newParticipant.setReplacedById(oldParticipantId);
+				newParticipant.setReplacedById(null);
 				Integer id = (Integer) GenericDao.saveGeneric(ses, newParticipant);
 				result = GenericDao.findById(ses, Participant.class, id);
+				//replaced participant
+				Participant oldParticipant = GenericDao.findById(ses, Participant.class, oldParticipantId);
+				oldParticipant.setReplacedById(id);
+				GenericDao.updateGeneric(ses, oldParticipantId, oldParticipant);
 	        	trn.commit();
 			} else {
 				throw new SystemException("Operazione non autorizzata");

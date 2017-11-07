@@ -49,9 +49,9 @@ CREATE TABLE `level` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-INSERT INTO `ibb_2018`.`level` (`id`, `price`, `last_date`, `last_count`) VALUES ('1', '50', '2017-11-15', '4');
-INSERT INTO `ibb_2018`.`level` (`id`, `price`, `last_date`, `last_count`) VALUES ('2', '60', '2017-11-30', '15');
-INSERT INTO `ibb_2018`.`level` (`id`, `price`, `last_date`, `last_count`) VALUES ('3', '70', '2017-12-31', '20');
+INSERT INTO `level` (`id`, `price`, `last_date`, `last_count`) VALUES ('1', '50', '2017-11-15', '4');
+INSERT INTO `level` (`id`, `price`, `last_date`, `last_count`) VALUES ('2', '60', '2017-11-30', '15');
+INSERT INTO `level` (`id`, `price`, `last_date`, `last_count`) VALUES ('3', '70', '2017-12-31', '20');
 
 --
 -- Table structure for table `participant`

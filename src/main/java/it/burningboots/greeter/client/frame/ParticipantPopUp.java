@@ -214,7 +214,7 @@ public class ParticipantPopUp extends PopupPanel implements IAuthenticatedWidget
 		newItem.setPaymentAmount(item.getPaymentAmount());
 		newItem.setPaymentDetails(item.getPaymentDetails());
 		newItem.setPaymentDt(item.getPaymentDt());
-		newItem.setReplacedById(item.getId());
+		newItem.setReplacedById(null);
 		newItem.setUpdateDt(new Date());
 		WaitSingleton.get().start();
 		dataService.replaceParticipant(newItem, idParticipant, callback);
