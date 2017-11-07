@@ -6,13 +6,13 @@
 	<!-- Filters -->
 	<!-- <filter>
 		<filter-name>gwtCacheControlFilter</filter-name>
-		<filter-class>it.burningboots.entrance.server.servlet.GWTCacheControlFilter</filter-class>
+		<filter-class>it.burningboots.greeter.server.servlet.GWTCacheControlFilter</filter-class>
 	</filter>-->
 	
 	<!-- Servlets -->
 	<servlet>
 		<servlet-name>dataServiceImpl</servlet-name>
-		<servlet-class>it.burningboots.entrance.server.servlet.DataServiceImpl</servlet-class>
+		<servlet-class>it.burningboots.greeter.server.servlet.DataServiceImpl</servlet-class>
 	</servlet>
 	
 	<!-- Servlet mappings -->
