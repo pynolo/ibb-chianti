@@ -1,7 +1,7 @@
 package it.burningboots.greeter.client.frame;
 
 import it.burningboots.greeter.client.ClientConstants;
-import it.burningboots.greeter.client.IAmountHandler;
+import it.burningboots.greeter.client.ILevelHandler;
 import it.burningboots.greeter.client.IWizardFrame;
 import it.burningboots.greeter.client.LocaleConstants;
 import it.burningboots.greeter.client.UiSingleton;
@@ -10,13 +10,14 @@ import it.burningboots.greeter.client.UriDispatcher;
 import it.burningboots.greeter.client.WaitSingleton;
 import it.burningboots.greeter.client.service.DataService;
 import it.burningboots.greeter.client.service.DataServiceAsync;
-import it.burningboots.greeter.client.widgets.DonationAmountWidget;
+import it.burningboots.greeter.client.widgets.CurrentLevelWidget;
 import it.burningboots.greeter.client.widgets.ExtendedTextBox;
 import it.burningboots.greeter.client.widgets.ForwardButton;
 import it.burningboots.greeter.client.widgets.HeartbeatWidget;
 import it.burningboots.greeter.shared.Amount;
 import it.burningboots.greeter.shared.AppConstants;
 import it.burningboots.greeter.shared.SystemException;
+import it.burningboots.greeter.shared.entity.Level;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -28,18 +29,18 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class StepCheckoutFrame extends FramePanel implements IWizardFrame, IAmountHandler {
+public class StepCheckoutFrame extends FramePanel implements IWizardFrame, ILevelHandler {
 	
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
 	
-	private Double minAmount = 100000D;
+	private Level level = null;
 	
 	private UriBuilder params = null;
 	private String itemNumber = null;
 	private VerticalPanel cp = null; // Content panel
 	
-	private DonationAmountWidget amountWgt = null;
+	private CurrentLevelWidget amountWgt = null;
 	private HeartbeatWidget heartbeat = null;
 	private TextBox amountText;
 	private TextBox cardNumberText;
@@ -79,7 +80,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, IAmou
 		emailPanel.add(amountText);
 		emailPanel.add(new InlineHTML("&nbsp;&nbsp;"));
 		cp.add(emailPanel);
-		amountWgt = new DonationAmountWidget(this);
+		amountWgt = new CurrentLevelWidget(this);
 		cp.add(new HTML("<i>"+constants.checkoutDonationMinimumDesc()+"</i>"));
 		cp.add(amountWgt);
 		
@@ -147,29 +148,31 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, IAmou
 	}
 	
 	public void goForward() {
-		//Validation
-		String error = "";
-		Amount amount = null;
-		try {
-			String amountString = amountText.getValue();
-			amount = new Amount(amountString);
-		} catch (NumberFormatException|SystemException e) {
-			error += constants.checkoutErrorAmountFormat()+"<br/>";
-		}
-		Double amountDouble = amount.getAmountDouble();
-		if (amountDouble > AppConstants.DONATION_MAX ||
-				amountDouble < minAmount)
-			error += constants.checkoutErrorAmountLimit()+
-			" (min &euro;"+ClientConstants.FORMAT_CURRENCY.format(minAmount)+
-			" max &euro;"+ClientConstants.FORMAT_CURRENCY.format(AppConstants.DONATION_MAX)+")";
-		if (cardNumberText.getValue().length() < 10 || cardNumberText.getValue().length() > 18)
-			error += constants.checkoutErrorCard()+" <br/>";
-		//Get data from textBoxes
-		if (error.length() > 0) {
-			UiSingleton.get().addWarning(error);
-		} else {
-			attemptPayment(itemNumber, amount, cardNumberText.getValue(),
-					expMonthList.getSelectedValue(), expYearList.getSelectedValue());
+		if (level != null) {
+			//Validation
+			String error = "";
+			Amount amount = null;
+			try {
+				String amountString = amountText.getValue();
+				amount = new Amount(amountString);
+			} catch (NumberFormatException|SystemException e) {
+				error += constants.checkoutErrorAmountFormat()+"<br/>";
+			}
+			Double amountDouble = amount.getAmountDouble();
+			if (amountDouble > AppConstants.DONATION_MAX ||
+					amountDouble < level.getPrice())
+				error += constants.checkoutErrorAmountLimit()+
+				" (min &euro;"+ClientConstants.FORMAT_CURRENCY.format(level.getPrice())+
+				" max &euro;"+ClientConstants.FORMAT_CURRENCY.format(AppConstants.DONATION_MAX)+")";
+			if (cardNumberText.getValue().length() < 10 || cardNumberText.getValue().length() > 18)
+				error += constants.checkoutErrorCard()+" <br/>";
+			//Get data from textBoxes
+			if (error.length() > 0) {
+				UiSingleton.get().addWarning(error);
+			} else {
+				attemptPayment(itemNumber, amount, cardNumberText.getValue(),
+						expMonthList.getSelectedValue(), expYearList.getSelectedValue());
+			}
 		}
 	}
 	
@@ -201,10 +204,10 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, IAmou
 	}
 
 	@Override
-	public void updateAmount(Double value) {
-		this.minAmount = value;
-		if (amountText != null)
-			amountText.setValue(ClientConstants.FORMAT_CURRENCY.format(minAmount));
+	public void updateLevel(Level value) {
+		this.level = value;
+		if (amountText != null && level != null)
+			amountText.setValue(ClientConstants.FORMAT_CURRENCY.format(level.getPrice()));
 	}
 	
 }

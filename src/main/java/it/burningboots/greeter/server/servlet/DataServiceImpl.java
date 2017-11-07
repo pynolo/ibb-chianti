@@ -3,7 +3,6 @@ package it.burningboots.greeter.server.servlet;
 import it.burningboots.greeter.client.service.DataService;
 import it.burningboots.greeter.server.DataBusiness;
 import it.burningboots.greeter.server.EmailUtil;
-import it.burningboots.greeter.server.ServerConstants;
 import it.burningboots.greeter.server.persistence.GenericDao;
 import it.burningboots.greeter.server.persistence.LevelDao;
 import it.burningboots.greeter.server.persistence.ParticipantDao;
@@ -19,7 +18,6 @@ import it.burningboots.greeter.shared.entity.Level;
 import it.burningboots.greeter.shared.entity.Participant;
 import it.burningboots.greeter.shared.entity.WebSession;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -411,28 +409,27 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	@Override
-	public Double getDonationMin() throws SystemException {
-		Double result = null;
+	public Level getCurrentLevel() throws SystemException {
+		Level result = null;
 		Session ses = SessionFactory.getSession();
 		Transaction trn = ses.beginTransaction();
 		try {
 			Integer count = ParticipantDao.countConfirmed(ses);
 			List<Level> levelList = LevelDao.findAll(ses);
 			Date now = new Date();
-			Level level = new Level();
-			level.setId(-1);
-			level.setLastDate(now);
-			level.setLastCount(-1);
+			Level tmpLevel = new Level();
+			tmpLevel.setId(-1);
+			tmpLevel.setLastDate(now);
+			tmpLevel.setLastCount(-1);
 			for (Level l:levelList) {
-				if ((count <= level.getLastCount()) && (!now.after(level.getLastDate()))) {
-					level = l;
+				if ((count <= tmpLevel.getLastCount()) && (!now.after(tmpLevel.getLastDate()))) {
+					tmpLevel = l;
 				}
 			}
-			if (level.getPrice() != null) {
-				Number price = (Number) ServerConstants.FORMAT_CURRENCY.parse(level.getPrice());
-				result = price.doubleValue();
+			if (tmpLevel.getPrice() != null) {
+				result = tmpLevel;
 			}
-		} catch (OrmException | ParseException e) {
+		} catch (OrmException e) {
 			trn.rollback();
 			LOG.error(e.getMessage(), e);
 			throw new SystemException(e.getMessage(), e);

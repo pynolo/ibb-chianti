@@ -3,6 +3,7 @@ package it.burningboots.greeter.client.service;
 import it.burningboots.greeter.shared.Amount;
 import it.burningboots.greeter.shared.ConfigBean;
 import it.burningboots.greeter.shared.entity.Config;
+import it.burningboots.greeter.shared.entity.Level;
 import it.burningboots.greeter.shared.entity.Participant;
 
 import java.util.Date;
@@ -20,7 +21,7 @@ public interface DataServiceAsync{
 	void getConfigBean(AsyncCallback<ConfigBean> callback );
 	void findConfigByKey(String key, AsyncCallback<Config> callback );
     //void saveOrUpdateConfig(Config config, AsyncCallback<Void> callback);
-	void getDonationMin(AsyncCallback<Double> callback );
+	void getCurrentLevel(AsyncCallback<Level> callback );
 	
     void findParticipantById( java.lang.Integer id, AsyncCallback<Participant> callback );
     void findParticipantByItemNumber( java.lang.String itemNumber, int delayMillis, AsyncCallback<Participant> callback );

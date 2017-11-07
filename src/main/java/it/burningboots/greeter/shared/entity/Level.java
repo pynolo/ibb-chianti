@@ -20,8 +20,8 @@ public class Level implements Serializable {
     @Column(name = "id", nullable = false)
 	private Integer id;
 	@Basic(optional = false)
-	@Column(name = "price", nullable = false, length = 8)
-	private String price;
+	@Column(name = "price", nullable = false)
+	private Double price;
 	@Basic(optional = false)
     @Temporal(TemporalType.DATE)
 	@Column(name = "last_date", nullable = false)
@@ -41,11 +41,11 @@ public class Level implements Serializable {
 		this.id = id;
 	}
 
-	public String getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

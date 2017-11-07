@@ -42,7 +42,7 @@ DROP TABLE IF EXISTS `level`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `level` (
 	`id` int(11) NOT NULL,
-	`price` varchar(8) NOT NULL,
+	`price` decimal(9,2) NOT NULL DEFAULT '0.00',
 	`last_date` date NOT NULL,
 	`last_count` int(11) NOT NULL,
 	PRIMARY KEY (`id`)

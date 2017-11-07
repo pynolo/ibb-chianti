@@ -4,6 +4,7 @@ import it.burningboots.greeter.shared.Amount;
 import it.burningboots.greeter.shared.ConfigBean;
 import it.burningboots.greeter.shared.SystemException;
 import it.burningboots.greeter.shared.entity.Config;
+import it.burningboots.greeter.shared.entity.Level;
 import it.burningboots.greeter.shared.entity.Participant;
 
 import java.util.Date;
@@ -22,7 +23,7 @@ public interface DataService extends RemoteService {
 	public ConfigBean getConfigBean() throws SystemException;
 	public Config findConfigByKey(String key) throws SystemException;
 	//public void saveOrUpdateConfig(Config config) throws SystemException;
-	public Double getDonationMin() throws SystemException;
+	public Level getCurrentLevel() throws SystemException;
 	
 	//Participants
 	public Participant findParticipantById(Integer id) throws SystemException;

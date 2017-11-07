@@ -9,6 +9,7 @@ public interface LocaleConstants extends Constants {
 	String warning();
 	String error();
 	String itemNumber();
+	String level();
 	
 	String queueTitle();
 	String queueVerify();

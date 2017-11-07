@@ -10,7 +10,7 @@ import it.burningboots.greeter.client.WaitSingleton;
 import it.burningboots.greeter.client.WizardSingleton;
 import it.burningboots.greeter.client.service.DataService;
 import it.burningboots.greeter.client.service.DataServiceAsync;
-import it.burningboots.greeter.client.widgets.DonationAmountWidget;
+import it.burningboots.greeter.client.widgets.CurrentLevelWidget;
 import it.burningboots.greeter.client.widgets.ExtendedTextBox;
 import it.burningboots.greeter.client.widgets.ForwardButton;
 import it.burningboots.greeter.client.widgets.HeartbeatWidget;
@@ -38,7 +38,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 	
 	private VerticalPanel cp = null; // Content panel
 	
-	private DonationAmountWidget donationWdg = null;
+	private CurrentLevelWidget donationWdg = null;
 	private HeartbeatWidget heartbeat = null;
 	private ExtendedTextBox emailText;
 	private TextBox firstNameText;
@@ -61,7 +61,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 		setTitle(constants.personalTitle());
 		
 		cp.add(new InlineHTML(constants.personalIntro1()));
-		donationWdg = new DonationAmountWidget();
+		donationWdg = new CurrentLevelWidget();
 		cp.add(donationWdg);
 		cp.add(new InlineHTML(constants.personalIntro2()));
 		cp.add(new HTML("<p>"+constants.personalIntroWarning()+"</p>"));

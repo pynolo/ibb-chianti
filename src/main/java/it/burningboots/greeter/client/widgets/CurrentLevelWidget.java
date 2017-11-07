@@ -1,30 +1,32 @@
 package it.burningboots.greeter.client.widgets;
 
-
 import it.burningboots.greeter.client.ClientConstants;
-import it.burningboots.greeter.client.IAmountHandler;
+import it.burningboots.greeter.client.ILevelHandler;
+import it.burningboots.greeter.client.LocaleConstants;
 import it.burningboots.greeter.client.UiSingleton;
 import it.burningboots.greeter.client.WaitSingleton;
 import it.burningboots.greeter.client.service.DataService;
 import it.burningboots.greeter.client.service.DataServiceAsync;
+import it.burningboots.greeter.shared.entity.Level;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.InlineHTML;
 
-public class DonationAmountWidget extends InlineHTML {
+public class CurrentLevelWidget extends InlineHTML {
 
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
+	private LocaleConstants constants = GWT.create(LocaleConstants.class);
 	private int SCHEDULER_DELAY = 10000;
 	
-	private IAmountHandler parent = null;
-	private double amount = 0D;
+	private ILevelHandler parent = null;
+	private Level level = null;
 	
-	public DonationAmountWidget() {
+	public CurrentLevelWidget() {
 		this(null);
 	}
-	public DonationAmountWidget(IAmountHandler parent) {
+	public CurrentLevelWidget(ILevelHandler parent) {
 		this.parent = parent;
 		// Create a new timer that calls Window.alert().
 		Timer t = new Timer() {
@@ -37,30 +39,31 @@ public class DonationAmountWidget extends InlineHTML {
 		amountUpdater();
 	}
 	
-	public double getAmount() {
-		return amount;
+	public Level getLevel() {
+		return level;
 	}
 	
-	private void setAmount(Double value) {
-		this.amount = value;
-		if (parent != null) parent.updateAmount(amount);
-		this.setHTML("<b>&euro;"+ClientConstants.FORMAT_CURRENCY.format(amount)+"</b>");
+	private void setLevel(Level value) {
+		this.level = value;
+		if (parent != null) parent.updateLevel(level);
+		this.setHTML("<b>&euro;"+ClientConstants.FORMAT_CURRENCY.format(level.getPrice())+"</b> ("+
+				constants.level()+" "+level.getId()+") ");
 	}
 	
 	private void amountUpdater() {
-		AsyncCallback<Double> callback = new AsyncCallback<Double>() {
+		AsyncCallback<Level> callback = new AsyncCallback<Level>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				UiSingleton.get().addError(caught);
 				WaitSingleton.get().stop();
 			}
 			@Override
-			public void onSuccess(Double value) {
+			public void onSuccess(Level value) {
 				WaitSingleton.get().stop();
-				setAmount(value);
+				setLevel(value);
 			}
 		};
 		WaitSingleton.get().start();
-		dataService.getDonationMin(callback);
+		dataService.getCurrentLevel(callback);
 	}
 }
