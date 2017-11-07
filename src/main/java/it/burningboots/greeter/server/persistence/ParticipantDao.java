@@ -17,9 +17,10 @@ public class ParticipantDao {
 			throws OrmException {
 		Participant result = null;
 		try {
-			String qs = "from Participant where "+
-					"itemNumber = :s1 "+
-					"order by itemNumber";
+			String qs = "from Participant p where "+
+					"p.itemNumber = :s1 and "+
+					"p.replacedById is null "+
+					"order by p.itemNumber";
 			Query q = ses.createQuery(qs);
 			q.setString("s1", itemNumber);
 			List<Participant> entities = (List<Participant>) q.list();
@@ -40,8 +41,9 @@ public class ParticipantDao {
 		if (orderBy.length() > 15) orderBy = "id";
 		try {
 			String qs = "from Participant p ";
-			if (confirmed) qs += "where p.paymentAmount is not null ";
-			qs += "order by "+orderBy;
+			if (confirmed) qs += "where p.paymentAmount is not null and ";
+			qs += "p.replacedById is null "+
+					"order by "+orderBy;
 			Query q = ses.createQuery(qs);
 			entities = (List<Participant>) q.list();
 		} catch (HibernateException e) {
@@ -56,9 +58,10 @@ public class ParticipantDao {
 		List<Participant> entities = new ArrayList<Participant>();
 		try {
 			String qs = "from Participant p where "+
-					"p.email like :s1 ";
-			if (confirmed) qs += "and p.paymentAmount is not null ";
-			qs += "order by p.creationDt";
+					"p.email like :s1 and ";
+			if (confirmed) qs += "p.paymentAmount is not null and ";
+			qs += "p.replacedById is null "+
+					"order by p.creationDt";
 			Query q = ses.createQuery(qs);
 			q.setParameter("s1", email);
 			entities = (List<Participant>) q.list();
@@ -73,8 +76,9 @@ public class ParticipantDao {
 			throws OrmException {
 		Long result = null;
 		try {
-			String qs = "select count(p.id) from Participant p "+
-				"where p.paymentAmount is not null ";
+			String qs = "select count(p.id) from Participant p where "+
+					"p.paymentAmount is not null and "+
+					"p.replacedById is null ";
 			Query q = ses.createQuery(qs);
 			List<Object> list = q.list();
 			if (list != null) {
@@ -93,8 +97,9 @@ public class ParticipantDao {
 			throws OrmException {
 		Double result = null;
 		try {
-			String qs = "select sum(p.paymentAmount) from Participant p "+
-				"where p.paymentAmount is not null";
+			String qs = "select sum(p.paymentAmount) from Participant p where "+
+					"p.paymentAmount is not null and "+
+					"p.replacedById is null ";
 			Query q = ses.createQuery(qs);
 			List<Object> list = q.list();
 			if (list != null) {

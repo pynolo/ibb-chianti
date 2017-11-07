@@ -45,20 +45,6 @@ public class Participant implements Serializable {
     @Temporal(TemporalType.DATE)
 	@Column(name = "birth_dt")
 	private Date birthDt = null;
-	//@Column(name = "food_restrictions", length = 2024)
-	//private String foodRestrictions = "";
-	//@Column(name = "volunteering", length = 64)
-	//private String volunteering = "";
-	//@Basic(optional = false)
-	//@Column(name = "already_burner", nullable = false)
-	//private boolean alreadyBurner;
-	//@Basic(optional = false)
-	//@Column(name = "already_ibb", nullable = false)
-	//private boolean alreadyIbb;
-	//@Column(name = "language", length = 4)
-	//private String language = "";
-	//@Column(name = "accommodation_type")
-	//private Integer accommodationType = AppConstants.ACCOMMODATION_HUT;
 	@Column(name = "payment_amount")
 	private Double paymentAmount = null;
 	@Column(name = "payment_details")
@@ -66,7 +52,9 @@ public class Participant implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "payment_dt")
 	private Date paymentDt = null;
-    
+    @Column(name = "replaced_by_id")
+	private Integer replacedById;
+	
     //@OneToMany(fetch = FetchType.EAGER, mappedBy="participant")
     //private Set<IpnResponse> ipnResponses;
 	
@@ -170,6 +158,14 @@ public class Participant implements Serializable {
 		this.paymentDt = paymentDt;
 	}
 	
+	public Integer getReplacedById() {
+		return replacedById;
+	}
+
+	public void setReplacedById(Integer replacedById) {
+		this.replacedById = replacedById;
+	}
+
 	@Override
     public int hashCode() {
         int hash = 0;

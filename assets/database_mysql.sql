@@ -72,6 +72,7 @@ CREATE TABLE `participant` (
 	`payment_amount` varchar(64) DEFAULT NULL,
 	`payment_details` text DEFAULT NULL,
 	`payment_dt` datetime DEFAULT NULL,
+	`replaced_by_id` int(11) DEFAULT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
