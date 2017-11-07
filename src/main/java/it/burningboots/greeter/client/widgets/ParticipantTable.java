@@ -1,6 +1,8 @@
 package it.burningboots.greeter.client.widgets;
 
 import it.burningboots.greeter.client.ClientConstants;
+import it.burningboots.greeter.client.IRefreshable;
+import it.burningboots.greeter.client.frame.ParticipantPopUp;
 import it.burningboots.greeter.client.service.DataService;
 import it.burningboots.greeter.client.service.DataServiceAsync;
 import it.burningboots.greeter.shared.entity.Participant;
@@ -9,10 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.InlineHTML;
 
-public class ParticipantTable extends PagingTable<Participant> {
+public class ParticipantTable extends PagingTable<Participant> implements IRefreshable {
 	
 	private static final int TABLE_ROWS = 1000;
 	private int peopleTotal = 0;
@@ -52,6 +57,7 @@ public class ParticipantTable extends PagingTable<Participant> {
 	@Override
 	protected void addTableRow(int rowNum, Participant rowObj) {
 		final Participant rowFinal = rowObj;
+		final IRefreshable participantsTable = this;
 		if (rowFinal.getPaymentAmount() != null) {
 			getInnerTable().setHTML(rowNum, 0, "<i class='fa fa-ticket' ></i>");
 		}
@@ -89,8 +95,16 @@ public class ParticipantTable extends PagingTable<Participant> {
 		//ITEM NUMBER
 		String itemNumber = "";
 		if (rowFinal.getFirstName() != null && rowFinal.getPaymentDt() != null)
-				itemNumber = "<b>"+rowFinal.getItemNumber()+"</b>";
-		getInnerTable().setHTML(rowNum, 6, itemNumber);
+				itemNumber = "<b>"+rowFinal.getItemNumber()+"</b>&nbsp;"+
+						"<i class='fa fa-pencil-square-o' aria-hidden='true'></i>";
+		Anchor rowLink = new Anchor(itemNumber, true);
+		rowLink.addMouseDownHandler(new MouseDownHandler() {
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				new ParticipantPopUp(rowFinal.getId(), participantsTable);
+			}
+		});
+		getInnerTable().setWidget(rowNum, 6, rowLink);
 	}
 	
 	@Override
