@@ -40,8 +40,8 @@ public class ParticipantDao {
 		if (orderBy == null) orderBy = "id";
 		if (orderBy.length() > 15) orderBy = "id";
 		try {
-			String qs = "from Participant p ";
-			if (confirmed) qs += "where p.paymentAmount is not null and ";
+			String qs = "from Participant p where ";
+			if (confirmed) qs += "p.paymentAmount is not null and ";
 			qs += "p.replacedById is null "+
 					"order by "+orderBy;
 			Query q = ses.createQuery(qs);
