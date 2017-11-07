@@ -25,7 +25,8 @@ public class AppConstants {
 //	//BUYER TEST ACCOUNT paolo-buyer@tarine.net pw low level
 	
 	// CONFIG TABLE
-	public static final String CONFIG_ACCESS_KEY = "accessKey";
+	public static final String CONFIG_BASE_PASSWORD = "basePassword";
+	public static final String CONFIG_ADMIN_PASSWORD = "adminPassword";
 	public static final String CONFIG_STRIPE_SECRET_KEY = "stripeSecretKey";
 	public static final String CONFIG_STRIPE_PUBLIC_KEY = "stripePublicKey";
 	

@@ -81,7 +81,7 @@ public class AuthSingleton {
 			List<IAuthenticatedWidget> widgetList) {
 		try {
 			if (userAccessKey != null) {
-				String dbAccessKey = WizardSingleton.get().getConfigBean().getAccessKey();
+				String dbAccessKey = WizardSingleton.get().getConfigBean().getBasePassword();
 				verifiedAccessKey = null;
 				if (userAccessKey.equals(dbAccessKey)) {
 					verifiedAccessKey = userAccessKey;

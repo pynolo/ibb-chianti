@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class ConfigBean implements Serializable {
 	private static final long serialVersionUID = 5717993261825827825L;
 	
-	//private String version = null;
-	private String accessKey = null;
+	private String basePassword = null;
+	private String adminPassword = null;
 	//private String stripeTestSecretKey = "x";
 	//private String stripeTestPublicKey = "x";
 	//private String stripeSecretKey = "x";
@@ -15,20 +15,20 @@ public class ConfigBean implements Serializable {
 	public ConfigBean() {
 	}
 	
-//	public String getVersion() {
-//		return version;
-//	}
-//	
-//	public void setVersion(String version) {
-//		this.version = version;
-//	}
-
-	public String getAccessKey() {
-		return accessKey;
+	public String getBasePassword() {
+		return basePassword;
 	}
 
-	public void setAccessKey(String accessKey) {
-		this.accessKey = accessKey;
+	public void setBasePassword(String basePassword) {
+		this.basePassword = basePassword;
+	}
+
+	public String getAdminPassword() {
+		return adminPassword;
+	}
+
+	public void setAdminPassword(String adminPassword) {
+		this.adminPassword = adminPassword;
 	}
 
 	public String getStripePublicKey() {

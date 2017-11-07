@@ -51,9 +51,10 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		Transaction trn = ses.beginTransaction();
 		try {
 			//From app file
-			//bean.setVersion(PropertyConfigReader.readPropertyConfig(ses, PropertyConfigReader.PROPERTY_VERSION));
-			Config accessKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_ACCESS_KEY);
-			bean.setAccessKey(accessKeyConfig.getVal());
+			Config basePasswordConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_BASE_PASSWORD);
+			bean.setBasePassword(basePasswordConfig.getVal());
+			Config adminPasswordConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_ADMIN_PASSWORD);
+			bean.setAdminPassword(adminPasswordConfig.getVal());
 			//Config stripe
 			Config stripePublicKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_PUBLIC_KEY);
 			bean.setStripePublicKey(stripePublicKeyConfig.getVal());

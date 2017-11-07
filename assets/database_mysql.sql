@@ -29,7 +29,8 @@ CREATE TABLE `config` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-insert into config (id,val) values ('accessKey','x');
+insert into config (id,val) values ('basePassword','x');
+insert into config (id,val) values ('adminPassword','x');
 insert into config (id,val) values ('stripeSecretKey','x');
 insert into config (id,val) values ('stripePublicKey','x');
 
