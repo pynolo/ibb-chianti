@@ -111,6 +111,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		Transaction trn = ses.beginTransaction();
 		try {
 			p = GenericDao.findById(ses, Participant.class, id);
+			if (p == null) throw new SystemException("participant.id="+id+" not found");
 			trn.commit();
 		} catch (OrmException e) {
 			trn.rollback();

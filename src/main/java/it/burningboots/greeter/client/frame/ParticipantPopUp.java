@@ -1,7 +1,6 @@
 package it.burningboots.greeter.client.frame;
 
-import it.burningboots.greeter.client.AuthSingleton;
-import it.burningboots.greeter.client.IAuthenticatedWidget;
+import it.burningboots.greeter.client.ClientConstants;
 import it.burningboots.greeter.client.IRefreshable;
 import it.burningboots.greeter.client.UiSingleton;
 import it.burningboots.greeter.client.WaitSingleton;
@@ -25,7 +24,7 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class ParticipantPopUp extends PopupPanel implements IAuthenticatedWidget {
+public class ParticipantPopUp extends PopupPanel {
 
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	
@@ -45,19 +44,17 @@ public class ParticipantPopUp extends PopupPanel implements IAuthenticatedWidget
 		super(false);
 		this.idParticipant=idParticipant;
 		this.parent=parent;
-		AuthSingleton.get().queueForAuthentication(this);
-	}
-	
-	@Override
-	public void onSuccessfulAuthentication() {
 		loadParticipant();
 	}
 	
 	private void draw() {
+		this.setModal(true);
+		this.setGlassEnabled(true);
+		this.add(table);
 		int r=0;
 		
-		HTML titleHtml = new HTML("Partecipante <b>"+item.getItemNumber()+"</b>");
-		titleHtml.setStyleName("frame-title");
+		HTML titleHtml = new HTML("<h1>Sostituzione partecipante <b>"+item.getItemNumber()+"</b></h1>");
+		//titleHtml.setStyleName("frame-title");
 		table.setWidget(r, 0, titleHtml);
 		table.getFlexCellFormatter().setColSpan(r, 0, 5);
 		r++;
@@ -65,21 +62,23 @@ public class ParticipantPopUp extends PopupPanel implements IAuthenticatedWidget
 		//Email
 		table.setHTML(r, 0, "Email");
 		emailText = new TextBox();
-		emailText.setValue(item.getEmail());
+		//emailText.setValue(item.getEmail());
 		emailText.setMaxLength(64);
+		emailText.setWidth("25rem");
 		table.setWidget(r, 1, emailText);
+		table.getFlexCellFormatter().setColSpan(r, 1, 4);
 		r++;
 		
 		//Nome
 		table.setHTML(r, 0, "Nome");
 		firstNameText = new TextBox();
-		firstNameText.setValue(item.getFirstName());
+		//firstNameText.setValue(item.getFirstName());
 		firstNameText.setMaxLength(64);
 		table.setWidget(r, 1, firstNameText);
 		//Cognome
 		table.setHTML(r, 3, "Cognome");
 		lastNameText = new TextBox();
-		lastNameText.setValue(item.getLastName());
+		//lastNameText.setValue(item.getLastName());
 		lastNameText.setMaxLength(64);
 		table.setWidget(r, 4, lastNameText);
 		r++;
@@ -87,12 +86,13 @@ public class ParticipantPopUp extends PopupPanel implements IAuthenticatedWidget
 		//Città
 		table.setHTML(r, 0, "Città di nascita ");
 		birthCityText = new TextBox();
-		birthCityText.setValue(item.getBirthCity());
+		//birthCityText.setValue(item.getBirthCity());
 		table.setWidget(r, 1, birthCityText);
 		//Data nascita
 		table.setHTML(r, 3, "Data di nascita ");
 		birthDateText = new DateOnlyBox();
-		birthDateText.setValue(item.getBirthDt());
+		birthDateText.setFormat(ClientConstants.BOX_FORMAT_DAY);
+		//birthDateText.setValue(item.getBirthDt());
 		table.setWidget(r, 4, birthDateText);
 		r++;
 		
@@ -100,6 +100,10 @@ public class ParticipantPopUp extends PopupPanel implements IAuthenticatedWidget
 		table.setHTML(r, 0, "Codice autorizzazione ");
 		pwText = new PasswordTextBox();
 		table.setWidget(r, 1, pwText);
+		//Cognome
+		table.setHTML(r, 3, "Vecchio nome");
+		String nome = "<b>"+item.getFirstName()+"&nbsp;"+item.getLastName()+"</b>";
+		table.setHTML(r, 4, nome);
 		r++;
 		
 		HorizontalPanel buttonPanel = new HorizontalPanel();
