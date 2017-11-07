@@ -1,10 +1,16 @@
 package it.burningboots.greeter.client;
 
+import it.burningboots.greeter.client.service.DataService;
+import it.burningboots.greeter.client.service.DataServiceAsync;
+import it.burningboots.greeter.shared.AppConstants;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -17,6 +23,8 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class AuthSingleton {
+	
+	private final DataServiceAsync dataService = GWT.create(DataService.class);
 		
 	private static AuthSingleton instance = null;
 	private List<IAuthenticatedWidget> widgetList = null;
@@ -77,26 +85,26 @@ public class AuthSingleton {
 	// METODI ASINCRONI
 
 
-	private void authenticateOrPopUp(String userAccessKey,
-			List<IAuthenticatedWidget> widgetList) {
-		try {
-			if (userAccessKey != null) {
-				String dbAccessKey = WizardSingleton.get().getConfigBean().getBasePassword();
-				verifiedAccessKey = null;
-				if (userAccessKey.equals(dbAccessKey)) {
-					verifiedAccessKey = userAccessKey;
-					saveCookie(userAccessKey);
+	private void authenticateOrPopUp(String password, List<IAuthenticatedWidget> widgetList) {
+		AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				UiSingleton.get().addError(caught);
+				WaitSingleton.get().stop();
+			}
+			@Override
+			public void onSuccess(Boolean result) {
+				WaitSingleton.get().stop();
+				if (result) {
 					unlockWidgets(widgetList);
+					saveCookie(password);
 				} else {
 					new AuthPopUp("", widgetList);
 				}
-			} else {
-				new AuthPopUp("", widgetList);
 			}
-		} catch (Exception e) {
-			//Will never be called because Exceptions will be caught by callback
-			e.printStackTrace();
-		}
+		};
+		WaitSingleton.get().start();
+		dataService.compareConfigByKey(AppConstants.CONFIG_BASE_PASSWORD, password, callback);
 	}
 	
 	

@@ -1,7 +1,6 @@
 package it.burningboots.greeter.client.service;
 
 import it.burningboots.greeter.shared.Amount;
-import it.burningboots.greeter.shared.ConfigBean;
 import it.burningboots.greeter.shared.SystemException;
 import it.burningboots.greeter.shared.entity.Config;
 import it.burningboots.greeter.shared.entity.Level;
@@ -20,8 +19,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface DataService extends RemoteService {
 	
 	//Config
-	public ConfigBean getConfigBean() throws SystemException;
 	public Config findConfigByKey(String key) throws SystemException;
+	public Boolean compareConfigByKey(String key, String value) throws SystemException;
 	//public void saveOrUpdateConfig(Config config) throws SystemException;
 	public Level getCurrentLevel() throws SystemException;
 	
@@ -31,6 +30,7 @@ public interface DataService extends RemoteService {
 	public List<Participant> findParticipants(boolean confirmed, String orderBy) throws SystemException;
 	public Participant saveOrUpdateParticipant(Participant prt) throws SystemException;
 	public Integer countConfirmed() throws SystemException;
+	public Participant replaceParticipant(Participant newParticipant, Integer oldParticipantId) throws SystemException;
 
 	//Payment
 	public String payWithStripe(String itemNumber, Amount amount, String number,

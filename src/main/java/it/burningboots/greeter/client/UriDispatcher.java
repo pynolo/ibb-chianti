@@ -2,7 +2,7 @@ package it.burningboots.greeter.client;
 
 import it.burningboots.greeter.client.frame.ErrorClosedFrame;
 import it.burningboots.greeter.client.frame.ErrorPaymentFrame;
-import it.burningboots.greeter.client.frame.ParticipantFrame;
+import it.burningboots.greeter.client.frame.ParticipantListFrame;
 import it.burningboots.greeter.client.frame.StepCheckoutFrame;
 import it.burningboots.greeter.client.frame.StepPersonalFrame;
 import it.burningboots.greeter.client.frame.StepStartFrame;
@@ -61,7 +61,7 @@ public class UriDispatcher {
 				contentPanel.add(new StepThanksFrame(params));
 			}
 			if (PARTICIPANTS.equals(token)) {
-				contentPanel.add(new ParticipantFrame(params));
+				contentPanel.add(new ParticipantListFrame(params));
 			}
 		}
 	}

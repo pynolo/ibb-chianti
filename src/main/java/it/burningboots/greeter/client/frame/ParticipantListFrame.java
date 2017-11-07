@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class ParticipantFrame extends FramePanel implements IAuthenticatedWidget {
+public class ParticipantListFrame extends FramePanel implements IAuthenticatedWidget {
 	
 	private String filterCookie = "1";
 	private String orderCookie = "id";
@@ -25,7 +25,7 @@ public class ParticipantFrame extends FramePanel implements IAuthenticatedWidget
 	private VerticalPanel panel = null;
 	private FlowPanel resultPanel = null;
 	
-	public ParticipantFrame(UriBuilder params) {
+	public ParticipantListFrame(UriBuilder params) {
 		super();
 		if (params == null) {
 			params = new UriBuilder();

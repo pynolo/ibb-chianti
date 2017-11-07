@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "participant")
@@ -55,6 +56,9 @@ public class Participant implements Serializable {
     @Column(name = "replaced_by_id")
 	private Integer replacedById;
 	
+    @Transient
+    private String adminPassword;
+    
     //@OneToMany(fetch = FetchType.EAGER, mappedBy="participant")
     //private Set<IpnResponse> ipnResponses;
 	
@@ -164,6 +168,14 @@ public class Participant implements Serializable {
 
 	public void setReplacedById(Integer replacedById) {
 		this.replacedById = replacedById;
+	}
+
+	public String getAdminPassword() {
+		return adminPassword;
+	}
+
+	public void setAdminPassword(String adminPassword) {
+		this.adminPassword = adminPassword;
 	}
 
 	@Override

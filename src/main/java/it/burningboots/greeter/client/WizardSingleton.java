@@ -1,13 +1,11 @@
 package it.burningboots.greeter.client;
 
-import it.burningboots.greeter.shared.ConfigBean;
 import it.burningboots.greeter.shared.entity.Participant;
 
 public class WizardSingleton {
 
 	private static WizardSingleton instance = null;
 	private Participant participantBean = null;
-	private ConfigBean configBean = null;
 	
 	private WizardSingleton() {}
 	
@@ -26,13 +24,5 @@ public class WizardSingleton {
 	public void setParticipantBean(Participant participantBean) {
 		this.participantBean = participantBean;
 	}
-
-	public ConfigBean getConfigBean() {
-		return configBean;
-	}
-
-	public void setConfigBean(ConfigBean configBean) {
-		this.configBean = configBean;
-	}
-
+	
 }

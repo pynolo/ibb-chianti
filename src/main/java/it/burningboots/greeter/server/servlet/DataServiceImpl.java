@@ -10,7 +10,6 @@ import it.burningboots.greeter.server.persistence.SessionFactory;
 import it.burningboots.greeter.server.persistence.WebSessionDao;
 import it.burningboots.greeter.shared.Amount;
 import it.burningboots.greeter.shared.AppConstants;
-import it.burningboots.greeter.shared.ConfigBean;
 import it.burningboots.greeter.shared.OrmException;
 import it.burningboots.greeter.shared.SystemException;
 import it.burningboots.greeter.shared.entity.Config;
@@ -43,42 +42,14 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		DataService {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(DataServiceImpl.class);
-	
+		
 	@Override
-	public ConfigBean getConfigBean() throws SystemException {
-		ConfigBean bean = new ConfigBean();
-		Session ses = SessionFactory.getSession();
-		Transaction trn = ses.beginTransaction();
-		try {
-			//From app file
-			Config basePasswordConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_BASE_PASSWORD);
-			bean.setBasePassword(basePasswordConfig.getVal());
-			Config adminPasswordConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_ADMIN_PASSWORD);
-			bean.setAdminPassword(adminPasswordConfig.getVal());
-			//Config stripe
-			Config stripePublicKeyConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_PUBLIC_KEY);
-			bean.setStripePublicKey(stripePublicKeyConfig.getVal());
-			trn.commit();
-		} catch (NumberFormatException e) { // catch exception in case properties file does not exist
-			LOG.error(e.getMessage(), e);
-			throw new SystemException(e.getMessage(), e);
-		} catch (OrmException e) {
-			trn.rollback();
-			LOG.error(e.getMessage(), e);
-			throw new SystemException(e.getMessage(), e);
-		} finally {
-			ses.close();
-		}
-		return bean;
-	}
-	
-	@Override
-	public Config findConfigByKey(String name) throws SystemException {
+	public Config findConfigByKey(String key) throws SystemException {
 		Config config = null;
 		Session ses = SessionFactory.getSession();
 		Transaction trn = ses.beginTransaction();
 		try {
-			config = GenericDao.findById(ses, Config.class, name);
+			config = GenericDao.findById(ses, Config.class, key);
 			trn.commit();
 		} catch (OrmException e) {
 			trn.rollback();
@@ -88,6 +59,28 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			ses.close();
 		}
 		return config;
+	}
+
+	@Override
+	public Boolean compareConfigByKey(String key, String value) throws SystemException {
+		if (value == null) {
+			return false;
+		} else {
+			Config config = null;
+			Session ses = SessionFactory.getSession();
+			Transaction trn = ses.beginTransaction();
+			try {
+				config = GenericDao.findById(ses, Config.class, key);
+				trn.commit();
+			} catch (OrmException e) {
+				trn.rollback();
+				LOG.error(e.getMessage(), e);
+				throw new SystemException(e.getMessage(), e);
+			} finally {
+				ses.close();
+			}
+			return value.equals(config.getVal());
+		}
 	}
 	
 	//@Override
@@ -443,4 +436,34 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		}
 		return result;
 	}
+
+	@Override
+	public Participant replaceParticipant(Participant newParticipant,
+			Integer oldParticipantId) throws SystemException {
+		Participant result = null;
+		Session ses = SessionFactory.getSession();
+		Transaction trn = ses.beginTransaction();
+		try {
+			Config adminPasswordConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_ADMIN_PASSWORD);
+			if (adminPasswordConfig.getVal().equals(newParticipant.getAdminPassword())) {
+				Date now = new Date();
+				newParticipant.setId(null);
+				newParticipant.setUpdateDt(now);
+				newParticipant.setReplacedById(oldParticipantId);
+				Integer id = (Integer) GenericDao.saveGeneric(ses, newParticipant);
+				result = GenericDao.findById(ses, Participant.class, id);
+	        	trn.commit();
+			} else {
+				throw new SystemException("Operazione non autorizzata");
+			}
+		} catch (OrmException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} finally {
+			ses.close();
+		}
+		return result;
+	}
+
 }
