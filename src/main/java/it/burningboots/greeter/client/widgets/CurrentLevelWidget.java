@@ -20,15 +20,18 @@ public class CurrentLevelWidget extends InlineHTML {
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
 	private int SCHEDULER_DELAY = 10000;
 	
+	private String prefixText = "";
+	private String suffixText = "";
 	private ILevelHandler parent = null;
 	private Level level = null;
 	
-	public CurrentLevelWidget() {
-		this(null);
+	public CurrentLevelWidget(String prefixText, String suffixText) {
+		this(prefixText, suffixText, null);
 	}
-	public CurrentLevelWidget(ILevelHandler parent) {
+	public CurrentLevelWidget(String prefixText, String suffixText, ILevelHandler parent) {
 		this.parent = parent;
-		GWT.debugger();//TODO
+		this.prefixText = prefixText;
+		this.suffixText = suffixText;
 		// Create a new timer that calls Window.alert().
 		Timer t = new Timer() {
 			public void run() {
@@ -47,8 +50,8 @@ public class CurrentLevelWidget extends InlineHTML {
 	private void setLevel(Level value) {
 		this.level = value;
 		if (parent != null) parent.updateLevel(level);
-		this.setHTML("<b>&euro;"+ClientConstants.FORMAT_CURRENCY.format(level.getPrice())+"</b> ("+
-				constants.level()+" "+level.getId()+") ");
+		this.setHTML(prefixText+" <b>&euro;"+ClientConstants.FORMAT_CURRENCY.format(level.getPrice())+"</b> ("+
+				constants.level()+" "+level.getId()+") "+suffixText);
 	}
 	
 	private void amountUpdater() {
@@ -60,7 +63,6 @@ public class CurrentLevelWidget extends InlineHTML {
 			}
 			@Override
 			public void onSuccess(Level value) {
-				GWT.debugger();//TODO
 				WaitSingleton.get().stop();
 				setLevel(value);
 			}

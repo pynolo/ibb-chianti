@@ -60,10 +60,8 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 		//TITLE
 		setTitle(constants.personalTitle());
 		
-		cp.add(new InlineHTML(constants.personalIntro1()));
-		donationWdg = new CurrentLevelWidget();
+		donationWdg = new CurrentLevelWidget(constants.personalIntro1(), constants.personalIntro2());
 		cp.add(donationWdg);
-		cp.add(new InlineHTML(constants.personalIntro2()));
 		cp.add(new HTML("<p>"+constants.personalIntroWarning()+"</p>"));
 		//EMAIL
 		cp.add(new HTML(constants.personalEmail()));

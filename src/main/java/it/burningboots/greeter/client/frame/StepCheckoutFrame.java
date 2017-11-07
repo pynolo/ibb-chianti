@@ -80,8 +80,8 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, ILeve
 		emailPanel.add(amountText);
 		emailPanel.add(new InlineHTML("&nbsp;&nbsp;"));
 		cp.add(emailPanel);
-		amountWgt = new CurrentLevelWidget(this);
-		cp.add(new HTML("<i>"+constants.checkoutDonationMinimumDesc()+"</i>"));
+		amountWgt = new CurrentLevelWidget("<i>"+constants.checkoutDonationMinimumDesc()+"</i>",
+				"", this);
 		cp.add(amountWgt);
 		
 		HorizontalPanel cardPanel = new HorizontalPanel();
