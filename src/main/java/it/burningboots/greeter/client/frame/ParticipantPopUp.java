@@ -2,11 +2,13 @@ package it.burningboots.greeter.client.frame;
 
 import it.burningboots.greeter.client.ClientConstants;
 import it.burningboots.greeter.client.IRefreshable;
+import it.burningboots.greeter.client.LocaleConstants;
 import it.burningboots.greeter.client.UiSingleton;
 import it.burningboots.greeter.client.WaitSingleton;
 import it.burningboots.greeter.client.service.DataService;
 import it.burningboots.greeter.client.service.DataServiceAsync;
 import it.burningboots.greeter.client.widgets.DateOnlyBox;
+import it.burningboots.greeter.shared.StringValidator;
 import it.burningboots.greeter.shared.ValidationException;
 import it.burningboots.greeter.shared.entity.Participant;
 
@@ -27,6 +29,7 @@ import com.google.gwt.user.client.ui.TextBox;
 public class ParticipantPopUp extends PopupPanel {
 
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
+	private LocaleConstants constants = GWT.create(LocaleConstants.class);
 	
 	private FlexTable table = new FlexTable();
 	private Integer idParticipant = null;
@@ -38,7 +41,7 @@ public class ParticipantPopUp extends PopupPanel {
 	private TextBox lastNameText = null;
 	private TextBox birthCityText = null;
 	private DateOnlyBox birthDateText = null;
-	private PasswordTextBox pwText = null;
+	private TextBox pwText = null;
 	
 	public ParticipantPopUp(Integer idParticipant, IRefreshable parent) {
 		super(false);
@@ -98,7 +101,7 @@ public class ParticipantPopUp extends PopupPanel {
 		
 		//Admin password
 		table.setHTML(r, 0, "Codice autorizzazione ");
-		pwText = new PasswordTextBox();
+		pwText = new TextBox();
 		table.setWidget(r, 1, pwText);
 		//Cognome
 		table.setHTML(r, 3, "Vecchio nome");
@@ -152,7 +155,7 @@ public class ParticipantPopUp extends PopupPanel {
 			@Override
 			public void onFailure(Throwable caught) {
 				UiSingleton.get().addError(caught);
-				close();
+				//close();
 				WaitSingleton.get().stop();
 			}
 			@Override
@@ -165,63 +168,68 @@ public class ParticipantPopUp extends PopupPanel {
 			}
 		};
 		//Validazione
+		String errorMessage = "";
 		if (pwText.getValue() == null) {
-			throw new ValidationException("Modifica senza autorizzazione");
+			errorMessage += "Inserire il codice di autorizzazione<br/>";
 		} else {
-			if (pwText.getValue().length() < 2) {
-				throw new ValidationException("Modifica senza autorizzazione");
+			if (pwText.getValue().length() < 1) {
+				errorMessage += "Inserire il codice di autorizzazione<br/>";
 			}
 		}
-		if (emailText.getValue() == null) {
-			throw new ValidationException("L'email e' vuota");
-		} else {
-			if (emailText.getValue().length() < 5) {
-				throw new ValidationException("L'email non e' valida");
-			}
+		String email = emailText.getValue();
+		try {
+			StringValidator.validateEmail(email);
+		} catch (ValidationException e) {
+			if (errorMessage.length() > 0) errorMessage += "<br />";
+			errorMessage += e.getMessage();
 		}
-		if (firstNameText.getValue() == null) {
-			throw new ValidationException("Il nome e' vuoto");
-		} else {
-			if (firstNameText.getValue().length() < 2) {
-				throw new ValidationException("Il nome non e' valido");
-			}
+		String firstName = firstNameText.getValue();
+		try {
+			StringValidator.validateName(firstName);
+		} catch (ValidationException e) {
+			errorMessage += e.getMessage();
 		}
-		if (lastNameText.getValue() == null) {
-			throw new ValidationException("Il cognome e' vuoto");
-		} else {
-			if (lastNameText.getValue().length() < 2) {
-				throw new ValidationException("Il cognome non e' valido");
-			}
+		String lastName = lastNameText.getValue();
+		try {
+			StringValidator.validateName(lastName);
+		} catch (ValidationException e) {
+			if (errorMessage.length() > 0) errorMessage += "<br />";
+			errorMessage += e.getMessage();
 		}
-		if (birthCityText.getValue() == null) {
-			throw new ValidationException("La citta' e' vuota");
-		} else {
-			if (birthCityText.getValue().length() < 2) {
-				throw new ValidationException("La citta' non e' valida");
-			}
+		String birthCity = birthCityText.getValue();
+		if (birthCity.length() < 3) {
+			if (errorMessage.length() > 0) errorMessage += "<br />";
+			errorMessage += constants.personalErrorCity();
 		}
-		if (birthDateText.getValue() == null) {
-			throw new ValidationException("La data di nascita a' vuota");
+		Date birthDt = birthDateText.getValue();
+		if (birthDt == null) {
+			if (errorMessage.length() > 0) errorMessage += "<br />";
+			errorMessage += constants.personalErrorDate();
 		}
 		
-		//Salvataggio
-		Participant newItem = new Participant();
-		newItem.setAdminPassword(pwText.getValue());
-		newItem.setBirthCity(birthCityText.getValue());
-		newItem.setBirthDt(birthDateText.getValue());
-		newItem.setCreationDt(item.getCreationDt());
-		newItem.setEmail(emailText.getValue());
-		newItem.setFirstName(firstNameText.getValue());
-		newItem.setId(null);
-		newItem.setItemNumber(item.getItemNumber());
-		newItem.setLastName(lastNameText.getValue());
-		newItem.setPaymentAmount(item.getPaymentAmount());
-		newItem.setPaymentDetails(item.getPaymentDetails());
-		newItem.setPaymentDt(item.getPaymentDt());
-		newItem.setReplacedById(null);
-		newItem.setUpdateDt(new Date());
-		WaitSingleton.get().start();
-		dataService.replaceParticipant(newItem, idParticipant, callback);
+		boolean isError = (errorMessage.length() > 0);
+		if (isError) {
+			UiSingleton.get().addWarning(errorMessage);
+		} else {		
+			//Salvataggio
+			Participant newItem = new Participant();
+			newItem.setAdminPassword(pwText.getValue());
+			newItem.setBirthCity(birthCity);
+			newItem.setBirthDt(birthDt);
+			newItem.setCreationDt(item.getCreationDt());
+			newItem.setEmail(email);
+			newItem.setFirstName(firstName);
+			newItem.setId(null);
+			newItem.setItemNumber(item.getItemNumber());
+			newItem.setLastName(lastName);
+			newItem.setPaymentAmount(item.getPaymentAmount());
+			newItem.setPaymentDetails(item.getPaymentDetails());
+			newItem.setPaymentDt(item.getPaymentDt());
+			newItem.setReplacedById(null);
+			newItem.setUpdateDt(new Date());
+			WaitSingleton.get().start();
+			dataService.replaceParticipant(newItem, idParticipant, callback);
+		}
 	}
 
 	private void loadParticipant() {

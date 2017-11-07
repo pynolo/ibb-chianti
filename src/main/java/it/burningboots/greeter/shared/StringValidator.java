@@ -5,16 +5,16 @@ import com.google.gwt.regexp.shared.RegExp;
 public class StringValidator {
 	public static final String REGEXP_EMAIL = "^([\\w_!#\\$%&'\\*\\+\\-/=\\?\\^`\\{\\|\\}~\\.])+@([\\w\\-\\.]+\\.)+[\\w]{2,8}$";
 	//public static final String REGEXP_EMAIL = "^([a-zA-Z0-9_\\-\\.])+@([\\w\\-\\.]+\\.)+[A-Z]{2,6}$";
-	public static final String REGEXP_NAME = "^([a-zA-Z\\s'])+$";
+	public static final String REGEXP_NAME = "^([a-zA-Z\\s']){2,}$";
 	
 	public static void validateName(String name) throws ValidationException {
 		if (name == null) {
-			throw new ValidationException("Please enter your name / Inserisci il tuo nome per favore");
+			throw new ValidationException("Please enter your name and last name / Inserisci il tuo nome e cognome per favore");
 		} else {
 			RegExp nameRegExp = RegExp.compile(REGEXP_NAME);
 			boolean matches = nameRegExp.test(name);
 			if (!matches) {
-				throw new ValidationException("Please enter only alphanumeric values for your name / Inserisci solo numeri e lettere per favore");
+				throw new ValidationException("Please enter only letters in your first name and last name / Inserisci solo lettere nel nome e cognome per favore");
 			}
 		}
 	}
