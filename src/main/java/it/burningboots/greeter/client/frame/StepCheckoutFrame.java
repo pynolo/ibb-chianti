@@ -59,7 +59,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, ILeve
 		itemNumber = this.params.getValue(AppConstants.PARAM_ID);
 		if (itemNumber == null) itemNumber = "";
 		if (itemNumber.equals("")) {
-			UiSingleton.get().addWarning("Your data haven't been correctly saved");
+			UiSingleton.get().addWarning("Your data hasn't been correctly saved");
 		} else {
 			cp = new VerticalPanel();
 			this.add(cp);
@@ -119,7 +119,6 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, ILeve
 		expiryPanel.add(new InlineHTML("/"));
 		
 		expYearList = new ListBox();
-		expYearList.addItem("17");
 		expYearList.addItem("18");
 		expYearList.addItem("19");
 		expYearList.addItem("20");
@@ -130,6 +129,8 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, ILeve
 		expYearList.addItem("25");
 		expYearList.addItem("26");
 		expYearList.addItem("27");
+		expYearList.addItem("28");
+		expYearList.addItem("29");
 		expiryPanel.add(expYearList);
 		
 		cp.add(new HTML("<p>&nbsp;</p>"));

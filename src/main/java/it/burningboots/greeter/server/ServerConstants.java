@@ -21,7 +21,7 @@ public class ServerConstants {
 	public static final String MYSQL_DB_PASSWORD = "MYSQL_DB_PASSWORD";
 	public static final String MYSQL_DB_HOST = "MYSQL_DB_HOST";
 	public static final String MYSQL_DB_PORT = "MYSQL_DB_PORT";
-	public static final String MYSQL_DB_NAME = "APP_NAME";
+	public static final String MYSQL_DB_NAME = "MYSQL_DB_NAME";
 	public static final String ACCESS_KEY = "ACCESS_KEY";
 	
 	public static final String PROPERTY_FILE = "/custom.properties";
