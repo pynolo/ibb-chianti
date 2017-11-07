@@ -48,24 +48,4 @@ public class ClientConstants {
 	public static final String COOKIE_FILTER_CONFIRMED = "confirmed";
 	public static final String COOKIE_ORDER_BY = "order";
 	
-	//TRACKING PIWIK
-	public static final String TRACKING_PIWIK_CODE =
-			"<!-- Pollicino -->"+EOL+
-			"<script type=\"text/javascript\">"+EOL+
-			"var _paq = _paq || [];public static final int COOKIE_EXPIRATION_DAYS = 15;"+EOL+
-			"_paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);"+EOL+
-			"_paq.push([\"setCookieDomain\", \"*.burningboots.it\"]);"+EOL+
-			"_paq.push([\"setDomains\", [\"*.burningboots.it\"]]);"+EOL+
-			"_paq.push(['trackPageView']);"+EOL+
-			"_paq.push(['enableLinkTracking']);"+EOL+
-			"(function() {"+EOL+
-				"var u=\"//pollicino.tarine.net/\";"+EOL+
-				"_paq.push(['setTrackerUrl', u+'piwik.php']);"+EOL+
-				"_paq.push(['setSiteId', 1]);"+EOL+
-				"var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];"+EOL+
-				"g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);"+EOL+
-			"})();"+EOL+
-			"</script>"+EOL+
-			"<noscript><p><img src=\"//pollicino.tarine.net/piwik.php?idsite=1\" style=\"border:0;\" /></p></noscript>"+EOL+
-			"<!-- End Pollicino Code -->"+EOL;
 }

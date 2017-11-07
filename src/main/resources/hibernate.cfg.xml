@@ -49,9 +49,9 @@
 		<property name="hibernate.c3p0.maxStatements">50</property>
 		<property name="hibernate.c3p0.preferredTestQuery">SELECT 1</property>
 		
-
 		<!--mapping package="it.hubzilla.hubchart.model"/-->
 		<mapping class="it.burningboots.greeter.shared.entity.Config"/>
+		<mapping class="it.burningboots.greeter.shared.entity.Level"/>
 		<mapping class="it.burningboots.greeter.shared.entity.WebSession"/>
 		<mapping class="it.burningboots.greeter.shared.entity.Participant"/>
     </session-factory>

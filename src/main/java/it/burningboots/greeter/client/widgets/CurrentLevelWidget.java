@@ -28,6 +28,7 @@ public class CurrentLevelWidget extends InlineHTML {
 	}
 	public CurrentLevelWidget(ILevelHandler parent) {
 		this.parent = parent;
+		GWT.debugger();//TODO
 		// Create a new timer that calls Window.alert().
 		Timer t = new Timer() {
 			public void run() {
@@ -59,6 +60,7 @@ public class CurrentLevelWidget extends InlineHTML {
 			}
 			@Override
 			public void onSuccess(Level value) {
+				GWT.debugger();//TODO
 				WaitSingleton.get().stop();
 				setLevel(value);
 			}

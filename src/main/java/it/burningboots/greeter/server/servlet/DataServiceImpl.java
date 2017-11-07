@@ -418,12 +418,16 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			List<Level> levelList = LevelDao.findAll(ses);
 			Date now = new Date();
 			Level tmpLevel = new Level();
-			tmpLevel.setId(-1);
+			tmpLevel.setId(1000);
 			tmpLevel.setLastDate(now);
 			tmpLevel.setLastCount(-1);
 			for (Level l:levelList) {
-				if ((count <= tmpLevel.getLastCount()) && (!now.after(tmpLevel.getLastDate()))) {
-					tmpLevel = l;
+				// livello valido: count < iscritti & data non trascorsa
+				if ((count <= l.getLastCount()) && (!now.after(l.getLastDate()))) {
+					//tra i validi, sceglie il livello minore
+					if (l.getId() < tmpLevel.getId()) {
+						tmpLevel = l;
+					}
 				}
 			}
 			if (tmpLevel.getPrice() != null) {

@@ -18,12 +18,12 @@
 	<!-- Servlet mappings -->
 	<servlet-mapping>
 		<servlet-name>dataServiceImpl</servlet-name>
-		<url-pattern>/entrance/dataService</url-pattern>
+		<url-pattern>/greeter/dataService</url-pattern>
 	</servlet-mapping>
 	
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>Entrance.html</welcome-file>
+		<welcome-file>Greeter.html</welcome-file>
 	</welcome-file-list>
 
 </web-app>

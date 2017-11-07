@@ -12,9 +12,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "config")
+@Table(name = "level")
 public class Level implements Serializable {
-	private static final long serialVersionUID = 2573558514344018622L;
+	private static final long serialVersionUID = 4342114560470488145L;
 	
 	@Id
     @Column(name = "id", nullable = false)
