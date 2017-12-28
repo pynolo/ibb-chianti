@@ -5,7 +5,9 @@ import it.burningboots.greeter.shared.OrmException;
 import it.burningboots.greeter.shared.entity.Level;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -38,6 +40,12 @@ public class LevelDao {
 	
 	public static Level getCurrentLevel(Session ses, int participantCount, Date time)
 			throws LimitExceededException, OrmException {
+		//tolgo 24 ore a "time" perché espresso in datetime, mentre lastDate è solo date
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(time);
+		cal.add(Calendar.HOUR, -24);
+		time = cal.getTime();
+		
 		Level result = null;
 		List<Level> levels = findAll(ses);
 		for (Level l:levels) {
