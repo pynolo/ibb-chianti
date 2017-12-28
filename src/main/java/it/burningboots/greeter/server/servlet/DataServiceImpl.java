@@ -10,6 +10,7 @@ import it.burningboots.greeter.server.persistence.SessionFactory;
 import it.burningboots.greeter.server.persistence.WebSessionDao;
 import it.burningboots.greeter.shared.Amount;
 import it.burningboots.greeter.shared.AppConstants;
+import it.burningboots.greeter.shared.LimitExceededException;
 import it.burningboots.greeter.shared.OrmException;
 import it.burningboots.greeter.shared.SystemException;
 import it.burningboots.greeter.shared.entity.Config;
@@ -216,23 +217,26 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 //		}
 //	}
 
-	@Override
-	public Integer countConfirmed() throws SystemException {
-		Integer result = null;
-		Session ses = SessionFactory.getSession();
-		Transaction trn = ses.beginTransaction();
-		try {
-			result = ParticipantDao.countConfirmed(ses);
-			trn.commit();
-		} catch (OrmException e) {
-			trn.rollback();
-			LOG.error(e.getMessage(), e);
-			throw new SystemException(e.getMessage(), e);
-		} finally {
-			ses.close();
-		}
-		return (result == null ? 0 : result);
-	}
+	//@Override
+	//@SuppressWarnings("unused")
+	//public Integer countConfirmed() throws LimitExceededException, SystemException {
+	//	Integer result = null;
+	//	Session ses = SessionFactory.getSession();
+	//	Transaction trn = ses.beginTransaction();
+	//	try {
+	//		result = ParticipantDao.countConfirmed(ses);
+	//		List<Level> lList = LevelDao.findAll(ses);
+	//		
+	//		trn.commit();
+	//	} catch (OrmException e) {
+	//		trn.rollback();
+	//		LOG.error(e.getMessage(), e);
+	//		throw new SystemException(e.getMessage(), e);
+	//	} finally {
+	//		ses.close();
+	//	}
+	//	return (result == null ? 0 : result);
+	//}
 
 	@Override
 	public String payWithStripe(String itemNumber, Amount amount, String number, String expMonth,
@@ -403,31 +407,51 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		return result;
 	}
 	
+	//@Override
+	//public Level getCurrentLevel() throws SystemException {
+	//	Level result = null;
+	//	Session ses = SessionFactory.getSession();
+	//	Transaction trn = ses.beginTransaction();
+	//	try {
+	//		Integer count = ParticipantDao.countConfirmed(ses);
+	//		List<Level> levelList = LevelDao.findAll(ses);
+	//		Date now = new Date();
+	//		Level tmpLevel = new Level();
+	//		tmpLevel.setId(1000);
+	//		tmpLevel.setLastDate(now);
+	//		tmpLevel.setLastCount(-1);
+	//		for (Level l:levelList) {
+	//			// livello valido: count < iscritti & data non trascorsa
+	//			if ((count <= l.getLastCount()) && (!now.after(l.getLastDate()))) {
+	//				//tra i validi, sceglie il livello minore
+	//				if (l.getId() < tmpLevel.getId()) {
+	//					tmpLevel = l;
+	//				}
+	//			}
+	//		}
+	//		if (tmpLevel.getPrice() != null) {
+	//			result = tmpLevel;
+	//		}
+	//	} catch (OrmException e) {
+	//		trn.rollback();
+	//		LOG.error(e.getMessage(), e);
+	//		throw new SystemException(e.getMessage(), e);
+	//	} finally {
+	//		ses.close();
+	//	}
+	//	return result;
+	//}
+	
 	@Override
-	public Level getCurrentLevel() throws SystemException {
+	public Level getCurrentLevel() throws LimitExceededException, SystemException {
 		Level result = null;
 		Session ses = SessionFactory.getSession();
 		Transaction trn = ses.beginTransaction();
 		try {
 			Integer count = ParticipantDao.countConfirmed(ses);
-			List<Level> levelList = LevelDao.findAll(ses);
-			Date now = new Date();
-			Level tmpLevel = new Level();
-			tmpLevel.setId(1000);
-			tmpLevel.setLastDate(now);
-			tmpLevel.setLastCount(-1);
-			for (Level l:levelList) {
-				// livello valido: count < iscritti & data non trascorsa
-				if ((count <= l.getLastCount()) && (!now.after(l.getLastDate()))) {
-					//tra i validi, sceglie il livello minore
-					if (l.getId() < tmpLevel.getId()) {
-						tmpLevel = l;
-					}
-				}
-			}
-			if (tmpLevel.getPrice() != null) {
-				result = tmpLevel;
-			}
+			Date time = new Date();
+			result = LevelDao.getCurrentLevel(ses, count, time);
+			trn.commit();
 		} catch (OrmException e) {
 			trn.rollback();
 			LOG.error(e.getMessage(), e);
@@ -437,7 +461,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		}
 		return result;
 	}
-
+	
 	@Override
 	public Participant replaceParticipant(Participant newParticipant,
 			Integer oldParticipantId) throws SystemException {

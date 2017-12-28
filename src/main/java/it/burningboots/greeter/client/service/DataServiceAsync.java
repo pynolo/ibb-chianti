@@ -26,7 +26,7 @@ public interface DataServiceAsync{
     void findParticipantByItemNumber( java.lang.String itemNumber, int delayMillis, AsyncCallback<Participant> callback );
     void findParticipants( boolean confirmed, String orderBy, AsyncCallback<java.util.List<Participant>> callback );
     void saveOrUpdateParticipant(Participant prt, AsyncCallback<Participant> callback );
-	void countConfirmed(AsyncCallback<Integer> callback);
+	//void countConfirmed(AsyncCallback<Integer> callback);
 	void replaceParticipant(Participant newParticipant, Integer oldParticipantId, AsyncCallback<Participant> callback);
 
 	//Payment

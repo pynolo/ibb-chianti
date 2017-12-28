@@ -11,6 +11,8 @@ import it.burningboots.greeter.client.service.DataService;
 import it.burningboots.greeter.client.service.DataServiceAsync;
 import it.burningboots.greeter.client.widgets.HeartbeatWidget;
 import it.burningboots.greeter.shared.AppConstants;
+import it.burningboots.greeter.shared.LimitExceededException;
+import it.burningboots.greeter.shared.entity.Level;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
@@ -29,7 +31,7 @@ public class StepStartFrame extends FramePanel {
 	private Timer timer = null;
 	private String idWebSession = null;
 	private int queuePosition = 1000;
-	private int confirmed = 1000;
+	//private int confirmed = 1000;
 	
 	private HeartbeatWidget heartbeat = null;
 	private InlineHTML countLabel = new InlineHTML();
@@ -84,18 +86,10 @@ public class StepStartFrame extends FramePanel {
 	
 	private void controller() {
 		if (this.queuePosition < AppConstants.QUEUE_MAX_LENGTH) {
-			//Forward
-			if (confirmed >= AppConstants.DONATION_MAX) {
-				cancelQueueCheckTimer();
-				heartbeat.cancelHeartbeatTimer();
-				UriBuilder param = new UriBuilder();
-				param.triggerUri(UriDispatcher.ERROR_CLOSED);
-			} else {
-				cancelQueueCheckTimer();
-				heartbeat.cancelHeartbeatTimer();
-				UriBuilder param = new UriBuilder();
-				param.triggerUri(UriDispatcher.STEP_PERSONAL);
-			}
+			cancelQueueCheckTimer();
+			heartbeat.cancelHeartbeatTimer();
+			UriBuilder param = new UriBuilder();
+			param.triggerUri(UriDispatcher.STEP_PERSONAL);
 		} else {
 			countLabel.setHTML("<b>"+this.queuePosition+"</b>");
 		}
@@ -103,7 +97,7 @@ public class StepStartFrame extends FramePanel {
 	
 	private void reload() {
 		//Window.Location.reload();
-		loadConfirmedParticipants();
+		loadCurrentLevel();
 	}
 
 	
@@ -134,37 +128,41 @@ public class StepStartFrame extends FramePanel {
 		dataService.createWebSession(Window.getClientHeight()+" "+Window.getClientWidth(), callback);
 	}
 	
-	private void loadConfirmedParticipants() {
-		AsyncCallback<Integer> callback = new AsyncCallback<Integer>() {
+	private void loadCurrentLevel() {
+		AsyncCallback<Level> callback = new AsyncCallback<Level>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				UiSingleton.get().addError(caught);
 				//WaitSingleton.get().stop();
+				if (caught instanceof LimitExceededException) {
+					cancelQueueCheckTimer();
+					heartbeat.cancelHeartbeatTimer();
+					UriBuilder param = new UriBuilder();
+					param.triggerUri(UriDispatcher.ERROR_CLOSED);
+				} else {
+					UiSingleton.get().addError(caught);
+				}
 			}
 			@Override
-			public void onSuccess(Integer result) {
-				setConfirmedParticipants(result);
+			public void onSuccess(Level result) {
 				//WaitSingleton.get().stop();
-				
 				loadQueuePosition();
 			}
 		};
 		//WaitSingleton.get().start();
-		dataService.countConfirmed(callback);
+		dataService.getCurrentLevel(callback);
 	}
 	
 	private void loadQueuePosition() {
 		AsyncCallback<Integer> callback = new AsyncCallback<Integer>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				UiSingleton.get().addError(caught);
 				//WaitSingleton.get().stop();
+				UiSingleton.get().addError(caught);
 			}
 			@Override
 			public void onSuccess(Integer result) {
-				setQueuePosition(result);
 				//WaitSingleton.get().stop();
-				
+				setQueuePosition(result);
 				controller();
 			}
 		};
@@ -177,9 +175,6 @@ public class StepStartFrame extends FramePanel {
 	}
 	public void setQueuePosition(int queuePosition) {
 		this.queuePosition = queuePosition;
-	}
-	public void setConfirmedParticipants(int confirmed) {
-		this.confirmed = confirmed;
 	}
 	
 }

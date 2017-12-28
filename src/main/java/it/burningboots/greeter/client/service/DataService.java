@@ -1,6 +1,7 @@
 package it.burningboots.greeter.client.service;
 
 import it.burningboots.greeter.shared.Amount;
+import it.burningboots.greeter.shared.LimitExceededException;
 import it.burningboots.greeter.shared.SystemException;
 import it.burningboots.greeter.shared.entity.Config;
 import it.burningboots.greeter.shared.entity.Level;
@@ -22,14 +23,14 @@ public interface DataService extends RemoteService {
 	public Config findConfigByKey(String key) throws SystemException;
 	public Boolean compareConfigByKey(String key, String value) throws SystemException;
 	//public void saveOrUpdateConfig(Config config) throws SystemException;
-	public Level getCurrentLevel() throws SystemException;
+	public Level getCurrentLevel() throws LimitExceededException, SystemException;
 	
 	//Participants
 	public Participant findParticipantById(Integer id) throws SystemException;
 	public Participant findParticipantByItemNumber(String itemNumber, int delayMillis) throws SystemException;
 	public List<Participant> findParticipants(boolean confirmed, String orderBy) throws SystemException;
 	public Participant saveOrUpdateParticipant(Participant prt) throws SystemException;
-	public Integer countConfirmed() throws SystemException;
+	//public Integer countConfirmed() throws LimitExceededException, SystemException;
 	public Participant replaceParticipant(Participant newParticipant, Integer oldParticipantId) throws SystemException;
 
 	//Payment
