@@ -4,9 +4,11 @@ import it.burningboots.greeter.client.ClientConstants;
 import it.burningboots.greeter.client.ILevelHandler;
 import it.burningboots.greeter.client.LocaleConstants;
 import it.burningboots.greeter.client.UiSingleton;
-import it.burningboots.greeter.client.WaitSingleton;
+import it.burningboots.greeter.client.UriBuilder;
+import it.burningboots.greeter.client.UriDispatcher;
 import it.burningboots.greeter.client.service.DataService;
 import it.burningboots.greeter.client.service.DataServiceAsync;
+import it.burningboots.greeter.shared.LimitExceededException;
 import it.burningboots.greeter.shared.entity.Level;
 
 import com.google.gwt.core.client.GWT;
@@ -25,9 +27,9 @@ public class CurrentLevelWidget extends InlineHTML {
 	private ILevelHandler parent = null;
 	private Level level = null;
 	
-	public CurrentLevelWidget(String prefixText, String suffixText) {
-		this(prefixText, suffixText, null);
-	}
+	//public CurrentLevelWidget(String prefixText, String suffixText) {
+	//	this(prefixText, suffixText, null);
+	//}
 	public CurrentLevelWidget(String prefixText, String suffixText, ILevelHandler parent) {
 		this.parent = parent;
 		this.prefixText = prefixText;
@@ -58,16 +60,22 @@ public class CurrentLevelWidget extends InlineHTML {
 		AsyncCallback<Level> callback = new AsyncCallback<Level>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				UiSingleton.get().addError(caught);
-				WaitSingleton.get().stop();
+				//WaitSingleton.get().stop();
+				if (caught instanceof LimitExceededException) {
+					parent.handleExceededLimit();
+					UriBuilder param = new UriBuilder();
+					param.triggerUri(UriDispatcher.ERROR_CLOSED);
+				} else {
+					UiSingleton.get().addError(caught);
+				}
 			}
 			@Override
 			public void onSuccess(Level value) {
-				WaitSingleton.get().stop();
+				//WaitSingleton.get().stop();
 				setLevel(value);
 			}
 		};
-		WaitSingleton.get().start();
+		//WaitSingleton.get().start();
 		dataService.getCurrentLevel(callback);
 	}
 }

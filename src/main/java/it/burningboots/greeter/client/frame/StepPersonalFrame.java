@@ -1,6 +1,7 @@
 package it.burningboots.greeter.client.frame;
 
 import it.burningboots.greeter.client.ClientConstants;
+import it.burningboots.greeter.client.ILevelHandler;
 import it.burningboots.greeter.client.IWizardFrame;
 import it.burningboots.greeter.client.LocaleConstants;
 import it.burningboots.greeter.client.UiSingleton;
@@ -17,6 +18,7 @@ import it.burningboots.greeter.client.widgets.HeartbeatWidget;
 import it.burningboots.greeter.shared.AppConstants;
 import it.burningboots.greeter.shared.StringValidator;
 import it.burningboots.greeter.shared.ValidationException;
+import it.burningboots.greeter.shared.entity.Level;
 import it.burningboots.greeter.shared.entity.Participant;
 
 import java.util.Date;
@@ -31,7 +33,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 
-public class StepPersonalFrame extends FramePanel implements IWizardFrame {
+public class StepPersonalFrame extends FramePanel implements ILevelHandler, IWizardFrame {
 	
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
@@ -53,6 +55,16 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 		draw();
 	}
 	
+	@Override
+	public void updateLevel(Level level) {
+		// do nothing
+	}
+
+	@Override
+	public void handleExceededLimit() {
+		heartbeat.cancelHeartbeatTimer();
+	}
+	
 	private void draw() {
 		Participant participant = WizardSingleton.get().getParticipantBean();
 		cp.clear();
@@ -60,7 +72,7 @@ public class StepPersonalFrame extends FramePanel implements IWizardFrame {
 		//TITLE
 		setTitle(constants.personalTitle());
 		
-		donationWdg = new CurrentLevelWidget(constants.personalIntro1(), constants.personalIntro2());
+		donationWdg = new CurrentLevelWidget(constants.personalIntro1(), constants.personalIntro2(), this);
 		cp.add(donationWdg);
 		cp.add(new HTML("<p>"+constants.personalIntroWarning()+"</p>"));
 		//EMAIL

@@ -67,6 +67,18 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, ILeve
 		}
 	}
 	
+	@Override
+	public void updateLevel(Level value) {
+		this.level = value;
+		if (amountText != null && level != null)
+			amountText.setValue(ClientConstants.FORMAT_CURRENCY.format(level.getPrice()));
+	}
+	
+	@Override
+	public void handleExceededLimit() {
+		heartbeat.cancelHeartbeatTimer();
+	}
+	
 	private void draw() {
 		//TITLE
 		setTitle(constants.checkoutTitle());
@@ -202,13 +214,6 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, ILeve
 		};
 		WaitSingleton.get().start();
 		dataService.payWithStripe(itemNumber, amount, cardNumber, expMonth, expYear, callback);
-	}
-
-	@Override
-	public void updateLevel(Level value) {
-		this.level = value;
-		if (amountText != null && level != null)
-			amountText.setValue(ClientConstants.FORMAT_CURRENCY.format(level.getPrice()));
 	}
 	
 }
