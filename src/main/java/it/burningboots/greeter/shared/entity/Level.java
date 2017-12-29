@@ -19,6 +19,8 @@ public class Level implements Serializable {
 	@Id
     @Column(name = "id", nullable = false)
 	private Integer id;
+	@Column(name = "name", length = 64)
+	private String name = "";
 	@Basic(optional = false)
 	@Column(name = "price", nullable = false)
 	private Double price;
@@ -39,6 +41,14 @@ public class Level implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Double getPrice() {

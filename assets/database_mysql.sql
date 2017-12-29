@@ -43,15 +43,17 @@ DROP TABLE IF EXISTS `level`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `level` (
 	`id` int(11) NOT NULL,
+	`name` varchar(64) DEFAULT NULL,
 	`price` decimal(9,2) NOT NULL DEFAULT '0.00',
 	`last_date` date NOT NULL,
 	`last_count` int(11) NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-INSERT INTO `level` (`id`, `price`, `last_date`, `last_count`) VALUES ('1', '50', '2017-11-15', '4');
-INSERT INTO `level` (`id`, `price`, `last_date`, `last_count`) VALUES ('2', '60', '2017-11-30', '15');
-INSERT INTO `level` (`id`, `price`, `last_date`, `last_count`) VALUES ('3', '70', '2017-12-31', '20');
+INSERT INTO `level` (`id`, `name`, `price`, `last_date`, `last_count`) VALUES ('1', 'Low income', '30', '2018-01-05', '3');
+INSERT INTO `level` (`id`, `name`, `price`, `last_date`, `last_count`) VALUES ('2', 'Level 1', '50', '2018-01-10', '8');
+INSERT INTO `level` (`id`, `name`, `price`, `last_date`, `last_count`) VALUES ('3', 'Level 2', '60', '2018-01-15', '15');
+INSERT INTO `level` (`id`, `name`, `price`, `last_date`, `last_count`) VALUES ('4', 'Level 3', '70', '2018-02-01', '20');
 
 --
 -- Table structure for table `participant`
@@ -101,7 +103,7 @@ CREATE TABLE `web_session` (
 DROP TABLE IF EXISTS `ipn_response`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-/*CREATE TABLE `ipn_response` (
+CREATE TABLE `ipn_response` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`id_participant` int(11) DEFAULT NULL,
 	`item_number` varchar(64) DEFAULT NULL,
@@ -114,6 +116,6 @@ DROP TABLE IF EXISTS `ipn_response`;
 	`payment_type` varchar(64) DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	KEY `unique_item_number` (`item_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;*/
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
