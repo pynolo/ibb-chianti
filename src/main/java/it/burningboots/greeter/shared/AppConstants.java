@@ -28,8 +28,8 @@ public class AppConstants {
 	// CONFIG TABLE
 	public static final String CONFIG_BASE_PASSWORD = "basePassword";
 	public static final String CONFIG_ADMIN_PASSWORD = "adminPassword";
-	public static final String CONFIG_STRIPE_SECRET_KEY = "stripeSecretKey";
-	public static final String CONFIG_STRIPE_PUBLIC_KEY = "stripePublicKey";
+	//public static final String CONFIG_STRIPE_SECRET_KEY = "stripeSecretKey";
+	//public static final String CONFIG_STRIPE_PUBLIC_KEY = "stripePublicKey";
 	
 	// CONFIG FILES
 	public static final String HIBERNATE_CONFIG_FILE="/hibernate.cfg.xml";
