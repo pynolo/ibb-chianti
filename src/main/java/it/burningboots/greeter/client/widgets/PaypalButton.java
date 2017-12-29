@@ -2,15 +2,14 @@ package it.burningboots.greeter.client.widgets;
 
 import it.burningboots.greeter.shared.AppConstants;
 
-import java.text.DecimalFormat;
-
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.ui.HTML;
 
 public class PaypalButton extends HTML {
 	
 	private String BUTTON_IMG_URL_IT = "https://www.paypalobjects.com/it_IT/IT/i/btn/btn_buynowCC_LG.gif";
 	private String BUTTON_IMG_URL_EN = "https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif";
-	private DecimalFormat DM = new DecimalFormat("0.00");
+	private NumberFormat NF = NumberFormat.getFormat("0.00");
 	
 	private String paypalPaymentUrl = null;
 	private String languageCode = null;
@@ -38,7 +37,7 @@ public class PaypalButton extends HTML {
 	private void draw() {
 		String imgUrl = BUTTON_IMG_URL_EN;
 		if (languageCode.equalsIgnoreCase("it")) imgUrl = BUTTON_IMG_URL_IT;
-		String amountString = DM.format(amount);
+		String amountString = NF.format(amount);
 		amountString = amountString.replace(',','.');//Must be in english format
 
 		String html = "<form action=\""+paypalPaymentUrl+"\" method=\"post\" target=\"_top\">";
