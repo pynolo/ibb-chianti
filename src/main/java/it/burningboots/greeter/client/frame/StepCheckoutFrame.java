@@ -1,6 +1,7 @@
 package it.burningboots.greeter.client.frame;
 
 import it.burningboots.greeter.client.ClientConstants;
+import it.burningboots.greeter.client.CookieSingleton;
 import it.burningboots.greeter.client.ILevelHandler;
 import it.burningboots.greeter.client.IWizardFrame;
 import it.burningboots.greeter.client.LocaleConstants;
@@ -53,6 +54,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, ILeve
 		if (itemNumber.equals("")) {
 			UiSingleton.get().addWarning("Your data hasn't been correctly saved");
 		} else {
+			CookieSingleton.get().setCookie(ClientConstants.COOKIE_ITEM_NUMBER, itemNumber);
 			cp = new VerticalPanel();
 			this.add(cp);
 			draw();

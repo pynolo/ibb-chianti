@@ -1,5 +1,7 @@
 package it.burningboots.greeter.client;
 
+import it.burningboots.greeter.shared.DateUtil;
+
 import java.util.Date;
 
 import com.google.gwt.user.client.Cookies;
@@ -12,7 +14,7 @@ public class CookieSingleton {
 	private Date expiryDate = null;
 	
 	private CookieSingleton() {
-		Date date = new Date();
+		Date date = DateUtil.now();
 		CalendarUtil.addDaysToDate(date, ClientConstants.COOKIE_EXPIRATION_DAYS);
 		expiryDate = date;
 	}

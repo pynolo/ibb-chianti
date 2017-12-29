@@ -17,7 +17,7 @@ public class AppConstants {
 	// IPN
 	// GUIDE https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNSetup/
 	public static final String PAYPAL_THANKYOU_URL = "https://burningboots.it/ibb-greeter#thankyou";
-	public static final String PAYPAL_LOGO_IMG_URL = "https://burningboots.it/images/ibb_emoji.png";
+	public static final String PAYPAL_LOGO_IMG_URL = "https://burningboots.it/images/ibb_title_purple.png";
 	public static final String PAYPAL_IPN_URL = "https://burningboots.it/ibb-greeter/ipn";//TO BE SET ON PAYPAL TOO https://www.paypal.com/cgi-bin/customerprofileweb?cmd=_profile-ipn-notify
 	public static final String PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr"; //PRODUCTION
 	//public static final String PAYPAL_URL= "https://www.sandbox.paypal.com/cgi-bin/webscr";//SANDBOX

@@ -8,6 +8,7 @@ import it.burningboots.greeter.server.persistence.ParticipantDao;
 import it.burningboots.greeter.server.persistence.SessionFactory;
 import it.burningboots.greeter.server.persistence.WebSessionDao;
 import it.burningboots.greeter.shared.AppConstants;
+import it.burningboots.greeter.shared.DateUtil;
 import it.burningboots.greeter.shared.LimitExceededException;
 import it.burningboots.greeter.shared.OrmException;
 import it.burningboots.greeter.shared.SystemException;
@@ -165,7 +166,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		Session ses = SessionFactory.getSession();
 		Transaction trn = ses.beginTransaction();
 		try {
-			Date now = new Date();
+			Date now = DateUtil.now();
 			prt.setUpdateDt(now);
 			if (prt.getItemNumber() == null) prt.setItemNumber("");
 			if (prt.getItemNumber().equals("")) {
@@ -441,7 +442,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		Transaction trn = ses.beginTransaction();
 		try {
 			Integer count = ParticipantDao.countConfirmed(ses);
-			Date time = new Date();
+			Date time = DateUtil.now();
 			result = LevelDao.getCurrentLevel(ses, count, time);
 			trn.commit();
 		} catch (OrmException e) {

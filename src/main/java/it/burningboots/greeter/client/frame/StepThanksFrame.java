@@ -36,7 +36,10 @@ public class StepThanksFrame extends FramePanel {
 			this.params = new UriBuilder();
 		}
 		String itemNumber = this.params.getValue(AppConstants.PARAM_ID);
-		if (itemNumber == null) itemNumber = "";
+		if (itemNumber == null)
+			itemNumber = CookieSingleton.get().getCookie(ClientConstants.COOKIE_ITEM_NUMBER);
+		if (itemNumber == null)
+			itemNumber = "";
 		if (itemNumber.length() > AppConstants.ITEM_NUMBER_LENGHT) {
 			itemNumber = itemNumber.substring(0, AppConstants.ITEM_NUMBER_LENGHT);
 		}

@@ -8,6 +8,7 @@ import it.burningboots.greeter.client.WaitSingleton;
 import it.burningboots.greeter.client.service.DataService;
 import it.burningboots.greeter.client.service.DataServiceAsync;
 import it.burningboots.greeter.client.widgets.DateOnlyBox;
+import it.burningboots.greeter.shared.DateUtil;
 import it.burningboots.greeter.shared.StringValidator;
 import it.burningboots.greeter.shared.ValidationException;
 import it.burningboots.greeter.shared.entity.Participant;
@@ -225,7 +226,7 @@ public class ParticipantPopUp extends PopupPanel {
 			newItem.setPaymentDetails(item.getPaymentDetails());
 			newItem.setPaymentDt(item.getPaymentDt());
 			newItem.setReplacedById(null);
-			newItem.setUpdateDt(new Date());
+			newItem.setUpdateDt(DateUtil.now());
 			WaitSingleton.get().start();
 			dataService.replaceParticipant(newItem, idParticipant, callback);
 		}

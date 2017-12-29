@@ -48,11 +48,13 @@ public class IpnServlet extends HttpServlet {
 		LOG.warn("**IpnSevlet** has been launched");
 		HttpPost post = new HttpPost(AppConstants.PAYPAL_URL);
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		String serializedIpn = "";
 		params.add(new BasicNameValuePair("cmd", "_notify-validate")); // You need to add this parameter to tell PayPal to verify
 		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
 			String name = e.nextElement();
 			String value = request.getParameter(name);
 			params.add(new BasicNameValuePair(name, value));
+			serializedIpn += name+"=\""+value+"\" \r\n";
 		}
 		post.setEntity(new UrlEncodedFormEntity(params));
 		String rc = getRC(client.execute(post)).trim();
@@ -78,7 +80,7 @@ public class IpnServlet extends HttpServlet {
 			try {
 				IpnResponse ipnr = new IpnResponse(itemNumber, paymentStatus, payerEmail,
 						mcGross, mcCurrency, paymentDate, pendingReason, paymentType, null);
-				registerPayment(ipnr);
+				registerPayment(ipnr, serializedIpn);
 				LOG.warn("**IpnSevlet** stored a payment for "+payerEmail);
 				Double amount = -1D;
 				try {
@@ -106,7 +108,7 @@ public class IpnServlet extends HttpServlet {
 	}
 
 
-	private void registerPayment(IpnResponse ipnr) throws BusinessException {
+	private void registerPayment(IpnResponse ipnr, String serializedIpn) throws BusinessException {
 		Session ses = SessionFactory.getSession();
 		Transaction trn = ses.beginTransaction();
 		try {
@@ -124,6 +126,7 @@ public class IpnServlet extends HttpServlet {
 				Double amount = Double.valueOf(ipnr.getMcGross());
 				prt.setPaymentAmount(amount);
 				prt.setPaymentDt(new Date());
+				prt.setPaymentDetails(serializedIpn);
 				GenericDao.updateGeneric(ses, prt.getId(), prt);
 			} else {
 				//Partecipante NON identificato => marca pagamento come non assegnato

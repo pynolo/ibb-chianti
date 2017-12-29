@@ -43,6 +43,7 @@ public class ClientConstants {
 	public static final String LABEL_LOADING = ICON_LOADING_SMALL+" <i>caricamento in corso...</i>";
 	
 	//COOKIE
+	public static final String COOKIE_ITEM_NUMBER = "itemNumber";
 	public static final String COOKIE_VERSION = "appVersion";
 	public static final String COOKIE_ACCESS_KEY = "ak";
 	public static final String COOKIE_FILTER_CONFIRMED = "confirmed";
