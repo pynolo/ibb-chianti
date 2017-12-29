@@ -114,11 +114,11 @@
 		<artifactId>mail</artifactId>
 		<version>1.4.7</version>
 	</dependency>
-	<dependency>
+	<!--dependency>
 		<groupId>com.stripe</groupId>
 		<artifactId>stripe-java</artifactId>
 		<version>3.9.0</version>
-	</dependency>
+	</dependency-->
 
 	<dependency>
 		<groupId>ch.qos.logback</groupId>

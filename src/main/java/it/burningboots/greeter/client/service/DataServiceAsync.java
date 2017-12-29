@@ -1,6 +1,5 @@
 package it.burningboots.greeter.client.service;
 
-import it.burningboots.greeter.shared.Amount;
 import it.burningboots.greeter.shared.entity.Config;
 import it.burningboots.greeter.shared.entity.Level;
 import it.burningboots.greeter.shared.entity.Participant;
@@ -30,8 +29,8 @@ public interface DataServiceAsync{
 	void replaceParticipant(Participant newParticipant, Integer oldParticipantId, AsyncCallback<Participant> callback);
 
 	//Payment
-	void payWithStripe(String itemNumber, Amount amount, String number,
-			String expMonth, String expYear, AsyncCallback<String> callback);
+	//void payWithStripe(String itemNumber, Amount amount, String number,
+	//		String expMonth, String expYear, AsyncCallback<String> callback);
     
     //WebSession
 	void createWebSession(String seed, AsyncCallback<String> callback);

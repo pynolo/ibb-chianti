@@ -1,6 +1,5 @@
 package it.burningboots.greeter.client.service;
 
-import it.burningboots.greeter.shared.Amount;
 import it.burningboots.greeter.shared.LimitExceededException;
 import it.burningboots.greeter.shared.SystemException;
 import it.burningboots.greeter.shared.entity.Config;
@@ -34,8 +33,8 @@ public interface DataService extends RemoteService {
 	public Participant replaceParticipant(Participant newParticipant, Integer oldParticipantId) throws SystemException;
 
 	//Payment
-	public String payWithStripe(String itemNumber, Amount amount, String number,
-			String expMonth, String expYear) throws SystemException;
+	//public String payWithStripe(String itemNumber, Amount amount, String number,
+	//		String expMonth, String expYear) throws SystemException;
 
 	//WebSession
 	public String createWebSession(String seed) throws SystemException;

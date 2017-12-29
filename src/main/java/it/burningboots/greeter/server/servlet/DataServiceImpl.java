@@ -2,13 +2,11 @@ package it.burningboots.greeter.server.servlet;
 
 import it.burningboots.greeter.client.service.DataService;
 import it.burningboots.greeter.server.DataBusiness;
-import it.burningboots.greeter.server.EmailUtil;
 import it.burningboots.greeter.server.persistence.GenericDao;
 import it.burningboots.greeter.server.persistence.LevelDao;
 import it.burningboots.greeter.server.persistence.ParticipantDao;
 import it.burningboots.greeter.server.persistence.SessionFactory;
 import it.burningboots.greeter.server.persistence.WebSessionDao;
-import it.burningboots.greeter.shared.Amount;
 import it.burningboots.greeter.shared.AppConstants;
 import it.burningboots.greeter.shared.LimitExceededException;
 import it.burningboots.greeter.shared.OrmException;
@@ -20,9 +18,7 @@ import it.burningboots.greeter.shared.entity.WebSession;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -30,10 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
-import com.stripe.net.RequestOptions;
-import com.stripe.net.RequestOptions.RequestOptionsBuilder;
 
 /**
  * The server-side implementation of the RPC service.
@@ -205,17 +197,17 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		return result;
 	}
 
-//	@Override
-//	public Participant createTransientParticipant() throws SystemException {
-//		try {
-//			String itemNumber = DataBusiness.createCode(this.getClass().getName(), AppConstants.ITEM_NUMBER_LENGHT);
-//			Participant prt = new Participant();
-//			prt.setItemNumber(itemNumber);
-//			return prt;
-//		} catch (Exception e) {
-//			throw new SystemException(e.getMessage(), e);
-//		}
-//	}
+	//@Override
+	//public Participant createTransientParticipant() throws SystemException {
+	//	try {
+	//		String itemNumber = DataBusiness.createCode(this.getClass().getName(), AppConstants.ITEM_NUMBER_LENGHT);
+	//		Participant prt = new Participant();
+	//		prt.setItemNumber(itemNumber);
+	//		return prt;
+	//	} catch (Exception e) {
+	//		throw new SystemException(e.getMessage(), e);
+	//	}
+	//}
 
 	//@Override
 	//@SuppressWarnings("unused")
@@ -238,63 +230,63 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 	//	return (result == null ? 0 : result);
 	//}
 
-	@Override
-	public String payWithStripe(String itemNumber, Amount amount, String number, String expMonth,
-			String expYear) throws SystemException {
-		String result = "";
-		Participant prt = null;
-		Session ses = SessionFactory.getSession();
-		Transaction trn = ses.beginTransaction();
-		try {
-			prt = ParticipantDao.findByItemNumber(ses, itemNumber);
-			Config secretConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_SECRET_KEY);
-			String secretKey = secretConfig.getVal();
-			RequestOptions requestOptions = (new RequestOptionsBuilder()).setApiKey(secretKey).build();
-			Map<String, Object> chargeMap = new HashMap<String, Object>();
-			chargeMap.put("amount", amount.getAmountLong());
-			chargeMap.put("currency", "eur");
-			Map<String, Object> cardMap = new HashMap<String, Object>();
-			cardMap.put("number", number);
-			cardMap.put("exp_month", expMonth);
-			cardMap.put("exp_year", expYear);
-			chargeMap.put("card", cardMap);
-			Map<String, String> initialMetadata = new HashMap<String, String>();
-			initialMetadata.put("order_id", itemNumber);
-			initialMetadata.put("description", "burningboots.it - "+prt.getFirstName()+" "+prt.getLastName());
-			chargeMap.put("metadata", initialMetadata);
-			
-			//Charge
-			Charge charge = Charge.create(chargeMap, requestOptions);
-			result = charge.toJson();
-			//Store participant
-			Date now = new Date();
-			Amount paidAmount = new Amount(charge.getAmount());
-			prt.setPaymentAmount(paidAmount.getAmountDouble());
-			prt.setPaymentDetails(charge.toJson());
-			prt.setPaymentDt(now);
-			GenericDao.updateGeneric(ses, prt.getId(), prt);
-			trn.commit();
-		} catch (OrmException e) {
-			trn.rollback();
-			LOG.error(e.getMessage(), e);
-			throw new SystemException(e.getMessage(), e);
-		} catch (StripeException e) {
-			trn.rollback();
-			LOG.error(e.getMessage(), e);
-			throw new SystemException(e.getMessage(), e);
-		} finally {
-			ses.close();
-		}
-
-		//Email confirmation
-		if (prt != null) {
-			if (prt.getPaymentAmount() != null && prt.getPaymentDetails() != null) {
-				EmailUtil.sendConfirmationEmail(prt.getItemNumber(), prt.getPaymentAmount());
-			}
-		}
-
-		return result;
-	}
+	//@Override
+	//public String payWithStripe(String itemNumber, Amount amount, String number, String expMonth,
+	//		String expYear) throws SystemException {
+	//	String result = "";
+	//	Participant prt = null;
+	//	Session ses = SessionFactory.getSession();
+	//	Transaction trn = ses.beginTransaction();
+	//	try {
+	//		prt = ParticipantDao.findByItemNumber(ses, itemNumber);
+	//		Config secretConfig = GenericDao.findById(ses, Config.class, AppConstants.CONFIG_STRIPE_SECRET_KEY);
+	//		String secretKey = secretConfig.getVal();
+	//		RequestOptions requestOptions = (new RequestOptionsBuilder()).setApiKey(secretKey).build();
+	//		Map<String, Object> chargeMap = new HashMap<String, Object>();
+	//		chargeMap.put("amount", amount.getAmountLong());
+	//		chargeMap.put("currency", "eur");
+	//		Map<String, Object> cardMap = new HashMap<String, Object>();
+	//		cardMap.put("number", number);
+	//		cardMap.put("exp_month", expMonth);
+	//		cardMap.put("exp_year", expYear);
+	//		chargeMap.put("card", cardMap);
+	//		Map<String, String> initialMetadata = new HashMap<String, String>();
+	//		initialMetadata.put("order_id", itemNumber);
+	//		initialMetadata.put("description", "burningboots.it - "+prt.getFirstName()+" "+prt.getLastName());
+	//		chargeMap.put("metadata", initialMetadata);
+	//		
+	//		//Charge
+	//		Charge charge = Charge.create(chargeMap, requestOptions);
+	//		result = charge.toJson();
+	//		//Store participant
+	//		Date now = new Date();
+	//		Amount paidAmount = new Amount(charge.getAmount());
+	//		prt.setPaymentAmount(paidAmount.getAmountDouble());
+	//		prt.setPaymentDetails(charge.toJson());
+	//		prt.setPaymentDt(now);
+	//		GenericDao.updateGeneric(ses, prt.getId(), prt);
+	//		trn.commit();
+	//	} catch (OrmException e) {
+	//		trn.rollback();
+	//		LOG.error(e.getMessage(), e);
+	//		throw new SystemException(e.getMessage(), e);
+	//	} catch (StripeException e) {
+	//		trn.rollback();
+	//		LOG.error(e.getMessage(), e);
+	//		throw new SystemException(e.getMessage(), e);
+	//	} finally {
+	//		ses.close();
+	//	}
+	//
+	//	//Email confirmation
+	//	if (prt != null) {
+	//		if (prt.getPaymentAmount() != null && prt.getPaymentDetails() != null) {
+	//			EmailUtil.sendConfirmationEmail(prt.getItemNumber(), prt.getPaymentAmount());
+	//		}
+	//	}
+	//
+	//	return result;
+	//}
 
 	@Override
 	public String createWebSession(String seed) throws SystemException {
