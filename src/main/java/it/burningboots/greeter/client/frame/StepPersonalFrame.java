@@ -1,6 +1,7 @@
 package it.burningboots.greeter.client.frame;
 
 import it.burningboots.greeter.client.ClientConstants;
+import it.burningboots.greeter.client.CookieSingleton;
 import it.burningboots.greeter.client.ILevelHandler;
 import it.burningboots.greeter.client.IWizardFrame;
 import it.burningboots.greeter.client.LocaleConstants;
@@ -206,6 +207,7 @@ public class StepPersonalFrame extends FramePanel implements ILevelHandler, IWiz
 					WaitSingleton.get().stop();
 					
 					heartbeat.cancelHeartbeatTimer();
+					CookieSingleton.get().removeCookie(ClientConstants.COOKIE_ITEM_NUMBER);
 					UriBuilder param = new UriBuilder();
 					param.add(AppConstants.PARAM_ID, prt.getItemNumber());
 					param.triggerUri(UriDispatcher.STEP_CHECKOUT);

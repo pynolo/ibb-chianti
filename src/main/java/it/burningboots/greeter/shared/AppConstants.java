@@ -16,14 +16,14 @@ public class AppConstants {
 	
 	// IPN
 	// GUIDE https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNSetup/
-	public static final String PAYPAL_THANKYOU_URL = "https://burningboots.it/ibb-greeter#thankyou";
+	public static final String PAYPAL_THANKYOU_URL = "https://burningboots.it/greeter#thankyou";
 	public static final String PAYPAL_LOGO_IMG_URL = "https://burningboots.it/images/ibb_title_purple.png";
-	public static final String PAYPAL_IPN_URL = "https://burningboots.it/ibb-greeter/ipn";//TO BE SET ON PAYPAL TOO https://www.paypal.com/cgi-bin/customerprofileweb?cmd=_profile-ipn-notify
-	public static final String PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr"; //PRODUCTION
-	//public static final String PAYPAL_URL= "https://www.sandbox.paypal.com/cgi-bin/webscr";//SANDBOX
-	public static final String PAYPAL_ACCOUNT = "itburningboots@gmail.com"; //PRODUCTION
-	//public static final String PAYPAL_ACCOUNT = "wave-facilitator@tarine.net";//SANDBOX pw low level
-	//BUYER TEST ACCOUNT paolo-buyer@tarine.net pw low level
+	public static final String PAYPAL_IPN_URL = "https://burningboots.it/greeter/ipn";//TO BE SET ON PAYPAL TOO https://www.paypal.com/cgi-bin/customerprofileweb?cmd=_profile-ipn-notify
+	//public static final String PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr"; //PRODUCTION
+	public static final String PAYPAL_URL= "https://www.sandbox.paypal.com/cgi-bin/webscr";//SANDBOX
+	//public static final String PAYPAL_ACCOUNT = "itburningboots@gmail.com"; //PRODUCTION
+	public static final String PAYPAL_ACCOUNT = "itburningboots-facilitator@gmail.com";//SANDBOX
+	//BUYER TEST ACCOUNT paolo-buyer@tarine.net
 	
 	// CONFIG TABLE
 	public static final String CONFIG_BASE_PASSWORD = "basePassword";
