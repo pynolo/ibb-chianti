@@ -11,11 +11,19 @@
 	
 	<!-- Servlets -->
 	<servlet>
+		<servlet-name>ipn</servlet-name>
+		<servlet-class>it.burningboots.greeter.server.servlet.IpnServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>dataServiceImpl</servlet-name>
 		<servlet-class>it.burningboots.greeter.server.servlet.DataServiceImpl</servlet-class>
 	</servlet>
 	
 	<!-- Servlet mappings -->
+	<servlet-mapping>
+		<servlet-name>ipn</servlet-name>
+		<url-pattern>/ipn</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>dataServiceImpl</servlet-name>
 		<url-pattern>/greeter/dataService</url-pattern>

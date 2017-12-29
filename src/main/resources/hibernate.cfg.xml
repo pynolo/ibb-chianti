@@ -51,8 +51,9 @@
 		
 		<!--mapping package="it.hubzilla.hubchart.model"/-->
 		<mapping class="it.burningboots.greeter.shared.entity.Config"/>
+		<mapping class="it.burningboots.greeter.shared.entity.IpnResponse"/>
 		<mapping class="it.burningboots.greeter.shared.entity.Level"/>
-		<mapping class="it.burningboots.greeter.shared.entity.WebSession"/>
 		<mapping class="it.burningboots.greeter.shared.entity.Participant"/>
+		<mapping class="it.burningboots.greeter.shared.entity.WebSession"/>
     </session-factory>
 </hibernate-configuration>

@@ -45,7 +45,7 @@ public class IpnServlet extends HttpServlet {
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		CloseableHttpClient client = HttpClientBuilder.create().build();
-		System.out.println("**IpnSevlet** has been launched");
+		LOG.warn("**IpnSevlet** has been launched");
 		HttpPost post = new HttpPost(AppConstants.PAYPAL_URL);
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("cmd", "_notify-validate")); // You need to add this parameter to tell PayPal to verify
@@ -79,9 +79,14 @@ public class IpnServlet extends HttpServlet {
 				IpnResponse ipnr = new IpnResponse(itemNumber, paymentStatus, payerEmail,
 						mcGross, mcCurrency, paymentDate, pendingReason, paymentType, null);
 				registerPayment(ipnr);
-				System.out.println("**IpnSevlet** stored a payment for "+payerEmail);
-				
-				EmailUtil.sendConfirmationEmail(itemNumber, mcGross);
+				LOG.warn("**IpnSevlet** stored a payment for "+payerEmail);
+				Double amount = -1D;
+				try {
+					amount = Double.valueOf(mcGross);
+				} catch (Exception e) {
+					LOG.error(e.getMessage(), e);
+				}
+				EmailUtil.sendConfirmationEmail(itemNumber, amount);
 			} catch (Exception e) {
 				throw new ServletException(e);
 			}
