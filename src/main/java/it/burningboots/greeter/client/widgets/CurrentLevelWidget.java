@@ -2,7 +2,6 @@ package it.burningboots.greeter.client.widgets;
 
 import it.burningboots.greeter.client.ClientConstants;
 import it.burningboots.greeter.client.ILevelHandler;
-import it.burningboots.greeter.client.LocaleConstants;
 import it.burningboots.greeter.client.UiSingleton;
 import it.burningboots.greeter.client.UriBuilder;
 import it.burningboots.greeter.client.UriDispatcher;
@@ -19,7 +18,7 @@ import com.google.gwt.user.client.ui.InlineHTML;
 public class CurrentLevelWidget extends InlineHTML {
 
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
-	private LocaleConstants constants = GWT.create(LocaleConstants.class);
+	//private LocaleConstants constants = GWT.create(LocaleConstants.class);
 	private int SCHEDULER_DELAY = 10000;
 	
 	private String prefixText = "";
@@ -53,7 +52,7 @@ public class CurrentLevelWidget extends InlineHTML {
 		this.level = value;
 		if (parent != null) parent.updateLevel(level);
 		this.setHTML(prefixText+" <b>&euro;"+ClientConstants.FORMAT_CURRENCY.format(level.getPrice())+"</b> ("+
-				constants.level()+" "+level.getId()+") "+suffixText);
+				level.getName()+") "+suffixText);
 	}
 	
 	private void amountUpdater() {
