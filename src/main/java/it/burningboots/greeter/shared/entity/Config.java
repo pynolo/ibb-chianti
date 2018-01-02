@@ -1,16 +1,17 @@
 package it.burningboots.greeter.shared.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 @Entity
 @Table(name = "config")
-public class Config implements Serializable {
+public class Config implements IsSerializable {
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 2573558514344018622L;
 	
 	@Id

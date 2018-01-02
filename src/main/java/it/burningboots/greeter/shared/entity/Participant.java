@@ -1,6 +1,5 @@
 package it.burningboots.greeter.shared.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -14,9 +13,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 @Entity
 @Table(name = "participant")
-public class Participant implements Serializable {
+public class Participant implements IsSerializable {
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = -7816100274638131540L;
 	
 	@Id

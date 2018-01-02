@@ -49,7 +49,7 @@ public class LevelDao {
 		Level result = null;
 		List<Level> levels = findAll(ses);
 		for (Level l:levels) {
-			if (l.getLastDate().before(time) && l.getLastCount() <= participantCount) {
+			if (time.before(l.getLastDate()) && participantCount < l.getLastCount()) {
 				if (result == null) {
 					result = l;
 				} else {

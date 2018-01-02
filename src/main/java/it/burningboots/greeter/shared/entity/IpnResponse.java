@@ -1,7 +1,5 @@
 package it.burningboots.greeter.shared.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,9 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 @Entity
 @Table(name = "ipn_response")
-public class IpnResponse implements Serializable {
+public class IpnResponse implements IsSerializable {
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 6665621291812512821L;
 	
 	@Id
