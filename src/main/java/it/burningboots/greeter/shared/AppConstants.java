@@ -16,20 +16,25 @@ public class AppConstants {
 	
 	// IPN
 	// GUIDE https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNSetup/
-	public static final String PAYPAL_THANKYOU_URL = "https://burningboots.it/greeter#thankyou";
-	public static final String PAYPAL_LOGO_IMG_URL = "https://burningboots.it/images/ibb_title_purple.png";
-	public static final String PAYPAL_IPN_URL = "https://burningboots.it/greeter/ipn";//TO BE SET ON PAYPAL TOO https://www.paypal.com/cgi-bin/customerprofileweb?cmd=_profile-ipn-notify
-	//public static final String PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr"; //PRODUCTION
-	public static final String PAYPAL_URL= "https://www.sandbox.paypal.com/cgi-bin/webscr";//SANDBOX
+	//public static final String PAYPAL_THANKYOU_URL = "https://burningboots.it/greeter#thankyou";
+	//public static final String PAYPAL_LOGO_IMG_URL = "https://burningboots.it/images/ibb_title_purple.png";
+	//public static final String PAYPAL_IPN_URL = "https://burningboots.it/greeter/ipn";//TO BE SET ON PAYPAL TOO https://www.paypal.com/cgi-bin/customerprofileweb?cmd=_profile-ipn-notify
+	//public static final String PAYPAL_PAYMENT_URL = "https://www.paypal.com/cgi-bin/webscr"; //PRODUCTION
+	//public static final String PAYPAL_PAYMENT_URL= "https://www.sandbox.paypal.com/cgi-bin/webscr";//SANDBOX
 	//public static final String PAYPAL_ACCOUNT = "itburningboots@gmail.com"; //PRODUCTION
-	public static final String PAYPAL_ACCOUNT = "itburningboots-facilitator@gmail.com";//SANDBOX
-	//BUYER TEST ACCOUNT paolo-buyer@tarine.net
+	//public static final String PAYPAL_ACCOUNT = "itburningboots-facilitator@gmail.com";//SANDBOX
+	//BUYER TEST ACCOUNT itburningboots-buyer@gmail.com
 	
 	// CONFIG TABLE
 	public static final String CONFIG_BASE_PASSWORD = "basePassword";
 	public static final String CONFIG_ADMIN_PASSWORD = "adminPassword";
 	//public static final String CONFIG_STRIPE_SECRET_KEY = "stripeSecretKey";
 	//public static final String CONFIG_STRIPE_PUBLIC_KEY = "stripePublicKey";
+	public static final String CONFIG_PAYPAL_THANKYOU_URL = "paypalThankyouUrl";
+	public static final String CONFIG_PAYPAL_LOGO_IMG_URL = "paypalLogoImgUrl";
+	public static final String CONFIG_PAYPAL_IPN_URL = "paypalIpnUrl";
+	public static final String CONFIG_PAYPAL_PAYMENT_URL = "paypalPaymentUrl";
+	public static final String CONFIG_PAYPAL_ACCOUNT = "paypalAccount";
 	
 	// CONFIG FILES
 	public static final String HIBERNATE_CONFIG_FILE="/hibernate.cfg.xml";

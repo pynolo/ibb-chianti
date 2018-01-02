@@ -152,8 +152,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, ILeve
 		//ForwardButton wb = new ForwardButton(this);
 		//cp.add(wb);
 		
-		paypalButton = new PaypalButton(AppConstants.PAYPAL_URL, constants.locale(),
-				itemNumber, -1D, AppConstants.PAYPAL_IPN_URL, AppConstants.PAYPAL_THANKYOU_URL);
+		paypalButton = new PaypalButton(constants.locale(), itemNumber, -1D);
 		
 		heartbeat = new HeartbeatWidget();
 		cp.add(heartbeat);

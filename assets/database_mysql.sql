@@ -34,6 +34,16 @@ insert into config (id,val) values ('adminPassword','x');
 insert into config (id,val) values ('stripeSecretKey','x');
 insert into config (id,val) values ('stripePublicKey','x');
 
+insert into config (id,val) values ('paypalThankyouUrl','https://burningboots.it/greeter#thankyou');
+insert into config (id,val) values ('paypalLogoImgUrl','https://burningboots.it/images/ibb_title_purple.png');
+insert into config (id,val) values ('paypalIpnUrl','https://burningboots.it/greeter/ipn');
+insert into config (id,val) values ('paypalPaymentUrl','x');
+insert into config (id,val) values ('paypalAccount','x');
+insert into config (id,val) values ('paypalPaymentUrl_prod','https://www.paypal.com/cgi-bin/webscr');
+insert into config (id,val) values ('paypalAccount_prod','itburningboots@gmail.com');
+insert into config (id,val) values ('paypalPaymentUrl_dev','https://www.sandbox.paypal.com/cgi-bin/webscr');
+insert into config (id,val) values ('paypalAccount_dev','itburningboots-facilitator@gmail.com');
+
 --
 -- Table structure for table `level`
 --

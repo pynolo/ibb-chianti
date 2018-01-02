@@ -27,12 +27,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.burningboots.greeter.server.EmailUtil;
+import it.burningboots.greeter.server.persistence.ConfigDao;
 import it.burningboots.greeter.server.persistence.GenericDao;
 import it.burningboots.greeter.server.persistence.ParticipantDao;
 import it.burningboots.greeter.server.persistence.SessionFactory;
 import it.burningboots.greeter.shared.AppConstants;
 import it.burningboots.greeter.shared.BusinessException;
 import it.burningboots.greeter.shared.OrmException;
+import it.burningboots.greeter.shared.SystemException;
+import it.burningboots.greeter.shared.entity.Config;
 import it.burningboots.greeter.shared.entity.IpnResponse;
 import it.burningboots.greeter.shared.entity.Participant;
 
@@ -46,7 +49,13 @@ public class IpnServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		CloseableHttpClient client = HttpClientBuilder.create().build();
 		LOG.warn("**IpnSevlet** has been launched");
-		HttpPost post = new HttpPost(AppConstants.PAYPAL_URL);
+		Config confPaymentUrl = null;
+		try {
+			confPaymentUrl = ConfigDao.findByKey(AppConstants.CONFIG_PAYPAL_PAYMENT_URL);
+		} catch (SystemException e) {
+			throw new ServletException(e.getMessage(), e);
+		}
+		HttpPost post = new HttpPost(confPaymentUrl.getVal());
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		String serializedIpn = "";
 		params.add(new BasicNameValuePair("cmd", "_notify-validate")); // You need to add this parameter to tell PayPal to verify

@@ -1,6 +1,7 @@
 package it.burningboots.greeter.client.service;
 
 import it.burningboots.greeter.shared.LimitExceededException;
+import it.burningboots.greeter.shared.PaypalButtonConfig;
 import it.burningboots.greeter.shared.SystemException;
 import it.burningboots.greeter.shared.entity.Config;
 import it.burningboots.greeter.shared.entity.Level;
@@ -23,6 +24,7 @@ public interface DataService extends RemoteService {
 	public Boolean compareConfigByKey(String key, String value) throws SystemException;
 	//public void saveOrUpdateConfig(Config config) throws SystemException;
 	public Level getCurrentLevel() throws LimitExceededException, SystemException;
+	public PaypalButtonConfig getPaypalButtonConfig() throws SystemException;
 	
 	//Participants
 	public Participant findParticipantById(Integer id) throws SystemException;

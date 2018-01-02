@@ -1,5 +1,6 @@
 package it.burningboots.greeter.client.service;
 
+import it.burningboots.greeter.shared.PaypalButtonConfig;
 import it.burningboots.greeter.shared.entity.Config;
 import it.burningboots.greeter.shared.entity.Level;
 import it.burningboots.greeter.shared.entity.Participant;
@@ -20,6 +21,7 @@ public interface DataServiceAsync{
 	void compareConfigByKey(String key, String value, AsyncCallback<Boolean> callback );
     //void saveOrUpdateConfig(Config config, AsyncCallback<Void> callback);
 	void getCurrentLevel(AsyncCallback<Level> callback );
+	void getPaypalButtonConfig(AsyncCallback<PaypalButtonConfig> callback);
 	
     void findParticipantById( java.lang.Integer id, AsyncCallback<Participant> callback );
     void findParticipantByItemNumber( java.lang.String itemNumber, int delayMillis, AsyncCallback<Participant> callback );

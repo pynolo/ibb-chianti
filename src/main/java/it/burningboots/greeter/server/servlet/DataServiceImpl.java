@@ -2,6 +2,7 @@ package it.burningboots.greeter.server.servlet;
 
 import it.burningboots.greeter.client.service.DataService;
 import it.burningboots.greeter.server.DataBusiness;
+import it.burningboots.greeter.server.persistence.ConfigDao;
 import it.burningboots.greeter.server.persistence.GenericDao;
 import it.burningboots.greeter.server.persistence.LevelDao;
 import it.burningboots.greeter.server.persistence.ParticipantDao;
@@ -11,6 +12,7 @@ import it.burningboots.greeter.shared.AppConstants;
 import it.burningboots.greeter.shared.DateUtil;
 import it.burningboots.greeter.shared.LimitExceededException;
 import it.burningboots.greeter.shared.OrmException;
+import it.burningboots.greeter.shared.PaypalButtonConfig;
 import it.burningboots.greeter.shared.SystemException;
 import it.burningboots.greeter.shared.entity.Config;
 import it.burningboots.greeter.shared.entity.Level;
@@ -487,6 +489,36 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 			ses.close();
 		}
 		return result;
+	}
+
+	@Override
+	public PaypalButtonConfig getPaypalButtonConfig() throws SystemException {
+		PaypalButtonConfig buttonConfig = new PaypalButtonConfig();
+		Config paymentUrl = null;
+		Config notifyUrl = null;
+		Config returnUrl = null;
+		Config logoImgUrl = null;
+		Session ses = SessionFactory.getSession();
+		Transaction trn = ses.beginTransaction();
+		try {
+			paymentUrl = ConfigDao.findByKey(ses, AppConstants.CONFIG_PAYPAL_PAYMENT_URL);
+			notifyUrl = ConfigDao.findByKey(ses, AppConstants.CONFIG_PAYPAL_IPN_URL);
+			returnUrl = ConfigDao.findByKey(ses, AppConstants.CONFIG_PAYPAL_THANKYOU_URL);
+			logoImgUrl = ConfigDao.findByKey(ses, AppConstants.CONFIG_PAYPAL_LOGO_IMG_URL);
+			if (paymentUrl == null || notifyUrl == null || returnUrl == null || logoImgUrl == null)
+				throw new SystemException("Paypal button has not been completely configured");
+			buttonConfig.setPaymentUrl(paymentUrl.getVal());
+			buttonConfig.setNotifyUrl(notifyUrl.getVal());
+			buttonConfig.setReturnUrl(returnUrl.getVal());
+			buttonConfig.setLogoImgUrl(logoImgUrl.getVal());
+		} catch (OrmException e) {
+			trn.rollback();
+			LOG.error(e.getMessage(), e);
+			throw new SystemException(e.getMessage(), e);
+		} finally {
+			ses.close();
+		}
+		return buttonConfig;
 	}
 
 }
