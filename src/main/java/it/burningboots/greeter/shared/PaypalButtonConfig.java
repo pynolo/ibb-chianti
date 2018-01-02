@@ -1,7 +1,10 @@
 package it.burningboots.greeter.shared;
 
-public class PaypalButtonConfig {
+import java.io.Serializable;
 
+public class PaypalButtonConfig implements Serializable {
+	private static final long serialVersionUID = -2957201121881019099L;
+	
 	private String paymentUrl = null;
 	private String notifyUrl = null;
 	private String returnUrl = null;

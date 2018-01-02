@@ -6,6 +6,7 @@ import it.burningboots.greeter.shared.entity.Level;
 import it.burningboots.greeter.shared.entity.Participant;
 
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,9 +24,9 @@ public interface DataServiceAsync{
 	void getCurrentLevel(AsyncCallback<Level> callback );
 	void getPaypalButtonConfig(AsyncCallback<PaypalButtonConfig> callback);
 	
-    void findParticipantById( java.lang.Integer id, AsyncCallback<Participant> callback );
-    void findParticipantByItemNumber( java.lang.String itemNumber, int delayMillis, AsyncCallback<Participant> callback );
-    void findParticipants( boolean confirmed, String orderBy, AsyncCallback<java.util.List<Participant>> callback );
+    void findParticipantById(Integer id, AsyncCallback<Participant> callback );
+    void findParticipantByItemNumber(String itemNumber, int delayMillis, AsyncCallback<Participant> callback );
+    void findParticipants( boolean confirmed, String orderBy, AsyncCallback<List<Participant>> callback );
     void saveOrUpdateParticipant(Participant prt, AsyncCallback<Participant> callback );
 	//void countConfirmed(AsyncCallback<Integer> callback);
 	void replaceParticipant(Participant newParticipant, Integer oldParticipantId, AsyncCallback<Participant> callback);
