@@ -85,6 +85,7 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, ILeve
 		cp.add(new HTML(constants.checkoutDonationAmount()));
 		HorizontalPanel emailPanel = new HorizontalPanel();
 		amountText = new ExtendedTextBox();
+		amountText.setEnabled(false);
 		emailPanel.add(amountText);
 		emailPanel.add(new InlineHTML("&nbsp;&nbsp;"));
 		cp.add(emailPanel);
@@ -152,7 +153,10 @@ public class StepCheckoutFrame extends FramePanel implements IWizardFrame, ILeve
 		//ForwardButton wb = new ForwardButton(this);
 		//cp.add(wb);
 		
+		cp.add(new HTML("<p>&nbsp;</p>"));
+		
 		paypalButton = new PaypalButton(constants.locale(), itemNumber, -1D);
+		cp.add(paypalButton);
 		
 		heartbeat = new HeartbeatWidget();
 		cp.add(heartbeat);

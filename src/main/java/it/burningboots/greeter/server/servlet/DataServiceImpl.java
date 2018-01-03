@@ -494,6 +494,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public PaypalButtonConfig getPaypalButtonConfig() throws SystemException {
 		PaypalButtonConfig buttonConfig = new PaypalButtonConfig();
+		Config account = null;
 		Config paymentUrl = null;
 		Config notifyUrl = null;
 		Config returnUrl = null;
@@ -501,12 +502,14 @@ public class DataServiceImpl extends RemoteServiceServlet implements
 		Session ses = SessionFactory.getSession();
 		Transaction trn = ses.beginTransaction();
 		try {
+			account = ConfigDao.findByKey(ses, AppConstants.CONFIG_PAYPAL_ACCOUNT);
 			paymentUrl = ConfigDao.findByKey(ses, AppConstants.CONFIG_PAYPAL_PAYMENT_URL);
 			notifyUrl = ConfigDao.findByKey(ses, AppConstants.CONFIG_PAYPAL_IPN_URL);
 			returnUrl = ConfigDao.findByKey(ses, AppConstants.CONFIG_PAYPAL_THANKYOU_URL);
 			logoImgUrl = ConfigDao.findByKey(ses, AppConstants.CONFIG_PAYPAL_LOGO_IMG_URL);
-			if (paymentUrl == null || notifyUrl == null || returnUrl == null || logoImgUrl == null)
+			if (account == null || paymentUrl == null || notifyUrl == null || returnUrl == null || logoImgUrl == null)
 				throw new SystemException("Paypal button has not been completely configured");
+			buttonConfig.setAccount(account.getVal());
 			buttonConfig.setPaymentUrl(paymentUrl.getVal());
 			buttonConfig.setNotifyUrl(notifyUrl.getVal());
 			buttonConfig.setReturnUrl(returnUrl.getVal());

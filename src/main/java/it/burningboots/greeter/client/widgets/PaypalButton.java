@@ -42,28 +42,30 @@ public class PaypalButton extends HTML {
 		amountString = amountString.replace(',','.');//Must be in english format
 
 		String html = "<form action=\""+buttonConfig.getPaymentUrl()+"\" method=\"post\" target=\"_top\">";
-		html += "<input type=\"hidden\" name=\"cmd\" value=\"_s-xclick\">";
+		html += "<input type=\"hidden\" name=\"cmd\" value=\"_s-xclick\" />";
+		html += "<input type=\"hidden\" name=\"business\" value=\""+buttonConfig.getAccount()+"\" />";
 		//Descrizione e importo articolo
-		html += "<input type=\"hidden\" name=\"item_name\" value=\"Italian Burning Boots "+itemNumber+"\">";
-		html += "<input type=\"hidden\" name=\"item_number\" value=\""+itemNumber+"\">";
-		html += "<input type=\"hidden\" name=\"quantity\" value=\"1\">";
-		html += "<input type=\"hidden\" name=\"amount\" value=\""+amountString+"\">";
-		html += "<input type=\"hidden\" name=\"currency_code\" value=\"EUR\">";
-		html += "<input type=\"hidden\" name=\"no_shipping\" value=\"1\">";
+		html += "<input type=\"hidden\" name=\"item_name\" value=\"Italian Burning Boots "+itemNumber+"\" />";
+		html += "<input type=\"hidden\" name=\"item_number\" value=\""+itemNumber+"\" />";
+		html += "<input type=\"hidden\" name=\"quantity\" value=\"1\" />";
+		html += "<input type=\"hidden\" name=\"amount\" value=\""+amountString+"\" />";
+		html += "<input type=\"hidden\" name=\"currency_code\" value=\"EUR\" />";
+		html += "<input type=\"hidden\" name=\"no_shipping\" value=\"1\" />";
+		html += "<input type=\"hidden\" name=\"no_note\" value=\"1\" />";
 		//Notify and return
-		html += "<input type=\"hidden\" name=\"address_override\" value=\"1\">";
-		html += "<input type=\"hidden\" name=\"notify_url\" value=\""+buttonConfig.getNotifyUrl()+"\">";
-		html += "<input type=\"hidden\" name=\"return\" value=\""+buttonConfig.getReturnUrl()+"\">";
-		html += "<input type=\"hidden\" name=\"rm\" value=\"2\">";
+		//html += "<input type=\"hidden\" name=\"address_override\" value=\"1\" />";
+		html += "<input type=\"hidden\" name=\"notify_url\" value=\""+buttonConfig.getNotifyUrl()+"\" />";
+		html += "<input type=\"hidden\" name=\"return\" value=\""+buttonConfig.getReturnUrl()+"\" />";
+		html += "<input type=\"hidden\" name=\"rm\" value=\"2\" />";
 		//Configurazione pagina paypal
-		html += "<input type=\"hidden\" name=\"image_url\" value=\""+buttonConfig.getLogoImgUrl()+"\">";
-		html += "<input type=\"hidden\" name=\"lc\" value=\""+languageCode+"\">";
-		html += "<input type=\"image\" src=\""+imgUrl+"\" border=\"0\" name=\"submit\">";
-		html += "<img border=\"0\" src=\"https://www.paypalobjects.com/it_IT/i/scr/pixel.gif\" width=\"1\" height=\"1\">";
+		html += "<input type=\"hidden\" name=\"image_url\" value=\""+buttonConfig.getLogoImgUrl()+"\" />";
+		html += "<input type=\"hidden\" name=\"lc\" value=\""+languageCode+"\" />";
+		html += "<input type=\"image\" src=\""+imgUrl+"\" border=\"0\" name=\"submit\" />";
+		html += "<img border=\"0\" src=\"https://www.paypalobjects.com/it_IT/i/scr/pixel.gif\" width=\"1\" height=\"1\" />";
 		html += "</form>";
 		this.setHTML(html);
 	}
-
+    
 	public void updateAmount(Double amount) {
 		this.amount = amount;
 		draw();
