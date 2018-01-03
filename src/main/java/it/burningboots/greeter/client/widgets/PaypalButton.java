@@ -1,8 +1,10 @@
 package it.burningboots.greeter.client.widgets;
 
 import it.burningboots.greeter.client.UiSingleton;
+import it.burningboots.greeter.client.UriDispatcher;
 import it.burningboots.greeter.client.service.DataService;
 import it.burningboots.greeter.client.service.DataServiceAsync;
+import it.burningboots.greeter.shared.AppConstants;
 import it.burningboots.greeter.shared.PaypalButtonConfig;
 
 import com.google.gwt.core.client.GWT;
@@ -47,16 +49,15 @@ public class PaypalButton extends HTML {
 		//Descrizione e importo articolo
 		html += "<input type=\"hidden\" name=\"item_name\" value=\"Italian Burning Boots "+itemNumber+"\" />";
 		html += "<input type=\"hidden\" name=\"item_number\" value=\""+itemNumber+"\" />";
-		//html += "<input type=\"hidden\" name=\"quantity\" value=\"1\" />";
 		html += "<input type=\"hidden\" name=\"amount\" value=\""+amountString+"\" />";
 		html += "<input type=\"hidden\" name=\"no_shipping\" value=\"1\" />";
 		html += "<input type=\"hidden\" name=\"no_note\" value=\"1\" />";
 		html += "<input type=\"hidden\" name=\"currency_code\" value=\"EUR\" />";
 		//Notify and return
-		//html += "<input type=\"hidden\" name=\"address_override\" value=\"1\" />";
 		html += "<input type=\"hidden\" name=\"notify_url\" value=\""+buttonConfig.getNotifyUrl()+"\" />";
-		html += "<input type=\"hidden\" name=\"return\" value=\""+buttonConfig.getReturnUrl()+"\" />";
-		//html += "<input type=\"hidden\" name=\"rm\" value=\"2\" />";
+		html += "<input type=\"hidden\" name=\"return\" value=\""+buttonConfig.getReturnUrl()+
+				UriDispatcher.SEPARATOR_TOKEN+AppConstants.PARAM_ID+
+				UriDispatcher.SEPARATOR_VALUES+itemNumber+"\" />";
 		//Configurazione pagina paypal
 		html += "<input type=\"hidden\" name=\"image_url\" value=\""+buttonConfig.getLogoImgUrl()+"\" />";
 		html += "<input type=\"hidden\" name=\"lc\" value=\""+languageCode+"\" />";
