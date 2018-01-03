@@ -34,9 +34,9 @@ insert into config (id,val) values ('adminPassword','x');
 insert into config (id,val) values ('stripeSecretKey','x');
 insert into config (id,val) values ('stripePublicKey','x');
 
-insert into config (id,val) values ('paypalThankyouUrl','https://burningboots.it/greeter#thankyou');
-insert into config (id,val) values ('paypalLogoImgUrl','https://burningboots.it/images/ibb_title_purple.png');
-insert into config (id,val) values ('paypalIpnUrl','https://burningboots.it/greeter/ipn');
+insert into config (id,val) values ('paypalThankyouUrl','https://join.burningboots.it/greeter#thankyou');
+insert into config (id,val) values ('paypalLogoImgUrl','https://join.burningboots.it/images/ibb_title_purple_189.png');
+insert into config (id,val) values ('paypalIpnUrl','https://join.burningboots.it/greeter/ipn');
 insert into config (id,val) values ('paypalPaymentUrl','x');
 insert into config (id,val) values ('paypalAccount','x');
 insert into config (id,val) values ('paypalPaymentUrl_prod','https://www.paypal.com/cgi-bin/webscr');
