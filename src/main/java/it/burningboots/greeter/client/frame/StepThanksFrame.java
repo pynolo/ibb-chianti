@@ -20,13 +20,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class StepThanksFrame extends FramePanel {
 	
-	private static final int ATTEMPT_DELAY = 4000;// 4 seconds
-	private static final int ATTEMPT_MAX = 4;// 4 attempts
+	private static final int ATTEMPT_DELAY = 6000;// 6 seconds
+	private static final int ATTEMPT_MAX = 6;// 6 attempts
 	
 	private final DataServiceAsync dataService = GWT.create(DataService.class);
 	private LocaleConstants constants = GWT.create(LocaleConstants.class);
 	
-	private int attemptCount = 0;
+	private static int attemptCount = 0;
 	private UriBuilder params = null;
 	private VerticalPanel cp = null; // Content panel
 	
@@ -52,14 +52,9 @@ public class StepThanksFrame extends FramePanel {
 	
 	private void draw() {
 		Participant participant = WizardSingleton.get().getParticipantBean();
-		String amountString = "##";
+		String amountString = "";
 		if (participant.getPaymentAmount() != null) {
 			amountString = ClientConstants.FORMAT_CURRENCY.format(participant.getPaymentAmount());
-		} else {
-			//Payment not registered
-			UriBuilder param = new UriBuilder();
-			param.add(AppConstants.PARAM_ID, participant.getItemNumber());
-			param.triggerUri(UriDispatcher.ERROR_PAYMENT);
 		}
 		//TITLE
 		setTitle(constants.thanksTitle());
@@ -106,21 +101,32 @@ public class StepThanksFrame extends FramePanel {
 			public void onSuccess(Participant result) {
 				WaitSingleton.get().stop();
 				if (result == null) {
-					//IPN not yet received
-					if (attemptCount < ATTEMPT_MAX) {
-						attemptCount++;
-						loadAsyncData(fItemNumber);
-					} else {
-						UiSingleton.get().addWarning("Couldn't find participant with id = "+fItemNumber);
-						UriBuilder param = new UriBuilder();
-						param.add(AppConstants.PARAM_ID, fItemNumber);
-						param.triggerUri(UriDispatcher.ERROR_PAYMENT);
-					}
+					//Participant not found
+					UiSingleton.get().addWarning("Couldn't find participant with id = "+fItemNumber);
+					UriBuilder param = new UriBuilder();
+					param.add(AppConstants.PARAM_ID, fItemNumber);
+					param.triggerUri(UriDispatcher.ERROR_PAYMENT);
 				} else {
-					//IPN received
+					//Participant found
 					WizardSingleton.get().setParticipantBean(result);
-					draw();
-					removeWebSession();
+					if (result.getPaymentAmount() == null) {
+						//IPN not yet received
+						if (attemptCount < ATTEMPT_MAX) {
+							attemptCount++;
+							UiSingleton.get().addInfo("Waiting for payment data... attempt #"+attemptCount);
+							loadAsyncData(fItemNumber);
+						} else {
+							attemptCount++;
+							UiSingleton.get().addInfo("No data received from Paypal after "+attemptCount+" attempts!");
+							UriBuilder param = new UriBuilder();
+							param.add(AppConstants.PARAM_ID, fItemNumber);
+							param.triggerUri(UriDispatcher.ERROR_PAYMENT);
+						}
+					} else {
+						//IPN received
+						draw();
+						removeWebSession();
+					}
 				}
 			}
 		};
