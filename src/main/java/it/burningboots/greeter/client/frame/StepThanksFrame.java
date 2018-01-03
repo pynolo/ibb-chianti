@@ -113,7 +113,7 @@ public class StepThanksFrame extends FramePanel {
 						//IPN not yet received
 						if (attemptCount < ATTEMPT_MAX) {
 							attemptCount++;
-							UiSingleton.get().addInfo("Waiting for payment data... attempt #"+attemptCount);
+							//UiSingleton.get().addInfo("Waiting for payment data... attempt #"+attemptCount);
 							loadAsyncData(fItemNumber);
 						} else {
 							attemptCount++;
